@@ -1,10 +1,12 @@
 ﻿using AuraShop.Order.Application.Features.CQRS.Commands.OrderLine;
 using AuraShop.Order.Application.Features.CQRS.Handlers.OrderLine;
 using AuraShop.Order.Application.Features.CQRS.Queries.OrderLine;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Order.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderLinesController : ControllerBase

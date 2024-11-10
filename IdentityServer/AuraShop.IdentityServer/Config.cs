@@ -14,16 +14,18 @@ namespace AuraShop.IdentityServer
         {
             new ApiResource("ResourceCatalog")
             {
-                Scopes = new List<string>(){"CatalogFullPermission","CatalogReadPermission"},
+                Scopes = new List<string>(){"CatalogWritePermission","CatalogReadPermission"},
             },
             new ApiResource("ResourceDiscount")
             {
-                Scopes = new List<string>(){ "DiscountFullPermission", "DiscountReadPermission"},
+                Scopes = new List<string>(){ "DiscountWritePermission", "DiscountReadPermission"},
             },
             new ApiResource("ResourceOrder")
             {
-                Scopes = new List<string>(){ "OrderFullPermission", "OrderReadPermission"},
+                Scopes = new List<string>(){ "OrderWritePermission", "OrderReadPermission"},
             },
+
+            new ApiResource(IdentityServerConstants.LocalApi.ScopeName),
         };
 
         public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
@@ -35,12 +37,13 @@ namespace AuraShop.IdentityServer
 
         public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
         {
-            new ApiScope("CatalogFullPermission","Full authority for catalog operations"),
+            new ApiScope("CatalogWritePermission","Write authority for catalog operations"),
             new ApiScope("CatalogReadPermission","Read authority for catalog operations"),
-            new ApiScope("DiscountFullPermission","Full authority for discount operations"),
-            new ApiScope("DiscountReadPermission","Read authority for discount operations"),
-            new ApiScope("OrderFullPermission","Full authority for order operations"),
+            new ApiScope("DiscountWritePermission","Write authority for discount operations"),
+            new ApiScope("DiscountReadPermission","Write authority for discount operations"),
+            new ApiScope("OrderWritePermission","Full authority for order operations"),
             new ApiScope("OrderReadPermission","Read authority for order operations"),
+            new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
         };
 
         public static IEnumerable<Client> Clients => new Client[]
@@ -62,7 +65,7 @@ namespace AuraShop.IdentityServer
                 ClientName = "AuraShop Manager",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
-                AllowedScopes = new List<string>(){ "CatalogReadPermission", "CatalogFullPermission" }
+                AllowedScopes = new List<string>(){ "CatalogReadPermission", "CatalogWritePermission" }
             },
 
             // Admin
@@ -74,8 +77,9 @@ namespace AuraShop.IdentityServer
                 ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
                 AllowedScopes = new List<string>()
                 {
-                    "CatalogReadPermission", "CatalogFullPermission",
-                    "DiscountFullPermission", "OrderFullPermission",
+                    "CatalogReadPermission", "CatalogWritePermission",
+                    "DiscountWritePermission", "DiscountReadPermission" ,
+                    "OrderWritePermission", "OrderReadPermission",
                      IdentityServerConstants.LocalApi.ScopeName,
                      IdentityServerConstants.StandardScopes.Email ,
                      IdentityServerConstants.StandardScopes.OpenId ,

@@ -2,13 +2,13 @@
   "profiles": {
     "AuraShop.Catalog": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7176;http://localhost:5038"
+      "applicationUrl": "https://localhost:7070"
     },
     "IIS Express": {
       "commandName": "IISExpress",

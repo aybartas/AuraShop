@@ -1,9 +1,11 @@
 ﻿using AuraShop.Discount.Dtos.Coupons;
 using AuraShop.Discount.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Discount.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DiscountController : ControllerBase

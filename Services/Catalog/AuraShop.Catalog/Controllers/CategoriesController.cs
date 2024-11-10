@@ -1,9 +1,11 @@
 ﻿using AuraShop.Catalog.Dtos.CategoryDtos;
 using AuraShop.Catalog.Services.CategoryServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Catalog.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -13,7 +15,6 @@ namespace AuraShop.Catalog.Controllers
         {
             _categoryService = categoryService;
         }
-
         [HttpGet]
         public async Task<IActionResult> CategoryList()
         {

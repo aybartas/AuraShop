@@ -1,10 +1,12 @@
 ﻿using AuraShop.Order.Application.Features.CQRS.Commands.Address;
 using AuraShop.Order.Application.Features.CQRS.Handlers.Address;
 using AuraShop.Order.Application.Features.CQRS.Queries.Address;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Order.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AddressesController : ControllerBase

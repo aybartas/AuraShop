@@ -4,6 +4,7 @@ using AuraShop.Catalog.Services.ProductDetailsServices;
 using AuraShop.Catalog.Services.ProductImageServices;
 using AuraShop.Catalog.Services.ProductServices;
 using AuraShop.Catalog.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration["IdentityServerUrl"];
+    opt.Audience = "ResourceCatalog";
+});
+
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDetailsService, ProductDetailsService>();
@@ -22,7 +29,6 @@ builder.Services.AddScoped<IProductImageService, ProductImageService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
-
 
 builder.Services.AddScoped<IDatabaseSettings>(sp =>
 {
@@ -32,7 +38,6 @@ builder.Services.AddScoped<IDatabaseSettings>(sp =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -41,6 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

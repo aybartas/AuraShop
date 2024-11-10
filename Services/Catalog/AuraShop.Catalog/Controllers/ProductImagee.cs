@@ -1,10 +1,12 @@
 ﻿using AuraShop.Catalog.Dtos.ProductDetailDtos;
 using AuraShop.Catalog.Dtos.ProductImageDtos;
 using AuraShop.Catalog.Services.ProductImageServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Catalog.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductImagesController : ControllerBase
