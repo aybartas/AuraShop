@@ -1,0 +1,6 @@
+@AuraShop.Discount_HostAddress = http://localhost:5034
+
+GET {{AuraShop.Discount_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

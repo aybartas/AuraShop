@@ -1,0 +1,104 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E41F8AE4-287C-48D1-BC44-D012C42B12EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{A9BE1C5C-C962-4BAD-9568-981C0F2D5CA2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Catalog", "Services\Catalog\AuraShop.Catalog\AuraShop.Catalog.csproj", "{68161CB0-E488-40D1-9D80-154D190F4108}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discount", "Discount", "{1C62364B-4307-4E91-AFCF-3263E22EA881}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{3E92D07E-67F7-4795-BE52-FCA12FDA47CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{913201A8-546D-40C5-978F-9D51272A3921}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E097F6EC-319D-48D8-86F8-DF6202C4DA1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{BA03E516-122D-42EA-B234-F7C8D3222FF2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Discount", "Services\Discount\AuraShop.Discount\AuraShop.Discount.csproj", "{7D098A70-A729-4F6D-9A14-214D9CC51028}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.Application", "Services\Order\Core\AuraShop.Order.Application\AuraShop.Order.Application.csproj", "{6FB24C5C-DD2C-4D9C-9C2B-6C55FF7F03D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.Domain", "Services\Order\Core\AuraShop.Order.Domain\AuraShop.Order.Domain.csproj", "{942E19BA-8C58-418A-AC97-C94E8DC1F131}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.Infrastructure", "Services\Order\Infrastructure\AuraShop.Order.Infrastructure\AuraShop.Order.Infrastructure.csproj", "{C0D26272-F9A7-4FAA-959C-5C2AB254F73B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.Persistence", "Services\Order\Infrastructure\AuraShop.Order.Persistence\AuraShop.Order.Persistence.csproj", "{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.WebApi", "Services\Order\Presentation\AuraShop.Order.WebApi\AuraShop.Order.WebApi.csproj", "{8F280AF0-70ED-41A7-8563-4BA5073B6181}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{CFF58A70-E484-4CA6-B1E0-0C4655826DB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.IdentityServer", "IdentityServer\AuraShop.IdentityServer\AuraShop.IdentityServer.csproj", "{AEB0E7D7-16DC-49C1-A466-BACC723734BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirements", "{DB0468C0-9842-4C11-9645-A692D7B87841}"
+	ProjectSection(SolutionItems) = preProject
+		PortainerCmd.txt = PortainerCmd.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68161CB0-E488-40D1-9D80-154D190F4108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68161CB0-E488-40D1-9D80-154D190F4108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68161CB0-E488-40D1-9D80-154D190F4108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68161CB0-E488-40D1-9D80-154D190F4108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D098A70-A729-4F6D-9A14-214D9CC51028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D098A70-A729-4F6D-9A14-214D9CC51028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D098A70-A729-4F6D-9A14-214D9CC51028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D098A70-A729-4F6D-9A14-214D9CC51028}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB24C5C-DD2C-4D9C-9C2B-6C55FF7F03D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB24C5C-DD2C-4D9C-9C2B-6C55FF7F03D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB24C5C-DD2C-4D9C-9C2B-6C55FF7F03D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB24C5C-DD2C-4D9C-9C2B-6C55FF7F03D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{942E19BA-8C58-418A-AC97-C94E8DC1F131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{942E19BA-8C58-418A-AC97-C94E8DC1F131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{942E19BA-8C58-418A-AC97-C94E8DC1F131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{942E19BA-8C58-418A-AC97-C94E8DC1F131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0D26272-F9A7-4FAA-959C-5C2AB254F73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D26272-F9A7-4FAA-959C-5C2AB254F73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D26272-F9A7-4FAA-959C-5C2AB254F73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D26272-F9A7-4FAA-959C-5C2AB254F73B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F280AF0-70ED-41A7-8563-4BA5073B6181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F280AF0-70ED-41A7-8563-4BA5073B6181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F280AF0-70ED-41A7-8563-4BA5073B6181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F280AF0-70ED-41A7-8563-4BA5073B6181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB0E7D7-16DC-49C1-A466-BACC723734BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB0E7D7-16DC-49C1-A466-BACC723734BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB0E7D7-16DC-49C1-A466-BACC723734BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB0E7D7-16DC-49C1-A466-BACC723734BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A9BE1C5C-C962-4BAD-9568-981C0F2D5CA2} = {E41F8AE4-287C-48D1-BC44-D012C42B12EE}
+		{68161CB0-E488-40D1-9D80-154D190F4108} = {A9BE1C5C-C962-4BAD-9568-981C0F2D5CA2}
+		{1C62364B-4307-4E91-AFCF-3263E22EA881} = {E41F8AE4-287C-48D1-BC44-D012C42B12EE}
+		{3E92D07E-67F7-4795-BE52-FCA12FDA47CF} = {E41F8AE4-287C-48D1-BC44-D012C42B12EE}
+		{913201A8-546D-40C5-978F-9D51272A3921} = {3E92D07E-67F7-4795-BE52-FCA12FDA47CF}
+		{E097F6EC-319D-48D8-86F8-DF6202C4DA1D} = {3E92D07E-67F7-4795-BE52-FCA12FDA47CF}
+		{BA03E516-122D-42EA-B234-F7C8D3222FF2} = {3E92D07E-67F7-4795-BE52-FCA12FDA47CF}
+		{7D098A70-A729-4F6D-9A14-214D9CC51028} = {1C62364B-4307-4E91-AFCF-3263E22EA881}
+		{6FB24C5C-DD2C-4D9C-9C2B-6C55FF7F03D0} = {913201A8-546D-40C5-978F-9D51272A3921}
+		{942E19BA-8C58-418A-AC97-C94E8DC1F131} = {913201A8-546D-40C5-978F-9D51272A3921}
+		{C0D26272-F9A7-4FAA-959C-5C2AB254F73B} = {E097F6EC-319D-48D8-86F8-DF6202C4DA1D}
+		{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2} = {E097F6EC-319D-48D8-86F8-DF6202C4DA1D}
+		{8F280AF0-70ED-41A7-8563-4BA5073B6181} = {BA03E516-122D-42EA-B234-F7C8D3222FF2}
+		{AEB0E7D7-16DC-49C1-A466-BACC723734BB} = {CFF58A70-E484-4CA6-B1E0-0C4655826DB8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62AF2AB9-96F8-444A-A34C-D5473A2E02F3}
+	EndGlobalSection
+EndGlobal
