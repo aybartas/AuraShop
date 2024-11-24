@@ -42,15 +42,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirement
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cargo", "Cargo", "{D2456D04-D288-4015-974A-9AEBE2E5AAE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Cargo.Business", "Services\Cargo\AuraShop.Cargo.Business\AuraShop.Cargo.Business.csproj", "{442EB29A-AAB3-49E0-A996-FDE421DBA1D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Cargo.Business", "Services\Cargo\AuraShop.Cargo.Business\AuraShop.Cargo.Business.csproj", "{442EB29A-AAB3-49E0-A996-FDE421DBA1D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Cargo.Entity", "Services\Cargo\AuraShop.Cargo.Entity\AuraShop.Cargo.Entity.csproj", "{1186CFAA-C41C-43C9-84F6-D7C228AC155A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Cargo.Entity", "Services\Cargo\AuraShop.Cargo.Entity\AuraShop.Cargo.Entity.csproj", "{1186CFAA-C41C-43C9-84F6-D7C228AC155A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Cargo.DataAccess", "Services\Cargo\AuraShop.Cargo.DataAccess\AuraShop.Cargo.DataAccess.csproj", "{ECE3F0C8-32F1-4A6B-8DC1-75B4B70202DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Cargo.DataAccess", "Services\Cargo\AuraShop.Cargo.DataAccess\AuraShop.Cargo.DataAccess.csproj", "{ECE3F0C8-32F1-4A6B-8DC1-75B4B70202DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Cargo.WebAPI", "Services\Cargo\AuraShop.Cargo.WebAPI\AuraShop.Cargo.WebAPI.csproj", "{821A1BC3-788A-4B43-A867-DF76D2B24665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Cargo.WebAPI", "Services\Cargo\AuraShop.Cargo.WebAPI\AuraShop.Cargo.WebAPI.csproj", "{821A1BC3-788A-4B43-A867-DF76D2B24665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Cargo.Dto", "Services\Cargo\AuraShop.Cargo.Dto\AuraShop.Cargo.Dto.csproj", "{A244F8CD-1516-47CE-9106-0DCEACD1A9B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Cargo.Dto", "Services\Cargo\AuraShop.Cargo.Dto\AuraShop.Cargo.Dto.csproj", "{A244F8CD-1516-47CE-9106-0DCEACD1A9B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{B0045AC6-E4DB-40C0-889E-405C3167B89A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Basket", "Services\Basket\AuraShop.Basket\AuraShop.Basket.csproj", "{A61D89F3-B3B0-4DE5-94E6-7B6DD01AE684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +114,10 @@ Global
 		{A244F8CD-1516-47CE-9106-0DCEACD1A9B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A244F8CD-1516-47CE-9106-0DCEACD1A9B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A244F8CD-1516-47CE-9106-0DCEACD1A9B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A61D89F3-B3B0-4DE5-94E6-7B6DD01AE684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A61D89F3-B3B0-4DE5-94E6-7B6DD01AE684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A61D89F3-B3B0-4DE5-94E6-7B6DD01AE684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A61D89F3-B3B0-4DE5-94E6-7B6DD01AE684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +143,8 @@ Global
 		{ECE3F0C8-32F1-4A6B-8DC1-75B4B70202DF} = {D2456D04-D288-4015-974A-9AEBE2E5AAE5}
 		{821A1BC3-788A-4B43-A867-DF76D2B24665} = {D2456D04-D288-4015-974A-9AEBE2E5AAE5}
 		{A244F8CD-1516-47CE-9106-0DCEACD1A9B7} = {D2456D04-D288-4015-974A-9AEBE2E5AAE5}
+		{B0045AC6-E4DB-40C0-889E-405C3167B89A} = {E41F8AE4-287C-48D1-BC44-D012C42B12EE}
+		{A61D89F3-B3B0-4DE5-94E6-7B6DD01AE684} = {B0045AC6-E4DB-40C0-889E-405C3167B89A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62AF2AB9-96F8-444A-A34C-D5473A2E02F3}

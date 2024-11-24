@@ -5,7 +5,7 @@ namespace AuraShop.Cargo.DataAccess.Abstract
 {
     public interface IGenericDal<T> where T : class
     {
-        Task Create(T entity);
+        Task<T> Create(T entity);
         void Update(T entity);
         Task Delete(int id);
         Task<T> GetById(int id);
@@ -21,9 +21,8 @@ namespace AuraShop.Cargo.DataAccess.Abstract
     {
     }
 
-    public interface ICargoDetailsDal : IGenericDal<Entity.Concrete.Cargo>
+    public interface ICargoDal : IGenericDal<Entity.Concrete.Cargo>
     {
     }
-
 
 }

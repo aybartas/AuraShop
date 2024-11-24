@@ -24,6 +24,14 @@ namespace AuraShop.IdentityServer
             {
                 Scopes = new List<string>(){ "OrderWritePermission", "OrderReadPermission"},
             },
+            new ApiResource("ResourceCargo")
+            {
+                Scopes = new List<string>(){ "CargoWritePermission", "CargoReadPermission"},
+            },
+            new ApiResource("ResourceBasket")
+            {
+                Scopes = new List<string>(){ "BasketWritePermission", "BasketReadPermission"},
+            },
 
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName),
         };
@@ -39,10 +47,19 @@ namespace AuraShop.IdentityServer
         {
             new ApiScope("CatalogWritePermission","Write authority for catalog operations"),
             new ApiScope("CatalogReadPermission","Read authority for catalog operations"),
+           
             new ApiScope("DiscountWritePermission","Write authority for discount operations"),
             new ApiScope("DiscountReadPermission","Write authority for discount operations"),
+           
             new ApiScope("OrderWritePermission","Full authority for order operations"),
             new ApiScope("OrderReadPermission","Read authority for order operations"),
+            
+            new ApiScope("CargoWritePermission","Full authority for cargo operations"),
+            new ApiScope("CargoReadPermission","Read authority for cargo operations"),
+            
+            new ApiScope("BasketWritePermission","Full authority for basket operations"),
+            new ApiScope("BasketReadPermission","Read authority for basket operations"),
+
             new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
         };
 
@@ -63,7 +80,7 @@ namespace AuraShop.IdentityServer
             {
                 ClientId = "AuraShopManagerId",
                 ClientName = "AuraShop Manager",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
                 AllowedScopes = new List<string>(){ "CatalogReadPermission", "CatalogWritePermission" }
             },
@@ -73,13 +90,16 @@ namespace AuraShop.IdentityServer
             {
                 ClientId = "AuraShopAdminId",
                 ClientName = "AuraShop Admin",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
                 AllowedScopes = new List<string>()
                 {
                     "CatalogReadPermission", "CatalogWritePermission",
                     "DiscountWritePermission", "DiscountReadPermission" ,
                     "OrderWritePermission", "OrderReadPermission",
+                    "CargoWritePermission", "CargoReadPermission",
+                    "BasketWritePermission", "BasketReadPermission",
+
                      IdentityServerConstants.LocalApi.ScopeName,
                      IdentityServerConstants.StandardScopes.Email ,
                      IdentityServerConstants.StandardScopes.OpenId ,

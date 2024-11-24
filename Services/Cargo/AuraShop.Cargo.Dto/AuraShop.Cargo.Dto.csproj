@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AuraShop.Cargo.Entity\AuraShop.Cargo.Entity.csproj" />
+  </ItemGroup>
+
 </Project>

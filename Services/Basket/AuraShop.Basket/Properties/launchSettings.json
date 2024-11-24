@@ -4,17 +4,17 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:21412",
-      "sslPort": 44374
+      "applicationUrl": "http://localhost:62855",
+      "sslPort": 44300
     }
   },
   "profiles": {
-    "AuraShop.Cargo.WebAPI": {
+    "AuraShop.Basket": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7073;",
+      "applicationUrl": "https://localhost:7074;",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

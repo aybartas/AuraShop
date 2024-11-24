@@ -16,6 +16,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     opt.Authority = builder.Configuration["IdentityServerUrl"];
     opt.Audience = "ResourceDiscount";
+    opt.RequireHttpsMetadata = false;
 });
 
 var app = builder.Build();

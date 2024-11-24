@@ -14,15 +14,16 @@ namespace AuraShop.Cargo.DataAccess.Concrete
         {
             _context = context;
         }
-        public async Task Create(T entity)
+        public async Task<T> Create(T entity)
         {
-            await table.AddAsync(entity);
-             await _context.SaveChangesAsync();
+            table.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
-        public  void Update(T entity)
+        public void Update(T entity)
         {
-             table.Update(entity);
+            table.Update(entity);
             _context.SaveChanges();
         }
 
