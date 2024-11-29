@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import Carousel from "./app/features/home/Carousel";
 import Header from "./app/layout/Header";
 import HomePage from "./app/features/home/HomePage";
+import Catalog from "./app/features/catalog/Catalog";
 
 function App() {
   return (
@@ -9,7 +9,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route element={<RequireAuth />}>
+        <Route path="catalog" element={<Catalog />} />
+        {/* <Route path="catalog/:id" element={<ProductDetail />} />
+
+        <Route element={<RequireAuth />}>
           <Route path="checkout" element={<CheckOutPage />} />
           <Route path="orders" element={<Orders />} />
           <Route path="orders/:id" element={<OrderDetail />} />
@@ -18,9 +21,6 @@ function App() {
         <Route element={<RequireAdmin />}>
           <Route path="inventory" element={<Inventory />} />
         </Route>
-
-        <Route path="catalog" element={<Catalog />} />
-        <Route path="catalog/:id" element={<ProductDetail />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="basket" element={<BasketPage />} />
         <Route path="login" element={<Login />} />

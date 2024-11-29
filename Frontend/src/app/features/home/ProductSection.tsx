@@ -5,7 +5,7 @@ const ProductSection: React.FC = () => {
   return (
     <div className="space-y-12">
       {/* Best Sellers Section */}
-      <section className="mt-8">
+      <div className="mt-8">
         <h2 className="text-3xl font-bold mb-8">Best Sellers</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Product Card 1 */}
@@ -69,13 +69,12 @@ const ProductSection: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Amazing Discounts Section */}
-      <section className="bg-gray-100 py-12">
+      <div className="bg-gray-100 py-12">
         <h2 className="text-3xl font-bold mb-8">Amazing Discounts</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Product Card 1 with Discount */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
             <img
               src="https://via.placeholder.com/300x300?text=Discounted+Product+1"
@@ -148,7 +147,7 @@ const ProductSection: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };

@@ -3,14 +3,18 @@ import { useTheme } from "../../contexts/ThemeContext";
 import logo from "../../assets/logo.svg"; // Direct import as file
 import { useState } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useNavigate, NavLink } from "react-router-dom";
 
 interface Props {}
 
 interface CategoryLink {
   name: string;
-  subcategories: string[];
+  url?: string;
+  subcategories?: string[];
 }
 const categories: CategoryLink[] = [
+  { name: "Catalog", url: "/catalog" },
+  { name: "Category 1", subcategories: ["Sub 1", "Sub 2", "Sub 3"] },
   { name: "Category 1", subcategories: ["Sub 1", "Sub 2", "Sub 3"] },
   { name: "Category 2", subcategories: ["Sub A", "Sub B"] },
   { name: "Category 3", subcategories: ["Sub X"] },
@@ -20,12 +24,12 @@ export default function Header({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
-  const handleMouseEnter = (index) => {
-    setActiveCategory(index);
+  const handleMouseEnter = (enterIndex: number) => {
+    setActiveCategory(enterIndex);
   };
 
-  const handleMouseLeave = (index) => {
-    if (activeCategory === index) {
+  const handleMouseLeave = (leaveIndex: number) => {
+    if (activeCategory === leaveIndex) {
       setActiveCategory(null);
     }
   };
@@ -47,12 +51,15 @@ export default function Header({}: Props) {
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
             >
-              <button className="text-gray-700 hover:text-blue-500">
-                {category.name}
-              </button>
+              <NavLink to={category?.url || ""}>
+                <button className="text-gray-700 hover:text-blue-500">
+                  {category.name}
+                </button>{" "}
+              </NavLink>
+
               {activeCategory === index && (
                 <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
-                  {category.subcategories.map((sub, idx) => (
+                  {category?.subcategories?.map((sub, idx) => (
                     <a
                       key={idx}
                       href="#"
@@ -126,7 +133,7 @@ export default function Header({}: Props) {
                 </button>
                 {activeCategory === index && (
                   <div className="mt-2 pl-4 space-y-1">
-                    {category.subcategories.map((sub, idx) => (
+                    {category?.subcategories?.map((sub, idx) => (
                       <a
                         key={idx}
                         href="#"
