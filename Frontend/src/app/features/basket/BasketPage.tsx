@@ -82,7 +82,6 @@ function BasketPage() {
     console.log("Checkout Data", data);
     alert("Proceeding to checkout");
   };
-  console.log(basketData);
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
@@ -125,26 +124,38 @@ function BasketPage() {
                       >
                         <MinusIcon className="h-5 w-5" />
                       </button>
+
                       <Controller
-                        control={control}
                         name={`basketItems.${index}.quantity`}
-                        render={({ field: quantityField }) => (
-                          <input
-                            {...quantityField}
-                            type="number"
-                            value={field.quantity}
-                            onChange={(e) => {
-                              const newQuantity =
-                                parseInt(e.target.value, 10) || 1;
-                              update(index, {
-                                ...field,
-                                quantity: newQuantity,
-                              });
-                            }}
-                            className="w-12 text-center border rounded"
-                          />
+                        control={control}
+                        defaultValue={1}
+                        render={({ field, fieldState }) => (
+                          <div>
+                            <input
+                              {...field}
+                              type="number"
+                              min="1"
+                              className="p-2 border border-gray-300 rounded-md w-16"
+                              onChange={(e) =>
+                                field.onChange(Number(e.target.value))
+                              }
+                            />
+                            {fieldState.error && (
+                              <span className="text-red-500 text-sm">
+                                {fieldState.error?.message}
+                              </span>
+                            )}
+                          </div>
                         )}
+                        rules={{
+                          required: "Quantity is required",
+                          min: {
+                            value: 1,
+                            message: "Quantity must be at least 1",
+                          },
+                        }}
                       />
+
                       <button
                         type="button"
                         onClick={() =>
