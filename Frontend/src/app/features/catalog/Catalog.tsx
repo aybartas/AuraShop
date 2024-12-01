@@ -1,4 +1,3 @@
-import React from "react";
 import PageLayout from "../../layout/PageLayout";
 import FilterForm from "./FilterForm";
 import ProductList from "../home/ProductLİst";

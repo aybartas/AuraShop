@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./app/layout/Header";
 import HomePage from "./app/features/home/HomePage";
 import Catalog from "./app/features/catalog/Catalog";
+import ProductDetails from "./app/features/catalog/ProductDetails";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="catalog" element={<Catalog />} />
+        <Route path="catalog/:id" element={<ProductDetails />} />
         {/* <Route path="catalog/:id" element={<ProductDetail />} />
 
         <Route element={<RequireAuth />}>

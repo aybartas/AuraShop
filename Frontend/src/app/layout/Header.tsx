@@ -37,10 +37,10 @@ export default function Header({}: Props) {
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo and Name */}
-        <div className="flex items-center space-x-2">
+        <NavLink className="flex items-center space-x-2" to={"/"}>
           <img src={logo} alt="Logo" className="h-8 w-8" />;
           <span className="text-xl font-bold text-gray-800">AuraShop</span>
-        </div>
+        </NavLink>
 
         {/* Categories */}
         <div className="hidden md:flex items-center space-x-4 relative">

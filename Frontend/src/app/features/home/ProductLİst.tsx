@@ -1,39 +1,8 @@
-import React, { FC } from "react";
+import React from "react";
+import { Product } from "../../models/Product";
+import { ProductCard } from "../../components/product/ProductCard";
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  discount: string;
-  image: string;
-}
-
-const ProductCard: FC<Product> = ({
-  name,
-  description,
-  price,
-  discount,
-  image,
-}) => {
-  return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
-      <img src={image} alt={name} className="w-full h-48 object-cover" />
-      {discount && (
-        <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full">
-          {discount} Off
-        </div>
-      )}
-      <div className="p-4">
-        <h3 className="text-lg font-semibold">{name}</h3>
-        <p className="text-gray-500 mb-2">{description}</p>
-        <span className="text-xl font-bold text-red-500">{price}</span>
-      </div>
-    </div>
-  );
-};
-
-const ProductList: FC = () => {
+function ProductList() {
   const products: Product[] = [
     {
       id: 1,
@@ -42,6 +11,21 @@ const ProductList: FC = () => {
       price: "$39.99",
       discount: "20%",
       image: "https://via.placeholder.com/300x300?text=Discounted+Product+1",
+      rating: 4.5,
+      comments: [
+        {
+          user: "Alice Lee",
+          rating: 5,
+          comment: "Amazing product! Love it!",
+          date: "2024-12-01",
+        },
+        {
+          user: "Mark Twain",
+          rating: 4,
+          comment: "Good quality for the price.",
+          date: "2024-11-30",
+        },
+      ],
     },
     {
       id: 2,
@@ -50,6 +34,15 @@ const ProductList: FC = () => {
       price: "$49.99",
       discount: "15%",
       image: "https://via.placeholder.com/300x300?text=Discounted+Product+2",
+      rating: 4.2,
+      comments: [
+        {
+          user: "John Smith",
+          rating: 5,
+          comment: "Excellent craftsmanship!",
+          date: "2024-11-29",
+        },
+      ],
     },
     {
       id: 3,
@@ -58,24 +51,26 @@ const ProductList: FC = () => {
       price: "$29.99",
       discount: "10%",
       image: "https://via.placeholder.com/300x300?text=Discounted+Product+3",
-    },
-    {
-      id: 4,
-      name: "Discounted Product 3",
-      description: "Yet another awesome product.",
-      price: "$29.99",
-      discount: "10%",
-      image: "https://via.placeholder.com/300x300?text=Discounted+Product+3",
+      rating: 3.8,
+      comments: [
+        {
+          user: "Sarah Connor",
+          rating: 4,
+          comment: "Met expectations, but could improve.",
+          date: "2024-11-28",
+        },
+      ],
     },
   ];
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       {products.map((product) => (
-        <ProductCard key={product.id} {...product} />
+        <React.Fragment key={product.id}>
+          <ProductCard {...product} />
+        </React.Fragment>
       ))}
     </div>
   );
-};
+}
 
 export default ProductList;

@@ -16,7 +16,6 @@ const FilterForm: React.FC = () => {
   };
 
   const categoriesOptions = ["Electronics", "Clothing", "Home Appliances"];
-
   const brandOptions = ["Samsung", "Nike", "LG"];
 
   return (
