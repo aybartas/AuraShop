@@ -2,7 +2,7 @@ import PageLayout from "../../layout/PageLayout";
 import FilterForm from "./FilterForm";
 import ProductList from "../home/ProductLİst";
 
-function Catalog() {
+function CatalogPage() {
   return (
     <PageLayout>
       <div className="container mx-auto">
@@ -19,4 +19,4 @@ function Catalog() {
   );
 }
 
-export default Catalog;
+export default CatalogPage;

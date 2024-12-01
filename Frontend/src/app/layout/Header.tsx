@@ -90,10 +90,12 @@ export default function Header({}: Props) {
 
         <div className="hidden md:flex items-center space-x-4">
           <button className="text-gray-700 hover:text-blue-500">Account</button>
-          <button className="flex items-center text-gray-700 hover:text-blue-500">
-            <ShoppingCartIcon className="h-5 w-5 mr-2" />
-            Cart
-          </button>
+          <NavLink className="flex items-center space-x-2" to={"/basket"}>
+            <button className="flex items-center text-gray-700 hover:text-blue-500">
+              <ShoppingCartIcon className="h-5 w-5 mr-2" />
+              Cart
+            </button>
+          </NavLink>
         </div>
 
         {/* Mobile Menu Toggle */}

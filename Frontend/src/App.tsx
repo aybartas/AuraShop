@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./app/layout/Header";
 import HomePage from "./app/features/home/HomePage";
-import Catalog from "./app/features/catalog/Catalog";
+import Catalog from "./app/features/catalog/CatalogPage";
 import ProductDetails from "./app/features/catalog/ProductDetails";
+import BasketPage from "./app/features/basket/BasketPage";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="catalog" element={<Catalog />} />
         <Route path="catalog/:id" element={<ProductDetails />} />
+        <Route path="basket" element={<BasketPage />} />
+
         {/* <Route path="catalog/:id" element={<ProductDetail />} />
 
         <Route element={<RequireAuth />}>

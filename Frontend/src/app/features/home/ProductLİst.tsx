@@ -10,6 +10,8 @@ function ProductList() {
       description: "Product description goes here.",
       price: "$39.99",
       discount: "20%",
+      colors: ["Red", "Blue"],
+      sizes: ["S", "M"],
       image: "https://via.placeholder.com/300x300?text=Discounted+Product+1",
       rating: 4.5,
       comments: [
@@ -33,6 +35,8 @@ function ProductList() {
       description: "Another great product.",
       price: "$49.99",
       discount: "15%",
+      colors: ["Red", "Blue"],
+      sizes: ["S", "M"],
       image: "https://via.placeholder.com/300x300?text=Discounted+Product+2",
       rating: 4.2,
       comments: [
@@ -50,6 +54,8 @@ function ProductList() {
       description: "Yet another awesome product.",
       price: "$29.99",
       discount: "10%",
+      colors: ["Red", "Blue"],
+      sizes: ["S", "M"],
       image: "https://via.placeholder.com/300x300?text=Discounted+Product+3",
       rating: 3.8,
       comments: [
