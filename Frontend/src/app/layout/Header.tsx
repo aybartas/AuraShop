@@ -1,11 +1,7 @@
-import { useTheme } from "../../contexts/ThemeContext";
-
-import logo from "../../assets/logo.svg"; // Direct import as file
 import { useState } from "react";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { useNavigate, NavLink } from "react-router-dom";
-
-interface Props {}
+import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { NavLink } from "react-router-dom";
+import logo from "../../assets/logo.svg"; // Direct import as file
 
 interface CategoryLink {
   name: string;
@@ -20,9 +16,10 @@ const categories: CategoryLink[] = [
   { name: "Category 3", subcategories: ["Sub X"] },
 ];
 
-export default function Header({}: Props) {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [isAccountActive, setIsAccountActive] = useState<boolean>(false);
 
   const handleMouseEnter = (enterIndex: number) => {
     setActiveCategory(enterIndex);
@@ -33,33 +30,33 @@ export default function Header({}: Props) {
       setActiveCategory(null);
     }
   };
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo and Name */}
-        <NavLink className="flex items-center space-x-2" to={"/"}>
-          <img src={logo} alt="Logo" className="h-8 w-8" />;
+        <NavLink className="flex items-center space-x-2" to="/">
+          <img src={logo} alt="Logo" className="h-8 w-8" />
           <span className="text-xl font-bold text-gray-800">AuraShop</span>
         </NavLink>
 
-        {/* Categories */}
+        {/* Categories (Desktop) */}
         <div className="hidden md:flex items-center space-x-4 relative">
           {categories.map((category, index) => (
             <div
               key={index}
-              className="group relative"
+              className="relative"
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
             >
               <NavLink to={category?.url || ""}>
                 <button className="text-gray-700 hover:text-blue-500">
                   {category.name}
-                </button>{" "}
+                </button>
               </NavLink>
-
-              {activeCategory === index && (
-                <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
-                  {category?.subcategories?.map((sub, idx) => (
+              {activeCategory === index && category.subcategories && (
+                <div className="absolute left-0 w-48 bg-white shadow-lg rounded-lg">
+                  {category.subcategories.map((sub, idx) => (
                     <a
                       key={idx}
                       href="#"
@@ -82,19 +79,64 @@ export default function Header({}: Props) {
           />
         </div>
 
-        {/* Account Section */}
-        <div className="hidden md:flex items-center space-x-4">
-          <button className="text-gray-700 hover:text-blue-500">Login</button>
-          <button className="text-gray-700 hover:text-blue-500">Sign Up</button>
-        </div>
+        <div className="hidden md:flex items-center space-x-8">
+          <NavLink
+            to="/login"
+            className="flex items-center text-gray-700 hover:text-blue-500"
+          >
+            <UserCircleIcon className="h-5 w-5 mr-2" />
+            <button className="text-gray-700 hover:text-blue-500">Login</button>
+          </NavLink>
 
-        <div className="hidden md:flex items-center space-x-4">
-          <button className="text-gray-700 hover:text-blue-500">Account</button>
-          <NavLink className="flex items-center space-x-2" to={"/basket"}>
-            <button className="flex items-center text-gray-700 hover:text-blue-500">
-              <ShoppingCartIcon className="h-5 w-5 mr-2" />
-              Cart
-            </button>
+          <div
+            className="relative flex items-center"
+            onMouseEnter={() => setIsAccountActive(true)}
+            onMouseLeave={() => setIsAccountActive(false)}
+          >
+            <NavLink
+              to="/login"
+              className="flex items-center text-gray-700 hover:text-blue-500"
+            >
+              <UserCircleIcon className="h-5 w-5 mr-2" />
+              My Account
+            </NavLink>
+
+            {isAccountActive && (
+              <div className="absolute top-full  w-48 bg-white shadow-lg rounded-lg z-50">
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Orders
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Reviews
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Account Information
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </a>
+              </div>
+            )}
+          </div>
+
+          <NavLink
+            to="/basket"
+            className="flex items-center text-gray-700 hover:text-blue-500"
+          >
+            <ShoppingCartIcon className="h-5 w-5 mr-2" />
+            Cart
           </NavLink>
         </div>
 
@@ -133,9 +175,9 @@ export default function Header({}: Props) {
                 >
                   {category.name}
                 </button>
-                {activeCategory === index && (
+                {activeCategory === index && category.subcategories && (
                   <div className="mt-2 pl-4 space-y-1">
-                    {category?.subcategories?.map((sub, idx) => (
+                    {category.subcategories.map((sub, idx) => (
                       <a
                         key={idx}
                         href="#"
@@ -161,10 +203,13 @@ export default function Header({}: Props) {
             <button className="text-gray-700 hover:text-blue-500">
               Sign Up
             </button>
-            <button className="text-gray-700 hover:text-blue-500">
+            <NavLink
+              to="/basket"
+              className="flex items-center text-gray-700 hover:text-blue-500"
+            >
               <ShoppingCartIcon className="h-5 w-5 mr-2" />
               Cart
-            </button>
+            </NavLink>
           </div>
         </div>
       )}

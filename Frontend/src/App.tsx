@@ -4,6 +4,7 @@ import HomePage from "./app/features/home/HomePage";
 import Catalog from "./app/features/catalog/CatalogPage";
 import ProductDetails from "./app/features/catalog/ProductDetails";
 import BasketPage from "./app/features/basket/BasketPage";
+import LoginRegister from "./app/features/login/LoginRegister";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="catalog" element={<Catalog />} />
         <Route path="catalog/:id" element={<ProductDetails />} />
         <Route path="basket" element={<BasketPage />} />
+        <Route path="login" element={<LoginRegister />} />
 
         {/* <Route path="catalog/:id" element={<ProductDetail />} />
 
