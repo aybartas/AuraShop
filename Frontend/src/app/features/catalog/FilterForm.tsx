@@ -25,7 +25,6 @@ const FilterForm: React.FC = () => {
     >
       <h2 className="text-lg font-semibold mb-4">Filter Products</h2>
 
-      {/* Categories Filter */}
       <div
         className="flex items-center cursor-pointer mb-1 gap-2"
         onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
@@ -55,6 +54,7 @@ const FilterForm: React.FC = () => {
                   <input
                     type="checkbox"
                     value={category}
+                    className="accent-orange-400"
                     checked={field.value?.includes(category) || false}
                     onChange={(e) => {
                       const value = field.value || [];
@@ -146,7 +146,7 @@ const FilterForm: React.FC = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm"
+        className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm"
       >
         Apply Filters
       </button>
