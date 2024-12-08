@@ -14,6 +14,7 @@ namespace AuraShop.Catalog.Entities
         public string Description { get; set; }
         public string CategoryId { get; set; }
         public string DetailId { get; set; }
+        public string Brand { get; set; }
 
         [BsonIgnore]
         public Category Category { get; set; }

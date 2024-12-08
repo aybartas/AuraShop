@@ -165,7 +165,7 @@ function ProductDetails() {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                  className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-600"
                 >
                   <ShoppingCartIcon className="w-5 h-5" /> Add to Cart
                 </button>

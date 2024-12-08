@@ -16,6 +16,7 @@ export function ProductCard({
   };
   return (
     <div
+      key={id}
       onClick={handleNavigate}
       className="bg-white rounded-lg shadow-md overflow-hidden relative hover:cursor-pointer"
     >

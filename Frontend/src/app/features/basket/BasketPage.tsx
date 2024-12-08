@@ -1,5 +1,6 @@
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/solid";
+import PageLayout from "../../layout/PageLayout";
 
 export interface BasketForm {
   userId: string;
@@ -48,12 +49,7 @@ const sampleBasket: BasketForm = {
 };
 
 function BasketPage() {
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<BasketForm>({
+  const { control, handleSubmit, watch } = useForm<BasketForm>({
     defaultValues: sampleBasket,
   });
 
@@ -80,11 +76,10 @@ function BasketPage() {
 
   const onSubmit = (data: BasketForm) => {
     console.log("Checkout Data", data);
-    alert("Proceeding to checkout");
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <PageLayout>
       <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="flex flex-row gap-4">
@@ -218,7 +213,7 @@ function BasketPage() {
           </div>
         </div>
       </form>
-    </div>
+    </PageLayout>
   );
 }
 

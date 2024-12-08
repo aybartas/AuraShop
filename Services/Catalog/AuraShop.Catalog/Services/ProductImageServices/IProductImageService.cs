@@ -4,7 +4,7 @@ namespace AuraShop.Catalog.Services.ProductImageServices
 {
     public interface IProductImageService
     {
-        Task<List<ProductImageDto>> GetAllCProductImagesAsync();
+        Task<List<ProductImageDto>> GetAllProductImagesAsync();
         Task CreateProductImageAsync(CreateProductImageDto productDetailsDto);
         Task UpdateProductImageAsync(UpdateProductImageDto productDetailsDto);
         Task DeleteProductImageAsync(string id);

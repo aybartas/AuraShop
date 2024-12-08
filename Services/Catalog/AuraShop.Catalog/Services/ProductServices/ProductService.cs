@@ -1,6 +1,8 @@
 ﻿using AuraShop.Catalog.Dtos.ProductDtos;
 using AuraShop.Catalog.Entities;
+using AuraShop.Catalog.Models;
 using AuraShop.Catalog.Settings;
+using AuraShop.Catalog.Utils;
 using AutoMapper;
 using MongoDB.Driver;
 
@@ -18,9 +20,19 @@ namespace AuraShop.Catalog.Services.ProductServices
             _productCollection = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
             _mapper = mapper;
         }
-        public Task<List<ProductDto>> GetAllCategoriesAsync()
-        {  
-            throw new NotImplementedException();
+        public async Task<List<ProductDto>> GetProducts(GetProductFilter filter)
+        {
+            var request = filter.GetProductFilterAndSortDefinition();
+
+            var result = await _productCollection.Find(request.FilterDefinition)
+                .Sort(request.SortDefinition)
+                .Skip(filter.Page * filter.Size)
+                .Limit(filter.Size)
+                .ToListAsync(); 
+
+            var productDtos = result.Select(x => _mapper.Map<ProductDto>(x)).ToList();
+
+            return productDtos;
         }
 
         public async Task CreateProductAsync(CreateProductDto productDto)

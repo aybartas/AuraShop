@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import MultiCheckboxSelection from "./filters/MultiCheckboxSelection";
 interface FilterFormInputs {
   categories: string[];
   brands: string[];
@@ -9,10 +9,9 @@ interface FilterFormInputs {
 
 const FilterForm: React.FC = () => {
   const { control, handleSubmit } = useForm<FilterFormInputs>();
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
   const onSubmit = (data: FilterFormInputs) => {
-    console.log(data);
+    alert(JSON.stringify(data));
   };
 
   const categoriesOptions = ["Electronics", "Clothing", "Home Appliances"];
@@ -25,89 +24,20 @@ const FilterForm: React.FC = () => {
     >
       <h2 className="text-lg font-semibold mb-4">Filter Products</h2>
 
-      <div
-        className="flex items-center cursor-pointer mb-1 gap-2"
-        onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-      >
-        <span className="text-sm text-gray-500">
-          {isCategoriesOpen ? (
-            <ChevronUpIcon className="h-3 w-3 text-gray-500" />
-          ) : (
-            <ChevronDownIcon className="h-3 w-3 text-gray-500" />
-          )}
-        </span>
-        <label className="block text-sm font-medium text-gray-700">
-          Categories
-        </label>
-      </div>
-      {isCategoriesOpen && (
-        <Controller
-          name="categories"
-          control={control}
-          render={({ field }) => (
-            <div className="flex flex-col gap-2">
-              {categoriesOptions.map((category) => (
-                <label
-                  key={category}
-                  className="inline-flex items-center gap-2"
-                >
-                  <input
-                    type="checkbox"
-                    value={category}
-                    className="accent-orange-400"
-                    checked={field.value?.includes(category) || false}
-                    onChange={(e) => {
-                      const value = field.value || [];
-                      if (e.target.checked) {
-                        field.onChange([...value, category]);
-                      } else {
-                        field.onChange(value.filter((v) => v !== category));
-                      }
-                    }}
-                  />
-                  {category}
-                </label>
-              ))}
-            </div>
-          )}
-        />
-      )}
+      <MultiCheckboxSelection
+        options={categoriesOptions}
+        control={control}
+        name="categories"
+        label="Categories"
+      />
 
-      {/* Brands Filter */}
-      <div className="">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Brands
-        </label>
-        <Controller
-          name="brands"
-          control={control}
-          render={({ field }) => (
-            <div className="flex flex-col gap-2">
-              {brandOptions.map((brand) => (
-                <label key={brand} className="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    value={brand}
-                    checked={field.value?.includes(brand) || false}
-                    onChange={(e) => {
-                      const value = field.value || [];
-                      if (e.target.checked) {
-                        field.onChange([...value, brand]);
-                      } else {
-                        field.onChange(value.filter((v) => v !== brand));
-                      }
-                    }}
-                    className="form-checkbox"
-                  />
-                  {brand}
-                </label>
-              ))}
-            </div>
-          )}
-        />
-      </div>
+      <MultiCheckboxSelection
+        options={brandOptions}
+        control={control}
+        name="brands"
+        label="Brand"
+      />
 
-      {/* Price Range Filter */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Price Range

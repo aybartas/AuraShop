@@ -1,4 +1,5 @@
-﻿using AuraShop.Catalog.Dtos.CategoryDtos;
+﻿using AuraShop.Catalog.Dtos.BrandDtos;
+using AuraShop.Catalog.Dtos.CategoryDtos;
 using AuraShop.Catalog.Dtos.ProductDetailDtos;
 using AuraShop.Catalog.Dtos.ProductDtos;
 using AuraShop.Catalog.Dtos.ProductImageDtos;
@@ -26,6 +27,10 @@ namespace AuraShop.Catalog.Mapping
             CreateMap<ProductImage, ProductImageDto>().ReverseMap();
             CreateMap<ProductImage, UpdateProductDto>().ReverseMap();
             CreateMap<ProductImage, CreateProductDto>().ReverseMap();
+
+            CreateMap<Brand, BrandDto>().ReverseMap();
+            CreateMap<Brand, UpdateBrandDto>().ReverseMap();
+            CreateMap<Brand, CreateBrandDto>().ReverseMap();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace AuraShop.Catalog.Services.ProductImageServices
             _productDetailCollection = database.GetCollection<ProductImage>(_databaseSettings.ProductImageCollectionName);
             _mapper = mapper;
         }
-        public async Task<List<ProductImageDto>> GetAllCProductImagesAsync()
+        public async Task<List<ProductImageDto>> GetAllProductImagesAsync()
         {
             var values = await _productDetailCollection.FindAsync(x => true);
             var result = _mapper.Map<List<ProductImageDto>>(values);

@@ -21,7 +21,7 @@ namespace AuraShop.Catalog.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductList()
         {
-            var values = await _productImageService.GetAllCProductImagesAsync();
+            var values = await _productImageService.GetAllProductImagesAsync();
             return Ok(values);
         }
 
