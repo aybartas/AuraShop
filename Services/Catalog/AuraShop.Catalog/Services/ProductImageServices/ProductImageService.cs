@@ -21,7 +21,7 @@ namespace AuraShop.Catalog.Services.ProductImageServices
         public async Task<List<ProductImageDto>> GetAllProductImagesAsync()
         {
             var values = await _productDetailCollection.FindAsync(x => true);
-            var result = _mapper.Map<List<ProductImageDto>>(values);
+            var result = _mapper.Map<List<ProductImageDto>>(values.ToListAsync());
 
             return result;
         }

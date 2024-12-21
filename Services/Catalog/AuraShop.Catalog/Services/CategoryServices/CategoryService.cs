@@ -21,7 +21,9 @@ namespace AuraShop.Catalog.Services.CategoryServices
         }
         public async Task<List<CategoryDto>> GetAllCategoriesAsync()
         {
-            var values = await _categoryCollection.FindAsync(x => true);
+            var cursor = await _categoryCollection.FindAsync(_ => true);
+            var values = cursor?.ToList() ?? new();
+
             var result = _mapper.Map<List<CategoryDto>>(values);
 
             return result;

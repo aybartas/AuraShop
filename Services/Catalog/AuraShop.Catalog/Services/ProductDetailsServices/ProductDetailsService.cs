@@ -21,7 +21,7 @@ namespace AuraShop.Catalog.Services.ProductDetailsServices
         public async Task<List<ProductDetailDto>> GetAllProductDetailsAsync()
         {
             var values = await _productDetailCollection.FindAsync(x => true);
-            var result = _mapper.Map<List<ProductDetailDto>>(values);
+            var result = _mapper.Map<List<ProductDetailDto>>(values.ToListAsync());
 
             return result;
         }

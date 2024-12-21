@@ -18,7 +18,6 @@ namespace AuraShop.Catalog.Models
         }
         public bool? Ascending { get; set; } = true;
         public string? SortBy { get; set; }
-        public string? SearchText { get; set; }
         public string? ProductName { get; set; }
         public string? Brands { get; set; }
         public string? Categories { get; set; }

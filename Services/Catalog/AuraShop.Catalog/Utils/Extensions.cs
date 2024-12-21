@@ -15,11 +15,6 @@ namespace AuraShop.Catalog.Utils
             var brands = filter.Brands is { Length: > 0 } ? filter.Brands.Split(",").ToList() : new List<string>();
             var categories = filter.Categories is { Length: > 0 } ? filter.Categories.Split(",").ToList() : new List<string>();
 
-            if (!string.IsNullOrEmpty(filter.SearchText))
-            {
-                filters.Add(builder.Regex("Name", new BsonRegularExpression(filter.SearchText, "i")));
-            }
-
             if (!string.IsNullOrEmpty(filter.ProductName))
             {
                 filters.Add(builder.Regex("Name", new BsonRegularExpression(filter.ProductName, "i")));
