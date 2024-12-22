@@ -1,7 +1,5 @@
 using System.Reflection;
 using AuraShop.Catalog.Services.CategoryServices;
-using AuraShop.Catalog.Services.ProductDetailsServices;
-using AuraShop.Catalog.Services.ProductImageServices;
 using AuraShop.Catalog.Services.ProductServices;
 using AuraShop.Catalog.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,9 +25,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductDetailsService, ProductDetailsService>();
-builder.Services.AddScoped<IProductImageService, ProductImageService>();
-
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 

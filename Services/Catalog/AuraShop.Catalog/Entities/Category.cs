@@ -9,5 +9,6 @@ namespace AuraShop.Catalog.Entities
         [BsonRepresentation((BsonType.ObjectId))]
         public string Id { get; set; }
         public string Name { get; set; }
+        public List<Category> SubCategories { get; set; }
     }
 }
