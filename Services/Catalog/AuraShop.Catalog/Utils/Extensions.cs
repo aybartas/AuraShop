@@ -17,27 +17,27 @@ namespace AuraShop.Catalog.Utils
 
             if (!string.IsNullOrEmpty(filter.ProductName))
             {
-                filters.Add(builder.Regex("Name", new BsonRegularExpression(filter.ProductName, "i")));
+                filters.Add(builder.Regex(x => x.Name, new BsonRegularExpression(filter.ProductName, "i")));
             }
 
             if (brands.Count > 0)
             {
-                filters.Add(builder.In("Brand", brands));
+                filters.Add(builder.In(x => x.Brand.Id, brands));
             }
 
             if (categories.Count > 0)
             {
-                filters.Add(builder.In("CategoryId", categories));
+                filters.Add(builder.In(x => x.Category.Id, categories));
             }
 
             if (filter.MinPrice.HasValue)
             {
-                filters.Add(builder.Gte("Price", filter.MinPrice.Value));
+                filters.Add(builder.Gte(x => x.Price, filter.MinPrice.Value));
             }
 
             if (filter.MaxPrice.HasValue)
             {
-                filters.Add(builder.Lte("Price", filter.MaxPrice.Value));
+                filters.Add(builder.Lte(x => x.Price, filter.MaxPrice.Value));
             }
 
             var filterDefinition = filters.Count > 0 ? builder.And(filters) : builder.Empty; 

@@ -4,6 +4,7 @@ using AuraShop.Catalog.Models;
 using AuraShop.Catalog.Settings;
 using AuraShop.Catalog.Utils;
 using AutoMapper;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace AuraShop.Catalog.Services.ProductServices
@@ -12,12 +13,9 @@ namespace AuraShop.Catalog.Services.ProductServices
     {
         private readonly IMongoCollection<Product> _productCollection;
         private readonly IMapper _mapper;
-        public ProductService(IDatabaseSettings _databaseSettings, IMapper mapper)
+        public ProductService(IMongoDatabase mongoDatabase, IOptions<DatabaseSettings> _databaseSettings, IMapper mapper)
         {
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-
-            _productCollection = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
+            _productCollection = mongoDatabase.GetCollection<Product>(_databaseSettings.Value.ProductCollectionName);
             _mapper = mapper;
         }
         public async Task<List<ProductDto>> GetProducts(GetProductFilter filter)
@@ -28,7 +26,7 @@ namespace AuraShop.Catalog.Services.ProductServices
                 .Sort(request.SortDefinition)
                 .Skip(filter.Page * filter.Size)
                 .Limit(filter.Size)
-                .ToListAsync(); 
+                .ToListAsync();
 
             var productDtos = result.Select(x => _mapper.Map<ProductDto>(x)).ToList();
 
@@ -44,7 +42,7 @@ namespace AuraShop.Catalog.Services.ProductServices
         public async Task UpdateProductAsync(UpdateProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-            await _productCollection.FindOneAndReplaceAsync(x => x.Id == product.Id, product);
+            await _productCollection.ReplaceOneAsync(x => x.Id == product.Id, product);
         }
 
         public async Task DeleteProductAsync(string id)

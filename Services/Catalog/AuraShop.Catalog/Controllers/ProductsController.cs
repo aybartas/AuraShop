@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Catalog.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase

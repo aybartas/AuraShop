@@ -2,7 +2,7 @@
 using AuraShop.Catalog.Entities;
 using AuraShop.Catalog.Settings;
 using AutoMapper;
-using Microsoft.AspNetCore.DataProtection.XmlEncryption;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace AuraShop.Catalog.Services.CategoryServices
@@ -11,12 +11,9 @@ namespace AuraShop.Catalog.Services.CategoryServices
     {
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMapper _mapper;
-        public CategoryService(IDatabaseSettings _databaseSettings, IMapper mapper)
+        public CategoryService(IMongoDatabase mongoDatabase, IOptions<DatabaseSettings> _databaseSettings, IMapper mapper)
         {
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-
-            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+            _categoryCollection = mongoDatabase.GetCollection<Category>(_databaseSettings.Value.CategoryCollectionName);
             _mapper = mapper;
         }
         public async Task<List<CategoryDto>> GetAllCategoriesAsync()

@@ -1,8 +1,10 @@
 using System.Reflection;
 using AuraShop.Catalog.Services.CategoryServices;
+using AuraShop.Catalog.Services.DbServices;
 using AuraShop.Catalog.Services.ProductServices;
 using AuraShop.Catalog.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -28,14 +30,22 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 
-
-builder.Services.AddScoped<IDatabaseSettings>(sp =>
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
-    return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+    var dbOptions = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+    var client = new MongoClient(dbOptions.ConnectionString);
+    return client.GetDatabase(dbOptions.DatabaseName);
 });
 
+builder.Services.AddScoped<DatabaseSeeder>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    await seeder.Seed();
+}
 
 if (app.Environment.IsDevelopment())
 {

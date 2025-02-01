@@ -1,9 +1,14 @@
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
 
+Gateway: 5000
 Identity: 5001
 Catalog : 7070
 Discount: 7071
 Order: 7072
 Cargo : 7073
 Basket : 7074
+
+//TODO (Add ocelot)
+Comment : 7075
+Payment : 7076

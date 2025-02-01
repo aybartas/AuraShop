@@ -1,7 +1,7 @@
 ﻿using AuraShop.Catalog.Entities;
 using MongoDB.Driver;
 
-namespace AuraShop.Catalog.Utils
+namespace AuraShop.Catalog.Models
 {
     public class GetProductRequest
     {
