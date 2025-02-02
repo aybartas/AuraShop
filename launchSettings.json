@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "aurashop.apigateway": "StartDebugging",
+        "aurashop.identityserver": "StartDebugging",
+        "aurashop.basket": "StartDebugging",
+        "aurashop.cargo.webapi": "StartDebugging",
+        "aurashop.catalog": "StartDebugging",
+        "aurashop.discount": "StartDebugging",
+        "aurashop.order.webapi": "StartDebugging"
+      }
+    }
+  }
+}

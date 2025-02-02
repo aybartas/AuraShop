@@ -63,6 +63,8 @@ namespace AuraShop.IdentityServer
             new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
         };
 
+
+
         public static IEnumerable<Client> Clients => new Client[]
         {
             // Visitor
