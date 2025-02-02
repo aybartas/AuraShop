@@ -2,108 +2,103 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "aurashop.catalog",
           "Port": 7070
         }
       ],
       "UpstreamPathTemplate": "/services/catalog/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "https",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-        "AllowedScopes": [
-          "CatalogWritePermission",
-          "CatalogReadPermission"
-        ]
-      }
-
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [ "CatalogWritePermission", "CatalogReadPermission" ]
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "aurashop.discount",
           "Port": 7071
         }
       ],
       "UpstreamPathTemplate": "/services/discount/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "https",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-        "AllowedScopes": [
-          "DiscountWritePermission",
-          "DiscountReadPermission"
-        ]
-      }
-
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "DiscountWritePermission",
+      //    "DiscountReadPermission"
+      //  ]
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "aurashop.order.webapi",
           "Port": 7072
         }
       ],
       "UpstreamPathTemplate": "/services/order/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "https",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-        "AllowedScopes": [
-          "OrderWritePermission",
-          "OrderReadPermission"
-        ]
-      }
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "OrderWritePermission",
+      //    "OrderReadPermission"
+      //  ]
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "aurashop.cargo.webapi",
           "Port": 7073
         }
       ],
       "UpstreamPathTemplate": "/services/cargo/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "https",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-        "AllowedScopes": [
-          "CargoWritePermission",
-          "CargoReadPermission"
-        ]
-      }
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "CargoWritePermission",
+      //    "CargoReadPermission"
+      //  ]
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "aurashop.basket",
           "Port": 7074
         }
       ],
       "UpstreamPathTemplate": "/services/basket/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "https",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-        "AllowedScopes": [
-          "BasketWritePermission",
-          "BasketReadPermission"
-        ]
-      }
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "BasketWritePermission",
+      //    "BasketReadPermission"
+      //  ]
+      //}
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000"
+    "BaseUrl": "http://localhost:5000"
   }
 }

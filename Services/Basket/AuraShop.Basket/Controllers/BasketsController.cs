@@ -1,12 +1,14 @@
 ﻿using System.Security.Claims;
 using AuraShop.Basket.Dtos;
 using AuraShop.Basket.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Basket.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BasketsController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
