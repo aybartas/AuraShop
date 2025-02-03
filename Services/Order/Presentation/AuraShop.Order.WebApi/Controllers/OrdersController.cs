@@ -2,7 +2,6 @@
 using AuraShop.Order.Application.Features.Mediator.Queries.Order;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Order.WebApi.Controllers

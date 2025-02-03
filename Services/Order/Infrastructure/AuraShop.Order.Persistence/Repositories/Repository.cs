@@ -7,45 +7,45 @@ namespace AuraShop.Order.Persistence.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly OrderContext _context;
-        public Repository(OrderContext context)
+        private readonly OrderDbContext _dbContext;
+        public Repository(OrderDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
         public async Task<List<T>> GetAllAsync()
         {
-            var values =  await _context.Set<T>().ToListAsync();
+            var values =  await _dbContext.Set<T>().ToListAsync();
             return values;
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            var value = await _context.Set<T>().FindAsync(id);
+            var value = await _dbContext.Set<T>().FindAsync(id);
             return value;
         }
 
         public async Task CreateAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
         {
-            _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
+            _dbContext.Set<T>().Update(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
+            _dbContext.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<T> GetByFilterAsync(Expression<Func<T, bool>> filter)
         {
-            var value = await _context.Set<T>()?.FirstOrDefaultAsync(filter);
+            var value = await _dbContext.Set<T>()?.FirstOrDefaultAsync(filter);
             return value;
         }
     }

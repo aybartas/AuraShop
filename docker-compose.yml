@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  aurashop.order.webapi:
+    image: order-db
+    container_name: order-api
+    build:
+      context: .
+      dockerfile: Services/Order/Presentation/AuraShop.Order.WebApi/Dockerfile
+    ports:
+      - "7072:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    depends_on:
+      - order-db
+
+  order-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: order-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Aurashop1.
+    ports:
+      - "1633:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:

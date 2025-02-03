@@ -62,6 +62,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.ApiGateway", "ApiG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5583E084-374C-4BA3-B175-FDB05EB316C4}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{44F08539-5D00-4EFC-951E-3C2C4DA62316}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{D0490CDE-00B7-4ED0-B34B-8E4670D5A956}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0490CDE-00B7-4ED0-B34B-8E4670D5A956}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0490CDE-00B7-4ED0-B34B-8E4670D5A956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F08539-5D00-4EFC-951E-3C2C4DA62316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F08539-5D00-4EFC-951E-3C2C4DA62316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F08539-5D00-4EFC-951E-3C2C4DA62316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F08539-5D00-4EFC-951E-3C2C4DA62316}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
