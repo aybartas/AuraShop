@@ -5,8 +5,8 @@ App Ports
 Gateway: 5000 : 
 Identity: 5001 , DB:  SQL Server
 Catalog : 7070 : DB:  MONGO
-Discount: 7071 : DB:  SQL Server
-Order: 7072 :    DB:  SQL Server
+Discount: 7071 : DB:  SQL Server Port : 1633
+Order: 7072 -  SQL Server Port : 1634
 Cargo : 7073 :   DB:  SQL Server
 Basket : 7074 :  DB:  Redis
 

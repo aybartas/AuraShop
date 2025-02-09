@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   aurashop.order.webapi:
-    image: order-db
+    image: order-api
     container_name: order-api
     build:
       context: .
@@ -22,9 +22,60 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Aurashop1.
     ports:
+      - "1634:1433"
+    volumes:
+      - order_data:/var/opt/mssql
+ 
+  aurashop.discount:
+    image: discount-api
+    container_name: discount-api
+    build:
+      context: .
+      dockerfile: Services/Discount/AuraShop.Discount/Dockerfile
+    ports:
+      - "7071:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    depends_on:
+      - discount-db
+
+  discount-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: discount-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Aurashop1.
+    ports:
       - "1633:1433"
     volumes:
-      - sql_data:/var/opt/mssql
+      - discount_data:/var/opt/mssql
+
+  aurashop.catalog:
+    image: catalog-api
+    container_name: catalog-api
+    build:
+      context: .
+      dockerfile: Services/Catalog/AuraShop.Catalog/Dockerfile
+    ports:
+      - "7070:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    depends_on:
+      - catalog-db
+
+  catalog-db:
+     image: mongo:7.0
+     container_name: "catalog-db"
+     ports:
+        - "27018:27017"
+     volumes:
+        - catalog-data:/data/db
 
 volumes:
-  sql_data:
+  order_data:
+  discount_data:
+  catalog-data:
+   driver: local
+

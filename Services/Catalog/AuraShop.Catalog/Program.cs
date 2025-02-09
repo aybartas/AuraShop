@@ -4,7 +4,6 @@ using AuraShop.Catalog.Services.DbServices;
 using AuraShop.Catalog.Services.ProductServices;
 using AuraShop.Catalog.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -34,27 +33,28 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
     var dbOptions = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
     var client = new MongoClient(dbOptions.ConnectionString);
-    return client.GetDatabase(dbOptions.DatabaseName);
+    var mongoDatabase = client.GetDatabase(dbOptions.DatabaseName);
+    return mongoDatabase;
 });
 
 builder.Services.AddScoped<DatabaseSeeder>();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
-    await seeder.Seed();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+//    await seeder.Seed();
+//}
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

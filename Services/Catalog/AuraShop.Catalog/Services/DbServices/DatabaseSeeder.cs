@@ -19,13 +19,16 @@ namespace AuraShop.Catalog.Services.DbServices
 
         public async Task Seed()
         {
-            await _database.DropCollectionAsync(_databaseSettings.BrandCollectionName);
-            await _database.DropCollectionAsync(_databaseSettings.CategoryCollectionName);
-            await _database.DropCollectionAsync(_databaseSettings.ProductCollectionName);
+            Console.WriteLine("Database seeded started!");
+
+            //await _database.DropCollectionAsync(_databaseSettings.BrandCollectionName);
+            //await _database.DropCollectionAsync(_databaseSettings.CategoryCollectionName);
+            //await _database.DropCollectionAsync(_databaseSettings.ProductCollectionName);
 
             var brandCollection = _database.GetCollection<Brand>(_databaseSettings.BrandCollectionName);
             var categoryCollection = _database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
             var productCollection = _database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
+
 
             // Seed Brands
             var brands = new List<Brand>

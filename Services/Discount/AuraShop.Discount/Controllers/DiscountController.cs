@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Discount.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DiscountController : ControllerBase

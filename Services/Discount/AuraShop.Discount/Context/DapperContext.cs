@@ -20,6 +20,17 @@ namespace AuraShop.Discount.Context
             optionsBuilder.UseSqlServer(_connectionString);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Coupon>()
+                .HasKey(a => a.Id);
+            modelBuilder.Entity<Coupon>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<Coupon> Coupons { get; set; }
         public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
     }
