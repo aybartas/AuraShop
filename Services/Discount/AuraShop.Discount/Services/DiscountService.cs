@@ -1,13 +1,11 @@
-﻿using System.Threading.Tasks.Sources;
-using AuraShop.Discount.Context;
-using AuraShop.Discount.Dtos.Coupons;
-using Dapper;
+﻿using AuraShop.Discount.Context;
+using AuraShop.Discount.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuraShop.Discount.Services
 {
     public class DiscountService : IDiscountService
     {
-
         private readonly DapperContext _context;
 
         public DiscountService(DapperContext context)
@@ -15,67 +13,36 @@ namespace AuraShop.Discount.Services
             _context = context;
         }
 
-        public async Task<List<DiscountCouponDto>> GetAllDiscountCouponsAsync()
+        public async Task<List<Coupon>> GetAllDiscountCouponsAsync()
         {
-            var query = "select * from coupons";
-            using var connection = _context.CreateConnection();
-            var values = await connection.QueryAsync<DiscountCouponDto>(query);
-            return values.ToList();
+            var coupons = await _context.Coupons.ToListAsync();
+            return coupons;
         }
 
-        public async Task CreateDiscountCouponAsync(CreateDiscountCouponDto discountCouponDto)
+        public async Task CreateDiscountCouponAsync(Coupon coupon)
         {
-            var query = "insert into Coupons (Code,Rate,IsActive,ExpireDate) " +
-                        " values (@code,@rate,@isActive,@expireDate)";
-
-            var parameters = new DynamicParameters();
-            parameters.Add("@code", discountCouponDto.Code);
-            parameters.Add("@rate", discountCouponDto.Rate);
-            parameters.Add("@isActive", discountCouponDto.IsActive);
-            parameters.Add("@expireDate", discountCouponDto.ExpireDate);
-
-            using var connection = _context.CreateConnection();
-            await connection.ExecuteAsync(query, parameters);
+            await _context.Coupons.AddAsync(coupon);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateDiscountCouponAsync(UpdateDiscountCouponDto discountCouponDto)
+        public void  UpdateDiscountCouponAsync(Coupon coupon)
         {
-            var query = "update Coupons set Code=@code,Rate=@rate,IsActive=@isActive,ExpireDate=@expireDate where id=@id";
-
-            var parameters = new DynamicParameters();
-            
-            parameters.Add("@id", discountCouponDto.Id);
-            parameters.Add("@code", discountCouponDto.Code);
-            parameters.Add("@rate", discountCouponDto.Rate);
-            parameters.Add("@isActive", discountCouponDto.IsActive);
-            parameters.Add("@expireDate", discountCouponDto.ExpireDate);
-
-            using var connection = _context.CreateConnection();
-            await connection.ExecuteAsync(query, parameters);
+            _context.Coupons.Update(coupon);
+            _context.SaveChanges();
         }
 
-        public async Task DeleteDiscountCouponAsync(int id)
+        public async Task DeleteDiscountCouponAsync(Coupon coupon)
         {
-            var query = $"delete from  Coupons where id=@id";
-
-            var parameters = new DynamicParameters();
-            parameters.Add("@id", id);
-
-            using var connection = _context.CreateConnection();
-            await connection.ExecuteAsync(query, parameters);
-
+            _context.Coupons.Remove(coupon);
+            _context.SaveChanges();
         }
 
-        public async Task<DiscountCouponDto> GetDiscountCouponById(int id)
+        public async Task<Coupon> GetDiscountCouponById(int id)
         {
-            var query = "select * from coupons where id=@id";
-
-            var parameters = new DynamicParameters();
-            parameters.Add("@id",id);
-
-            using var connection = _context.CreateConnection();
-            var value = await connection.QueryFirstOrDefaultAsync<DiscountCouponDto>(query,parameters);
-            return value;
+            var coupon = await _context.Coupons.FindAsync(id);
+            return coupon;     
         }
+
+      
     }
 }

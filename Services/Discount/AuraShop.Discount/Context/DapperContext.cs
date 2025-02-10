@@ -1,4 +1,5 @@
 ﻿using AuraShop.Discount.Entities;
+using AuraShop.Order.Persistence.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -6,24 +7,18 @@ using System.Data;
 namespace AuraShop.Discount.Context
 {
     public class DapperContext : DbContext
-    {
-        private readonly IConfiguration _configuration;
-        private readonly string _connectionString;
-        public DapperContext(IConfiguration configuration)
+    {      
+        public DapperContext(DbContextOptions<DapperContext> options): base(options)
         {
-            _configuration = configuration;
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            // Coupon
             modelBuilder.Entity<Coupon>()
                 .HasKey(a => a.Id);
+
             modelBuilder.Entity<Coupon>()
                 .Property(a => a.Id)
                 .ValueGeneratedOnAdd();
@@ -32,6 +27,6 @@ namespace AuraShop.Discount.Context
         }
 
         public DbSet<Coupon> Coupons { get; set; }
-        public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
+       
     }
 }

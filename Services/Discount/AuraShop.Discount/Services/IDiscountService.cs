@@ -1,13 +1,14 @@
 ﻿using AuraShop.Discount.Dtos.Coupons;
+using AuraShop.Discount.Entities;
 
 namespace AuraShop.Discount.Services
 {
     public interface IDiscountService
     {
-        Task<List<DiscountCouponDto>> GetAllDiscountCouponsAsync();
-        Task CreateDiscountCouponAsync(CreateDiscountCouponDto discountCouponDto);
-        Task UpdateDiscountCouponAsync(UpdateDiscountCouponDto discountCouponDto);
-        Task DeleteDiscountCouponAsync(int id);
-        Task<DiscountCouponDto> GetDiscountCouponById(int id);
+        Task<List<Coupon>> GetAllDiscountCouponsAsync();
+        Task CreateDiscountCouponAsync(Coupon discountCoupon);
+        void UpdateDiscountCouponAsync(Coupon discountCoupon);
+        Task DeleteDiscountCouponAsync(Coupon id);
+        Task<Coupon> GetDiscountCouponById(int id);
     }
 }

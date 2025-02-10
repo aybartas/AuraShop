@@ -1,40 +1,43 @@
 ﻿using AuraShop.Discount.Context;
 using AuraShop.Discount.Entities;
-using Dapper;
-using Microsoft.Data.SqlClient;
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-public class DbSeeder
+namespace AuraShop.Order.Persistence.Context
 {
-    public static async Task SeedAsync(DapperContext context)
+    public static class DbSeeder
     {
-        using var connection = context.CreateConnection();
-
-        var tableCheckQuery = "IF NOT EXISTS (SELECT 1 FROM Coupons where Code=@Code ) BEGIN INSERT INTO Coupons (Code, Rate, IsActive, ExpireDate) VALUES (@Code, @Rate, @IsActive, @ExpireDate) END";
-
-        var coupons = new List<Coupon>()
+        public static void SeedDatabase(DapperContext dbContext)
         {
-            new()
+            if (!dbContext.Coupons.Any())
             {
-                Code = "DISCOUNT10",
-                Rate = 10,
-                IsActive = true,
-                ExpireDate = DateTime.UtcNow.AddMonths(1)
-            },
-            new()
-            {
-                Code = "DISCOUNT20",
-                Rate = 10,
-                IsActive = true,
-                ExpireDate = DateTime.UtcNow.AddMonths(1)
-            },
-        };
+                var orders = new List<Coupon>
+                {
+                    new()
+                    {
+                        Code="DISCOUNT 10",
+                        ExpireDate= DateTime.Now,
+                        IsActive= true,
+                        Rate=10
+                    },
+                    new()
+                    {
+                        Code="DISCOUNT 20",
+                        ExpireDate= DateTime.Now,
+                        IsActive= true,
+                        Rate=20
+                    }
+                };
 
-        foreach (var coupon in coupons)
-        {
-            await connection.ExecuteAsync(tableCheckQuery, coupon);
+                dbContext.Coupons.AddRange(orders);
+                dbContext.SaveChanges();
+            }
         }
     }
 }
+
+
+

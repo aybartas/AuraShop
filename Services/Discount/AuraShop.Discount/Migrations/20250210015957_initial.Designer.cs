@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuraShop.Discount.Migrations
 {
     [DbContext(typeof(DapperContext))]
-    [Migration("20240916123659_initial")]
+    [Migration("20250210015957_initial")]
     partial class initial
     {
         /// <inheritdoc />

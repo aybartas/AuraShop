@@ -47,7 +47,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Aurashop1.
     ports:
-      - "1633:1433"
+      - "1635:1433"
     volumes:
       - discount_data:/var/opt/mssql
 

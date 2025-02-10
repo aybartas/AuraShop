@@ -1,5 +1,7 @@
 ﻿using AuraShop.Discount.Dtos.Coupons;
+using AuraShop.Discount.Entities;
 using AuraShop.Discount.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,13 @@ namespace AuraShop.Discount.Controllers
     public class DiscountController : ControllerBase
     {
         private readonly IDiscountService _discountService;
+        private readonly IMapper _mapper;
 
-        public DiscountController(IDiscountService discountService)
+        public DiscountController(IDiscountService discountService , IMapper mapper)
         {
             _discountService = discountService;
+            _mapper = mapper;
+
         }
 
         [HttpGet]
@@ -31,23 +36,34 @@ namespace AuraShop.Discount.Controllers
             return Ok(values);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateDiscountCoupon(UpdateDiscountCouponDto updateDiscountDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDiscountCoupon(int id ,[FromBody] UpdateDiscountCouponDto updateDiscountDto)
         {
-             await _discountService.UpdateDiscountCouponAsync(updateDiscountDto);
+            var value = await _discountService.GetDiscountCouponById(id);
+
+            value.Rate = updateDiscountDto.Rate;
+            value.ExpireDate = updateDiscountDto.ExpireDate;
+            value.IsActive = updateDiscountDto.IsActive;
+            value.Rate = updateDiscountDto.Rate;
+            
+            _discountService.UpdateDiscountCouponAsync(value);
+
             return Ok();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateDiscountCoupon(CreateDiscountCouponDto createDiscountDto)
         {
-            await _discountService.CreateDiscountCouponAsync(createDiscountDto);
+            var coupon = _mapper.Map<Coupon>(createDiscountDto);
+            await _discountService.CreateDiscountCouponAsync(coupon);
             return Ok();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> CreateDiscountCoupon(int id)
         {
-            await _discountService.DeleteDiscountCouponAsync(id);
+            var value = await _discountService.GetDiscountCouponById(id);
+
+            await _discountService.DeleteDiscountCouponAsync(value);
             return Ok();
         }
     }
