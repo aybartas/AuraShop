@@ -66,16 +66,21 @@ services:
       - catalog-db
 
   catalog-db:
-     image: mongo:7.0
-     container_name: "catalog-db"
-     ports:
-        - "27018:27017"
-     volumes:
-        - catalog-data:/data/db
+    image: mongo:6.0
+    container_name: catalog-db
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+    volumes:
+      - catalog_data:/data/db
+      - catalog_config:/data/configdb
 
 volumes:
   order_data:
   discount_data:
-  catalog-data:
-   driver: local
+  catalog_data:
+  catalog_config:
 

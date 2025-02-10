@@ -41,11 +41,11 @@ builder.Services.AddScoped<DatabaseSeeder>();
 
 var app = builder.Build();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
-//    await seeder.Seed();
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    await seeder.Seed();
+}
 
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {

@@ -19,27 +19,35 @@ namespace AuraShop.Catalog.Services.DbServices
 
         public async Task Seed()
         {
-            Console.WriteLine("Database seeded started!");
+            try
+            {
+                Console.WriteLine("Database seeded started!");
 
-            //await _database.DropCollectionAsync(_databaseSettings.BrandCollectionName);
-            //await _database.DropCollectionAsync(_databaseSettings.CategoryCollectionName);
-            //await _database.DropCollectionAsync(_databaseSettings.ProductCollectionName);
-
-            var brandCollection = _database.GetCollection<Brand>(_databaseSettings.BrandCollectionName);
-            var categoryCollection = _database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
-            var productCollection = _database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
+                var brandCollection = _database.GetCollection<Brand>(_databaseSettings.BrandCollectionName);
+                var categoryCollection = _database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+                var productCollection = _database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
 
 
-            // Seed Brands
-            var brands = new List<Brand>
+                var firstBrand = await brandCollection.FindAsync(_ => true);
+                var firstCategory = await categoryCollection.FindAsync(_ => true);
+                var firstProduct = await productCollection.FindAsync(_ => true);
+
+                if (firstBrand?.FirstOrDefault() != null || firstCategory.FirstOrDefault() != null || firstProduct.FirstOrDefault() != null)
+                {
+                    return;
+                }
+
+
+                // Seed Brands
+                var brands = new List<Brand>
             {
                 new() { Id = ObjectId.GenerateNewId().ToString(), Name = "TechBrand" },
                 new() { Id = ObjectId.GenerateNewId().ToString(), Name = "HomeBrand" },
                 new() { Id = ObjectId.GenerateNewId().ToString(), Name = "FashionBrand" }
             };
-            await brandCollection.InsertManyAsync(brands);
+                await brandCollection.InsertManyAsync(brands);
 
-            var categories = new List<Category>
+                var categories = new List<Category>
             {
                 new()
                 {
@@ -70,10 +78,10 @@ namespace AuraShop.Catalog.Services.DbServices
                     }
                 }
             };
-            await categoryCollection.InsertManyAsync(categories);
+                await categoryCollection.InsertManyAsync(categories);
 
-            // Seed Products
-            var products = new List<Product>
+                // Seed Products
+                var products = new List<Product>
             {
                 new()
                 {
@@ -97,9 +105,14 @@ namespace AuraShop.Catalog.Services.DbServices
                 },
             };
 
-            await productCollection.InsertManyAsync(products);
+                await productCollection.InsertManyAsync(products);
 
-            Console.WriteLine("Database seeded successfully!");
+                Console.WriteLine("Database seeded successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error seeding db {ex}");
+            }
         }
     }
 }
