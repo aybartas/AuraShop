@@ -44,7 +44,6 @@ using (var scope = app.Services.CreateScope())
     DbSeeder.SeedDatabase(context);
 }
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
@@ -54,11 +53,9 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-
 
 app.Run();

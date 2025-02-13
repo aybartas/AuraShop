@@ -1,31 +1,42 @@
 ﻿using AuraShop.Cargo.Entity.Concrete;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AuraShop.Cargo.DataAccess
 {
     public class CargoDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-
-        public CargoDbContext(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
-        }
+        public CargoDbContext(DbContextOptions<CargoDbContext> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Cargo
+            modelBuilder.Entity<Entity.Concrete.Cargo>()
+                .HasKey(a => a.Id);
+
+            modelBuilder.Entity<Entity.Concrete.Cargo>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
             modelBuilder.Entity<Cargo.Entity.Concrete.Cargo>().
                 Property(x => x.Status).HasConversion<string>();
+
+            //CargoAction
+
+            modelBuilder.Entity<CargoAction>()
+                .HasKey(a => a.Id);
+
+            modelBuilder.Entity<CargoAction>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
+            // CargoCompany
+            modelBuilder.Entity<CargoCompany>()
+                .HasKey(a => a.Id);
+
+            modelBuilder.Entity<CargoCompany>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
+            DbSeeder.Seed(modelBuilder);
         }
 
         public List<Entity.Concrete.Cargo> Cargos { get; set; }

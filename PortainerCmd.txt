@@ -4,10 +4,10 @@ docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /va
 App Ports
 Gateway: 5000 : 
 Identity: 5001 , DB:  SQL Server
-Catalog : 7070 : DB:  MONGO
-Discount: 7071 : DB:  SQL Server Port : 1633
+Catalog : 7070 : DB:  MONGO 
+Discount: 7071 : DB:  SQL Server Port : 1635
 Order: 7072 -  SQL Server Port : 1634
-Cargo : 7073 :   DB:  SQL Server
+Cargo : 7073 :   DB:  SQL Server 1636
 Basket : 7074 :  DB:  Redis
 
 Comment : 7075

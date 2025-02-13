@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuraShop.Cargo.DataAccess.Migrations
 {
     [DbContext(typeof(CargoDbContext))]
-    [Migration("20241115123914_initil")]
-    partial class initil
+    [Migration("20250212014532_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,29 +32,57 @@ namespace AuraShop.Cargo.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BarcodeNumber")
-                        .HasColumnType("int");
-
                     b.Property<int>("CargoCompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Receiver")
+                    b.Property<DateTime?>("DeliveredDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EstimatedDeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("ShippedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrackingNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CargoCompanyId");
 
                     b.ToTable("Cargo");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CargoCompanyId = 1,
+                            EstimatedDeliveryDate = new DateTime(2025, 2, 14, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8252),
+                            OrderNumber = "ORD123456",
+                            ShippedDate = new DateTime(2025, 2, 9, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8248),
+                            Status = "InTransit",
+                            TrackingNumber = 10001
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CargoCompanyId = 2,
+                            DeliveredDate = new DateTime(2025, 2, 11, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8258),
+                            EstimatedDeliveryDate = new DateTime(2025, 2, 11, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8258),
+                            OrderNumber = "ORD123457",
+                            ShippedDate = new DateTime(2025, 2, 7, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8258),
+                            Status = "Delivered",
+                            TrackingNumber = 10002
+                        });
                 });
 
             modelBuilder.Entity("AuraShop.Cargo.Entity.Concrete.CargoAction", b =>
@@ -80,6 +108,36 @@ namespace AuraShop.Cargo.DataAccess.Migrations
                     b.HasIndex("CargoId");
 
                     b.ToTable("CargoAction");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ActionDate = new DateTime(2025, 2, 9, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8265),
+                            CargoId = 1,
+                            Message = "Package picked up."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ActionDate = new DateTime(2025, 2, 10, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8266),
+                            CargoId = 1,
+                            Message = "Package in transit."
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ActionDate = new DateTime(2025, 2, 7, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8267),
+                            CargoId = 2,
+                            Message = "Package picked up."
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ActionDate = new DateTime(2025, 2, 11, 1, 45, 32, 371, DateTimeKind.Utc).AddTicks(8267),
+                            CargoId = 2,
+                            Message = "Package delivered."
+                        });
                 });
 
             modelBuilder.Entity("AuraShop.Cargo.Entity.Concrete.CargoCompany", b =>
@@ -97,6 +155,23 @@ namespace AuraShop.Cargo.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CargoCompany");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "DHL"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "FedEx"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "UPS"
+                        });
                 });
 
             modelBuilder.Entity("AuraShop.Cargo.Entity.Concrete.Cargo", b =>

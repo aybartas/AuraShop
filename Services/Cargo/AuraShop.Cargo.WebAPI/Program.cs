@@ -4,8 +4,8 @@ using AuraShop.Cargo.Business.Concrete;
 using AuraShop.Cargo.DataAccess;
 using AuraShop.Cargo.DataAccess.Abstract;
 using AuraShop.Cargo.DataAccess.Concrete;
-using AuraShop.Cargo.Entity.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<CargoDbContext>();
 
-builder.Services.AddScoped<ICargoDal, CargoRepository>();
-builder.Services.AddScoped<ICargoCompanyDal, CargoCompanyRepository>();
-builder.Services.AddScoped<ICargoActionDal, CargoActionRepository>();
-builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
-
-builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
@@ -32,10 +25,31 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     opt.RequireHttpsMetadata = false;
 });
 
+
+builder.Services.AddScoped<ICargoDal, CargoRepository>();
+builder.Services.AddScoped<ICargoCompanyDal, CargoCompanyRepository>();
+builder.Services.AddScoped<ICargoActionDal, CargoActionRepository>();
+builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
+
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+builder.Services.AddDbContext<CargoDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<CargoDbContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
