@@ -125,6 +125,31 @@ services:
     volumes:
       - basket_data:/data
 
+  identity-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: identity-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Aurashop1.
+    ports:
+      - "1637:1433"
+    volumes:
+      - identity_data:/var/opt/mssql
+
+  aurashop.identityserver:
+    image: aurashopidentityserver
+    container_name: aurashopidentityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/AuraShop.IdentityServer/Dockerfile    
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080    
+    ports:
+    - "5001:8080"
+    depends_on:
+    - identity-db
+
 
 volumes:
   order_data:
@@ -133,6 +158,9 @@ volumes:
   catalog_config:
   cargo_data:
   basket_data:
+  identity_data:
+
+
 
 
 
