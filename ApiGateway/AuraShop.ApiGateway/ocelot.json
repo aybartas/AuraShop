@@ -11,11 +11,11 @@
       ],
       "UpstreamPathTemplate": "/services/catalog/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-      //  "AllowedScopes": [ "CatalogWritePermission", "CatalogReadPermission" ]
-      //}
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+        "AllowedScopes": [ "CatalogWritePermission", "CatalogReadPermission" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -28,14 +28,14 @@
       ],
       "UpstreamPathTemplate": "/services/discount/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-      //  "AllowedScopes": [
-      //    "DiscountWritePermission",
-      //    "DiscountReadPermission"
-      //  ]
-      //}
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+        "AllowedScopes": [
+          "DiscountWritePermission",
+          "DiscountReadPermission"
+        ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -48,14 +48,14 @@
       ],
       "UpstreamPathTemplate": "/services/order/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-      //  "AllowedScopes": [
-      //    "OrderWritePermission",
-      //    "OrderReadPermission"
-      //  ]
-      //}
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+        "AllowedScopes": [
+          "OrderWritePermission",
+          "OrderReadPermission"
+        ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -68,14 +68,14 @@
       ],
       "UpstreamPathTemplate": "/services/cargo/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-      //  "AllowedScopes": [
-      //    "CargoWritePermission",
-      //    "CargoReadPermission"
-      //  ]
-      //}
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+        "AllowedScopes": [
+          "CargoWritePermission",
+          "CargoReadPermission"
+        ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -88,14 +88,14 @@
       ],
       "UpstreamPathTemplate": "/services/basket/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
-      //  "AllowedScopes": [
-      //    "BasketWritePermission",
-      //    "BasketReadPermission"
-      //  ]
-      //}
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+        "AllowedScopes": [
+          "BasketWritePermission",
+          "BasketReadPermission"
+        ]
+      }
     }
   ],
   "GlobalConfiguration": {

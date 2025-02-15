@@ -2,13 +2,13 @@ docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
 
 App Ports
-Gateway: 5000 : 
-Identity: 5001 , DB:  SQL Server
-Catalog : 7070 : DB:  MONGO 
+Gateway: 5000 :
+Identity: 5001 , DB:  SQL Server  1637
+Catalog : 7070 : DB:  MONGO 27017
 Discount: 7071 : DB:  SQL Server Port : 1635
 Order: 7072 -  SQL Server Port : 1634
 Cargo : 7073 :   DB:  SQL Server 1636
 Basket : 7074 :  DB:  Redis
 
-Comment : 7075
+// TO BE ADDED
 Payment : 7076

@@ -148,6 +148,16 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/AuraShop.ApiGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:8080"
+
 volumes:
   order_data:
   discount_data:
@@ -156,6 +166,7 @@ volumes:
   cargo_data:
   basket_data:
   identity_data:
+
 
 
 
