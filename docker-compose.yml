@@ -136,20 +136,17 @@ services:
     volumes:
       - identity_data:/var/opt/mssql
 
-  aurashop.identityserver:
-    image: aurashopidentityserver
-    container_name: aurashopidentityserver
+  identityserver:
+    image: ${DOCKER_REGISTRY-}aurashopidentityserver
     build:
       context: .
-      dockerfile: IdentityServer/AuraShop.IdentityServer/Dockerfile    
+      dockerfile: IdentityServer/AuraShop.IdentityServer/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080    
     ports:
-    - "5001:8080"
-    depends_on:
-    - identity-db
-
+      - "5001:8080"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
 volumes:
   order_data:
@@ -159,6 +156,7 @@ volumes:
   cargo_data:
   basket_data:
   identity_data:
+
 
 
 

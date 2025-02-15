@@ -62,7 +62,8 @@ namespace AuraShop.Catalog.Services.DbServices
                 new()
                 {
                     Id = ObjectId.GenerateNewId().ToString(),
-                    Name = "Home Appliances",
+        
+                // Seed Products            Name = "Home Appliances",
                     SubCategories = new List<Category>
                     {
                         new() { Id = ObjectId.GenerateNewId().ToString(), Name = "Kitchen", SubCategories = new List<Category>() }
@@ -80,7 +81,6 @@ namespace AuraShop.Catalog.Services.DbServices
             };
                 await categoryCollection.InsertManyAsync(categories);
 
-                // Seed Products
                 var products = new List<Product>
             {
                 new()
