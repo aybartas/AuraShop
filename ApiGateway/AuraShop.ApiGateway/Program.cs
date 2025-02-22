@@ -5,7 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Configuration.AddJsonFile("ocelot.json", false, true);
+var environment = builder.Environment.EnvironmentName;
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("ocelot.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"ocelot.{environment}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
 
 builder.Services.AddOcelot(builder.Configuration);
 

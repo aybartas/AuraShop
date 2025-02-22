@@ -10,106 +10,76 @@ namespace AuraShop.IdentityServer
 {
     public static class Config
     {
-        public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
+        public static IEnumerable<ApiResource> ApiResources => new List<ApiResource>
         {
-            new ApiResource("ResourceCatalog")
-            {
-                Scopes = new List<string>(){"CatalogWritePermission","CatalogReadPermission"},
-            },
-            new ApiResource("ResourceDiscount")
-            {
-                Scopes = new List<string>(){ "DiscountWritePermission", "DiscountReadPermission"},
-            },
-            new ApiResource("ResourceOrder")
-            {
-                Scopes = new List<string>(){ "OrderWritePermission", "OrderReadPermission"},
-            },
-            new ApiResource("ResourceCargo")
-            {
-                Scopes = new List<string>(){ "CargoWritePermission", "CargoReadPermission"},
-            },
-            new ApiResource("ResourceBasket")
-            {
-                Scopes = new List<string>(){ "BasketWritePermission", "BasketReadPermission"},
-            },
-
-            new ApiResource(IdentityServerConstants.LocalApi.ScopeName),
+            new ApiResource("ResourceCatalog") { Scopes = { "CatalogRead", "CatalogWrite" } },
+            new ApiResource("ResourceDiscount") { Scopes = { "DiscountRead", "DiscountWrite" } },
+            new ApiResource("ResourceOrder") { Scopes = { "OrderRead", "OrderWrite" } },
+            new ApiResource("ResourceCargo") { Scopes = { "CargoRead", "CargoWrite" } },
+            new ApiResource("ResourceBasket") { Scopes = { "BasketRead", "BasketWrite" } }
         };
 
-        public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
+        public static IEnumerable<ApiScope> ApiScopes => new List<ApiScope>
         {
-            new IdentityResources.OpenId(),
-            new IdentityResources.Email(),
-            new IdentityResources.Profile()
+            new ApiScope("CatalogRead"),
+            new ApiScope("CatalogWrite"),
+            new ApiScope("DiscountRead"),
+            new ApiScope("DiscountWrite"),
+            new ApiScope("OrderRead"),
+            new ApiScope("OrderWrite"),
+            new ApiScope("CargoRead"),
+            new ApiScope("CargoWrite"),
+            new ApiScope("BasketRead"),
+            new ApiScope("BasketWrite")
         };
 
-        public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
-        {
-            new ApiScope("CatalogWritePermission","Write authority for catalog operations"),
-            new ApiScope("CatalogReadPermission","Read authority for catalog operations"),
-           
-            new ApiScope("DiscountWritePermission","Write authority for discount operations"),
-            new ApiScope("DiscountReadPermission","Write authority for discount operations"),
-           
-            new ApiScope("OrderWritePermission","Full authority for order operations"),
-            new ApiScope("OrderReadPermission","Read authority for order operations"),
-            
-            new ApiScope("CargoWritePermission","Full authority for cargo operations"),
-            new ApiScope("CargoReadPermission","Read authority for cargo operations"),
-            
-            new ApiScope("BasketWritePermission","Full authority for basket operations"),
-            new ApiScope("BasketReadPermission","Read authority for basket operations"),
-
-            new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
-        };
-
-
-
-        public static IEnumerable<Client> Clients => new Client[]
-        {
-            // Visitor
-            new Client()
+        public static IEnumerable<Client> Clients => new List<Client>{
+            new Client
             {
-                ClientId = "AuraShopVisitorId",
-                ClientName = "AuraShop Visitor",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
-                AllowedScopes = new List<string>(){ "CatalogReadPermission" }
-            },
-
-            // Manager
-            new Client()
-            {
-                ClientId = "AuraShopManagerId",
-                ClientName = "AuraShop Manager",
-                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
-                AllowedScopes = new List<string>(){ "CatalogReadPermission", "CatalogWritePermission" }
-            },
-
-            // Admin
-            new Client()
-            {
-                ClientId = "AuraShopAdminId",
-                ClientName = "AuraShop Admin",
-                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                ClientSecrets = new List<Secret>(){new Secret("AuraShopSecret".Sha256())},
-                AllowedScopes = new List<string>()
+                ClientId = "web-client",
+                AllowedGrantTypes = GrantTypes.Code,
+                RequireClientSecret = false,
+                RedirectUris = { "http://localhost:3000/callback" },
+                PostLogoutRedirectUris = { "http://localhost:3000" },
+                AllowedCorsOrigins = { "http://localhost:3000" },
+                AllowedScopes =
                 {
-                    "CatalogReadPermission", "CatalogWritePermission",
-                    "DiscountWritePermission", "DiscountReadPermission" ,
-                    "OrderWritePermission", "OrderReadPermission",
-                    "CargoWritePermission", "CargoReadPermission",
-                    "BasketWritePermission", "BasketReadPermission",
-
-                     IdentityServerConstants.LocalApi.ScopeName,
-                     IdentityServerConstants.StandardScopes.Email ,
-                     IdentityServerConstants.StandardScopes.OpenId ,
-                     IdentityServerConstants.StandardScopes.Profile,
-
-                },
-                AccessTokenLifetime = 600,
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "CatalogRead",
+                    "DiscountRead",
+                    "OrderRead",
+                    "OrderWrite",
+                    "CargoRead",
+                    "BasketRead",
+                    "BasketWrite"
+                }
             },
+            new Client
+            {
+                ClientId = "admin-client",
+                AllowedGrantTypes = GrantTypes.Code,
+                RequireClientSecret = false,
+                RedirectUris = { "http://localhost:3000/admin/callback" },
+                PostLogoutRedirectUris = { "http://localhost:3000/admin" },
+                AllowedCorsOrigins = { "http://localhost:3000" },
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "CatalogRead", "CatalogWrite",
+                    "DiscountRead", "DiscountWrite",
+                    "OrderRead", "OrderWrite",
+                    "CargoRead", "CargoWrite",
+                    "BasketRead", "BasketWrite"
+                }
+            }
+
+        };
+
+        public static IEnumerable<IdentityResource> IdentityResources => new List<IdentityResource> {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile()
         };
     }
 }

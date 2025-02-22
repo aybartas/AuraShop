@@ -80,7 +80,7 @@ services:
 
   aurashop.cargo.webapi:
     image: aurashop.cargo.webapi
-    container_name: aurashop.cargo.webapi
+    container_name: cargo-api
     build:
       context: .
       dockerfile: Services/Cargo/AuraShop.Cargo.WebAPI/Dockerfile
@@ -136,20 +136,22 @@ services:
     volumes:
       - identity_data:/var/opt/mssql
 
-  identityserver:
-    image: ${DOCKER_REGISTRY-}aurashopidentityserver
-    build:
-      context: .
-      dockerfile: IdentityServer/AuraShop.IdentityServer/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "5001:8080"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  # identityserver:
+  #   container_name: identity-server
+  #   image: ${DOCKER_REGISTRY-}aurashopidentityserver
+  #   build:
+  #     context: .
+  #     dockerfile: IdentityServer/AuraShop.IdentityServer/Dockerfile
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   ports:
+  #     - "5001:8080"
+  #   volumes:
+  #     - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
+    container_name: apigateway
     build:
       context: .
       dockerfile: ApiGateway/AuraShop.ApiGateway/Dockerfile

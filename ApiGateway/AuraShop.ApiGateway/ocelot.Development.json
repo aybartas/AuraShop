@@ -1,0 +1,104 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "aurashop.catalog",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/services/catalog/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [ "CatalogWritePermission", "CatalogReadPermission" ]
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "aurashop.discount",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/services/discount/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "DiscountWritePermission",
+      //    "DiscountReadPermission"
+      //  ]
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "aurashop.order.webapi",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/services/order/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "OrderWritePermission",
+      //    "OrderReadPermission"
+      //  ]
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "aurashop.cargo.webapi",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/services/cargo/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "CargoWritePermission",
+      //    "CargoReadPermission"
+      //  ]
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "aurashop.basket",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/services/basket/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamScheme": "http"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotAuthenticationScheme",
+      //  "AllowedScopes": [
+      //    "BasketWritePermission",
+      //    "BasketReadPermission"
+      //  ]
+      //}
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}
