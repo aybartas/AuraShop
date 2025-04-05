@@ -1,0 +1,21 @@
+services:
+  aurashop.cargo.webapi:
+    image: ${DOCKER_REGISTRY-}aurashopcargowebapi
+    build:
+      context: .
+      dockerfile: Services/Cargo/AuraShop.Cargo.WebAPI/Dockerfile
+
+  mongo.db.catalog:
+    restart: always
+    image: mongo:8.0-rc
+    container_name: mongo.db.catalog.container
+    ports:
+      - "27030:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+        - mongo.db.catalog.volume:/data/db
+  
+volumes:
+    mongo.db.catalog.volume:
