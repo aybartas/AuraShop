@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuraShop.Cargo.Business\AuraShop.Cargo.Business.csproj" />
+    <ProjectReference Include="..\AuraShop.Cargo.Dto\AuraShop.Cargo.Dto.csproj" />
   </ItemGroup>
 
 </Project>
