@@ -1,6 +1,6 @@
 ﻿using AuraShop.Catalog.Features.Category;
 
-namespace AuraShop.Catalog.Services.CategoryServices
+namespace AuraShop.Catalog.Services
 {
     public interface ICategoryService
     {

@@ -4,7 +4,7 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace AuraShop.Catalog.Services.CategoryServices
+namespace AuraShop.Catalog.Services
 {
     public class CategoryService : ICategoryService
     {

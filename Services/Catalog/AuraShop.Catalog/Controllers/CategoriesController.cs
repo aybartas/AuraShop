@@ -1,11 +1,10 @@
 ﻿using AuraShop.Catalog.Features.Category;
-using AuraShop.Catalog.Services.CategoryServices;
+using AuraShop.Catalog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Catalog.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

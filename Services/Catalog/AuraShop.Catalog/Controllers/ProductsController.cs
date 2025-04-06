@@ -1,11 +1,10 @@
 ﻿using AuraShop.Catalog.Features.Product;
-using AuraShop.Catalog.Services.ProductServices;
+using AuraShop.Catalog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Catalog.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase

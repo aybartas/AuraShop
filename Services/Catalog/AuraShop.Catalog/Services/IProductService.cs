@@ -1,6 +1,6 @@
 ﻿using AuraShop.Catalog.Features.Product;
 
-namespace AuraShop.Catalog.Services.ProductServices
+namespace AuraShop.Catalog.Services
 {
     public interface IProductService
     {
