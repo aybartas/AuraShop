@@ -2,6 +2,9 @@ using System.Reflection;
 using AuraShop.Catalog.Repositories;
 using AuraShop.Catalog.Services;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +35,9 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 });
 
 builder.Services.AddSingleton<SeedService>();
+
+BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
+
 
 var app = builder.Build();
 

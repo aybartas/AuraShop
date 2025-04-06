@@ -11,9 +11,9 @@ services:
     container_name: mongo.db.catalog.container
     ports:
       - "27030:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: myUser
+    #   MONGO_INITDB_ROOT_PASSWORD: Password12
     volumes:
         - mongo.db.catalog.volume:/data/db
   
