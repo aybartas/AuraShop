@@ -1,8 +1,7 @@
-﻿using AuraShop.Catalog.Dtos.CategoryDtos;
-using AuraShop.Catalog.Entities;
-using AuraShop.Catalog.Settings;
+﻿using AuraShop.Catalog.Features.Category;
+using AuraShop.Catalog.Repositories;
 using AutoMapper;
-using Microsoft.AspNetCore.DataProtection.XmlEncryption;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace AuraShop.Catalog.Services.CategoryServices
@@ -11,18 +10,16 @@ namespace AuraShop.Catalog.Services.CategoryServices
     {
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMapper _mapper;
-        public CategoryService(IDatabaseSettings _databaseSettings, IMapper mapper)
+        public CategoryService(IMongoDatabase database, IOptions<DatabaseSettings> databaseSettings, IMapper mapper)
         {
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-
-            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+            _categoryCollection = database.GetCollection<Category>(databaseSettings.Value.CategoryCollectionName);
             _mapper = mapper;
         }
         public async Task<List<CategoryDto>> GetAllCategoriesAsync()
         {
-            var values = await _categoryCollection.FindAsync(x => true);
-            var result = _mapper.Map<List<CategoryDto>>(values);
+            var categoriesCursor = await _categoryCollection.FindAsync(_ => true);
+            var categories = await categoriesCursor.ToListAsync();
+            var result = _mapper.Map<List<CategoryDto>>(categories);
 
             return result;
         }
@@ -39,16 +36,17 @@ namespace AuraShop.Catalog.Services.CategoryServices
             await _categoryCollection.FindOneAndReplaceAsync(x => x.Id == value.Id, value);
         }
 
-        public async Task DeleteCategoryAsync(string id)
+        public async Task DeleteCategoryAsync(Guid id)
         {
             await _categoryCollection.DeleteOneAsync(x => x.Id == id);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(string id)
+        public async Task<CategoryDto> GetCategoryByIdAsync(Guid id)
         {
-            var values = await _categoryCollection.FindAsync(x => x.Id == id);
-            var result = _mapper.Map<CategoryDto>(values?.FirstOrDefault());
-            return result;
+            var categoryCursor = await _categoryCollection.FindAsync(x => x.Id == id);
+            var category = await categoryCursor.FirstOrDefaultAsync();
+
+            return _mapper.Map<CategoryDto>(category);
         }
     }
 }

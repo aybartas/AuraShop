@@ -1,13 +1,13 @@
-﻿using AuraShop.Catalog.Dtos.ProductDtos;
+﻿using AuraShop.Catalog.Features.Product;
 
 namespace AuraShop.Catalog.Services.ProductServices
 {
     public interface IProductService
     {
-        Task<List<ProductDto>> GetAllCategoriesAsync();
-        Task CreateProductAsync(CreateProductDto productDto);
+        Task<List<ProductDto>> GetAllProductsAsync();
+        Task<Product> CreateProductAsync(CreateProductDto productDto);
         Task UpdateProductAsync(UpdateProductDto productDto);
-        Task DeleteProductAsync(string id);
-        Task<ProductDto> GetProductByIdAsync(string id);
+        Task DeleteProductAsync(Guid id);
+        Task<ProductDto> GetProductByIdAsync(Guid id);
     }
 }

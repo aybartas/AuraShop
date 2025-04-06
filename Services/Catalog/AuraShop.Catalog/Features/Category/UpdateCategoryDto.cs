@@ -1,9 +1,8 @@
-﻿namespace AuraShop.Catalog.Dtos.CategoryDtos
+﻿namespace AuraShop.Catalog.Features.Category
 {
     public class UpdateCategoryDto
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
-
     }
 }

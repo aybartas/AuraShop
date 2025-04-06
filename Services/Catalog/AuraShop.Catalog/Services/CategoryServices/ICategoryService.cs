@@ -1,4 +1,4 @@
-﻿using AuraShop.Catalog.Dtos.CategoryDtos;
+﻿using AuraShop.Catalog.Features.Category;
 
 namespace AuraShop.Catalog.Services.CategoryServices
 {
@@ -7,7 +7,7 @@ namespace AuraShop.Catalog.Services.CategoryServices
         Task<List<CategoryDto>> GetAllCategoriesAsync();
         Task CreateCategoryAsync(CreateCategoryDto categoryDto);
         Task UpdateCategoryAsync(UpdateCategoryDto categoryDto);
-        Task DeleteCategoryAsync(string id);
-        Task<CategoryDto> GetCategoryByIdAsync(string id);
+        Task DeleteCategoryAsync(Guid id);
+        Task<CategoryDto> GetCategoryByIdAsync(Guid id);
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace AuraShop.Catalog.Settings
+﻿namespace AuraShop.Catalog.Repositories
 {
-    public class DatabaseSettings : IDatabaseSettings
+    public class DatabaseSettings
     {
         public string CategoryCollectionName { get; set; }
         public string ProductCollectionName { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Catalog.Dtos.CategoryDtos
+﻿namespace AuraShop.Catalog.Features.Category
 {
     public class CreateCategoryDto
     {
