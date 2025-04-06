@@ -24,11 +24,10 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
     var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
     return new MongoClient(settings.ConnectionString);
 });
-
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
-    var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
     var client = sp.GetRequiredService<IMongoClient>();
+    var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
     return client.GetDatabase(settings.DatabaseName);
 });
 
