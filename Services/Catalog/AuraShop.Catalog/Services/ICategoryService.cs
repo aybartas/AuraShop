@@ -4,10 +4,12 @@ namespace AuraShop.Catalog.Services
 {
     public interface ICategoryService
     {
-        Task<List<CategoryDto>> GetAllCategoriesAsync();
-        Task CreateCategoryAsync(CreateCategoryDto categoryDto);
-        Task UpdateCategoryAsync(UpdateCategoryDto categoryDto);
+        Task<List<Category>> GetAllCategoriesAsync();
+        Task CreateCategoryAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(Guid id);
-        Task<CategoryDto> GetCategoryByIdAsync(Guid id);
+        Task<Category> GetCategoryByIdAsync(Guid id);
+        Task<Category> GetCategoryByNameAsync(string name);
+
     }
 }

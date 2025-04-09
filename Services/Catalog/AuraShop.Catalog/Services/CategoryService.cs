@@ -15,25 +15,22 @@ namespace AuraShop.Catalog.Services
             _categoryCollection = database.GetCollection<Category>(databaseSettings.Value.CategoryCollectionName);
             _mapper = mapper;
         }
-        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync()
         {
             var categoriesCursor = await _categoryCollection.FindAsync(_ => true);
             var categories = await categoriesCursor.ToListAsync();
-            var result = _mapper.Map<List<CategoryDto>>(categories);
 
-            return result;
+            return categories;
         }
 
-        public async Task CreateCategoryAsync(CreateCategoryDto categoryDto)
+        public async Task CreateCategoryAsync(Category category)
         {
-            var value = _mapper.Map<Category>(categoryDto);
-            await _categoryCollection.InsertOneAsync(value);
+            await _categoryCollection.InsertOneAsync(category);
         }
 
-        public async Task UpdateCategoryAsync(UpdateCategoryDto categoryDto)
+        public async Task UpdateCategoryAsync(Category category)
         {
-            var value = _mapper.Map<Category>(categoryDto);
-            await _categoryCollection.FindOneAndReplaceAsync(x => x.Id == value.Id, value);
+            await _categoryCollection.FindOneAndReplaceAsync(x => x.Id == category.Id, category);
         }
 
         public async Task DeleteCategoryAsync(Guid id)
@@ -41,12 +38,18 @@ namespace AuraShop.Catalog.Services
             await _categoryCollection.DeleteOneAsync(x => x.Id == id);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(Guid id)
+        public async Task<Category> GetCategoryByIdAsync(Guid id)
         {
             var categoryCursor = await _categoryCollection.FindAsync(x => x.Id == id);
             var category = await categoryCursor.FirstOrDefaultAsync();
+            return category;
+        }
 
-            return _mapper.Map<CategoryDto>(category);
+        public async Task<Category> GetCategoryByNameAsync(string name)
+        {
+            var categoryCursor = await _categoryCollection.FindAsync(x => x.Name == name);
+            var category = await categoryCursor.FirstOrDefaultAsync();
+            return category;
         }
     }
 }
