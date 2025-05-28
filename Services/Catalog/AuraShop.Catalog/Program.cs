@@ -1,17 +1,14 @@
-using System.Reflection;
 using AuraShop.Catalog;
+using AuraShop.Catalog.Database;
 using AuraShop.Catalog.Features.Category;
-using AuraShop.Catalog.Features.Category.Create;
-using AuraShop.Catalog.Repositories;
-using AuraShop.Catalog.Services;
+using AuraShop.Catalog.Features.Product;
 using AuraShop.Shared.Extensions;
-using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Microsoft.AspNetCore.Mvc;
+using AuraShop.Catalog.Features.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +22,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 
 builder.Services.AddSingleton<IMongoClient>(sp =>
@@ -49,7 +45,10 @@ builder.Services.AddCommonServices(typeof(CatalogAssembly));
 
 var app = builder.Build();
 
-app.AddCategoryEndpoints();
+var versionSet = app.GetVersionSet();
+
+app.AddCategoryEndpoints(versionSet);
+app.AddProductEndpoints(versionSet);
 
 using (var scope = app.Services.CreateScope())
 {

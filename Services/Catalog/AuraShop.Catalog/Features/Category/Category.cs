@@ -1,4 +1,4 @@
-﻿using AuraShop.Catalog.Repositories;
+﻿using AuraShop.Catalog.Database;
 
 namespace AuraShop.Catalog.Features.Category
 {

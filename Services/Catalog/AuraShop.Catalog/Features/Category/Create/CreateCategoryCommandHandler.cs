@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using AuraShop.Catalog.Services;
 using AuraShop.Shared;
 using AutoMapper;
 using MassTransit;
@@ -31,6 +30,6 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
         await _categoryService.CreateCategoryAsync(category);
 
-        return ServiceResult<CreateCategoryResponse>.SuccessAsCreated(new CreateCategoryResponse(category.Id),"");
+        return ServiceResult<CreateCategoryResponse>.SuccessAsCreated(new CreateCategoryResponse(category.Id),$"/api/categories/{category.Id}");
     }
 }
