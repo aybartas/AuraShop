@@ -1,10 +1,4 @@
 services:
-  aurashop.cargo.webapi:
-    image: ${DOCKER_REGISTRY-}aurashopcargowebapi
-    build:
-      context: .
-      dockerfile: Services/Cargo/AuraShop.Cargo.WebAPI/Dockerfile
-
   mongo.db.catalog:
     restart: always
     image: mongo:8.0-rc
@@ -13,6 +7,14 @@ services:
       - "27030:27017"
     volumes:
         - mongo.db.catalog.volume:/data/db
+  mongo.db.discount:
+    restart: always
+    image: mongo:8.0-rc
+    container_name: mongo.db.discount.container
+    ports:
+      - "27031:27017"
+    volumes:
+        - mongo.db.discount.volume:/data/db
   redis.db:
     restart: always
     image: redis:7.0-alpine
@@ -25,4 +27,5 @@ services:
 
 volumes:
     mongo.db.catalog.volume:
+    mongo.db.discount.volume:
     redis.db.basket.volume:
