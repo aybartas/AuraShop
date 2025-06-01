@@ -2,7 +2,7 @@
 using AuraShop.Shared.Filters;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.ApplyDiscount;
+namespace AuraShop.Basket.Features.Baskets.ApplyDiscount;
 
 public static class ApplyDiscountEndpoint
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace AuraShop.Basket.API.Data;
+namespace AuraShop.Basket.Data;
 
 public class Basket
 {

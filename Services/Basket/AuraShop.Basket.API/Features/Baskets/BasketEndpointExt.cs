@@ -1,11 +1,11 @@
 ﻿using Asp.Versioning.Builder;
-using AuraShop.Basket.API.Features.Baskets.AddBasketItem;
-using AuraShop.Basket.API.Features.Baskets.ApplyDiscount;
-using AuraShop.Basket.API.Features.Baskets.DeleteBasketItem;
-using AuraShop.Basket.API.Features.Baskets.GetBasket;
-using AuraShop.Basket.API.Features.Baskets.RemoveDiscount;
+using AuraShop.Basket.Features.Baskets.AddBasketItem;
+using AuraShop.Basket.Features.Baskets.ApplyDiscount;
+using AuraShop.Basket.Features.Baskets.DeleteBasketItem;
+using AuraShop.Basket.Features.Baskets.GetBasket;
+using AuraShop.Basket.Features.Baskets.RemoveDiscount;
 
-namespace AuraShop.Basket.API.Features.Baskets
+namespace AuraShop.Basket.Features.Baskets
 {
     public static class BasketEndpointExt
     {

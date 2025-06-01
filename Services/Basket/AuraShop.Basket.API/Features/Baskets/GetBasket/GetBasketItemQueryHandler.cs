@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
-using AuraShop.Basket.API.Dtos;
+using AuraShop.Basket.Dtos;
 using AuraShop.Shared;
 using AutoMapper;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.GetBasket;
+namespace AuraShop.Basket.Features.Baskets.GetBasket;
 
 public class GetBasketItemQueryHandler(IMapper mapper, BasketService basketService): IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
 {

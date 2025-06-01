@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace AuraShop.Basket.API.Features.Baskets.ApplyDiscount;
+namespace AuraShop.Basket.Features.Baskets.ApplyDiscount;
 
 public class ApplyDiscountCommandValidator : AbstractValidator<ApplyCouponCommand>
 {

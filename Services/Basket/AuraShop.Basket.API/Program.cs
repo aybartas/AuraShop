@@ -1,5 +1,5 @@
-using AuraShop.Basket.API;
-using AuraShop.Basket.API.Features.Baskets;
+using AuraShop.Basket;
+using AuraShop.Basket.Features.Baskets;
 using AuraShop.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

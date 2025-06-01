@@ -42,7 +42,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Basket.API", "Services\Basket\AuraShop.Basket.API\AuraShop.Basket.API.csproj", "{6B67C85F-6847-A247-C301-F6D58FAC2819}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Basket", "Services\Basket\AuraShop.Basket.API\AuraShop.Basket.csproj", "{6B67C85F-6847-A247-C301-F6D58FAC2819}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Shared", "Shared\AuraShop.Shared\AuraShop.Shared.csproj", "{EF9B39DE-AD8A-838A-EDAA-35C8977A7EE6}"
 EndProject

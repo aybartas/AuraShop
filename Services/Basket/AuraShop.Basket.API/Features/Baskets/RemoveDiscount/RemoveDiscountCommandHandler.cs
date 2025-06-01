@@ -2,7 +2,7 @@
 using AuraShop.Shared;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.RemoveDiscount;
+namespace AuraShop.Basket.Features.Baskets.RemoveDiscount;
 
 public class RemoveDiscountCommandHandler : IRequestHandler<RemoveDiscountCommand, ServiceResult>
 {

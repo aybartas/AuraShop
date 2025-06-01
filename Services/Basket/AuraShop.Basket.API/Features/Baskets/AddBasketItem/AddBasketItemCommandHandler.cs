@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
-using AuraShop.Basket.API.Data;
+using AuraShop.Basket.Data;
 using AuraShop.Shared;
 using AuraShop.Shared.Services;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.AddBasketItem;
+namespace AuraShop.Basket.Features.Baskets.AddBasketItem;
 
 public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommand, ServiceResult>
 {

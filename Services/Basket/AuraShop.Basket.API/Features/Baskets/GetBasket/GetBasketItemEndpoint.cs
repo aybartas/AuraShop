@@ -1,7 +1,7 @@
 ﻿using AuraShop.Shared.Extensions;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.GetBasket
+namespace AuraShop.Basket.Features.Baskets.GetBasket
 {
     public static class GetBasketItemEndpoint
     {

@@ -1,7 +1,7 @@
-﻿using AuraShop.Basket.API.Dtos;
+﻿using AuraShop.Basket.Dtos;
 using AuraShop.Shared;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.GetBasket;
+namespace AuraShop.Basket.Features.Baskets.GetBasket;
 
 public record GetBasketQuery() : IRequest<ServiceResult<BasketDto>>;

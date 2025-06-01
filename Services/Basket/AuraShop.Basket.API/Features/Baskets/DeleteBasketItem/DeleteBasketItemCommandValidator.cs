@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace AuraShop.Basket.API.Features.Baskets.DeleteBasketItem;
+namespace AuraShop.Basket.Features.Baskets.DeleteBasketItem;
 
 public class DeleteBasketItemCommandValidator : AbstractValidator<DeleteBasketItemCommand>
 {

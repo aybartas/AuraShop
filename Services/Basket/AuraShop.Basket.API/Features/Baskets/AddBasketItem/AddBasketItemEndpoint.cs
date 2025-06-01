@@ -2,7 +2,7 @@
 using AuraShop.Shared.Filters;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.AddBasketItem
+namespace AuraShop.Basket.Features.Baskets.AddBasketItem
 {
     public static class AddBasketItemEndpoint
     {

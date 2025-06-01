@@ -1,9 +1,7 @@
-﻿using System.Net;
-using AuraShop.Shared.Extensions;
-using AuraShop.Shared.Filters;
+﻿using AuraShop.Shared.Extensions;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.DeleteBasketItem
+namespace AuraShop.Basket.Features.Baskets.DeleteBasketItem
 {
     public static class DeleteBasketItemEndpoint
     {

@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Basket.API
+﻿namespace AuraShop.Basket
 {
     public struct BasketAssembly;
 

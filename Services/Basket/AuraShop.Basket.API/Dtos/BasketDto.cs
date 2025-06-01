@@ -1,6 +1,6 @@
-﻿using AuraShop.Basket.API.Data;
+﻿using AuraShop.Basket.Data;
 
-namespace AuraShop.Basket.API.Dtos;
+namespace AuraShop.Basket.Dtos;
 
 public class BasketDto
 {

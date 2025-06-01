@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Basket.API.Dtos
+﻿namespace AuraShop.Basket.Dtos
 {
     public class BasketItemDto
     {

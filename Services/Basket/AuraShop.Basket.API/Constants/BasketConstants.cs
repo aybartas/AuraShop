@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Basket.API.Constants
+﻿namespace AuraShop.Basket.Constants
 {
     public class BasketConstants
     {

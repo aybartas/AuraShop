@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
-using AuraShop.Basket.API.Constants;
+using AuraShop.Basket.Constants;
 using AuraShop.Shared.Services;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace AuraShop.Basket.API.Features.Baskets
+namespace AuraShop.Basket.Features.Baskets
 {
     public class BasketService(IIdentityService identityService, IDistributedCache distributedCache)
     {

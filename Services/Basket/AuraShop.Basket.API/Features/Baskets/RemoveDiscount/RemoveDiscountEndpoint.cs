@@ -1,7 +1,7 @@
 ﻿using AuraShop.Shared.Extensions;
 using MediatR;
 
-namespace AuraShop.Basket.API.Features.Baskets.RemoveDiscount;
+namespace AuraShop.Basket.Features.Baskets.RemoveDiscount;
 
 public static class RemoveDiscountEndpoint
 {

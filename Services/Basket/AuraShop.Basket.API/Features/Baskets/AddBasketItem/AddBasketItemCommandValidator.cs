@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace AuraShop.Basket.API.Features.Baskets.AddBasketItem;
+namespace AuraShop.Basket.Features.Baskets.AddBasketItem;
 
 public class AddBasketItemCommandValidator : AbstractValidator<AddBasketItemCommand>
 {
