@@ -1,8 +1,9 @@
-﻿using FluentValidation;
+﻿using AuraShop.Catalog.Features.Product.Update;
+using FluentValidation;
 
 namespace AuraShop.Catalog.Features.Product.Create
 {
-    public class UpdateProductCommandValidator : AbstractValidator<CreateProductCommand>
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
     {
         public UpdateProductCommandValidator()
         {

@@ -46,6 +46,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Shared", "Shared\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Discount", "Services\Discount\AuraShop.Discount\AuraShop.Discount\AuraShop.Discount.csproj", "{B85C19D6-53CE-4070-89CF-A0D65FA3B2E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "File", "File", "{4EC1144E-CD29-42DB-865C-53546C2D5E52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.File", "Services\File\AuraShop.File\AuraShop.File.csproj", "{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +96,10 @@ Global
 		{B85C19D6-53CE-4070-89CF-A0D65FA3B2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85C19D6-53CE-4070-89CF-A0D65FA3B2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85C19D6-53CE-4070-89CF-A0D65FA3B2E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +121,8 @@ Global
 		{6B67C85F-6847-A247-C301-F6D58FAC2819} = {B0045AC6-E4DB-40C0-889E-405C3167B89A}
 		{EF9B39DE-AD8A-838A-EDAA-35C8977A7EE6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{B85C19D6-53CE-4070-89CF-A0D65FA3B2E2} = {1C62364B-4307-4E91-AFCF-3263E22EA881}
+		{4EC1144E-CD29-42DB-865C-53546C2D5E52} = {E41F8AE4-287C-48D1-BC44-D012C42B12EE}
+		{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD} = {4EC1144E-CD29-42DB-865C-53546C2D5E52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62AF2AB9-96F8-444A-A34C-D5473A2E02F3}
