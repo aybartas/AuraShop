@@ -1,6 +1,5 @@
 using AuraShop.Order.Application;
 using AuraShop.Order.Application.Features.CQRS.Handlers.Address;
-using AuraShop.Order.Application.Features.CQRS.Handlers.OrderLine;
 using AuraShop.Order.Application.Interfaces;
 using AuraShop.Order.Persistence.Context;
 using AuraShop.Order.Persistence.Repositories;
@@ -26,11 +25,6 @@ builder.Services.AddScoped<CreateAddressCommandHandler>();
 builder.Services.AddScoped<UpdateAddressCommandHandler>();
 builder.Services.AddScoped<RemoveAddressCommandHandler>();
 
-builder.Services.AddScoped<GetOrderLineByIdQueryHandler>();
-builder.Services.AddScoped<GetOrderLineQueryHandler>();
-builder.Services.AddScoped<CreateOrderLineCommandHandler>();
-builder.Services.AddScoped<UpdateOrderLineCommandHandler>();
-builder.Services.AddScoped<RemoveOrderLineCommandHandler>();
 
 #endregion
 
