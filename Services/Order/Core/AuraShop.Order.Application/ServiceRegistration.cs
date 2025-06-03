@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuraShop.Order.Application.Services
+namespace AuraShop.Order.Application
 {
     public static class ServiceRegistration
     {

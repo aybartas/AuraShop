@@ -1,7 +1,7 @@
+using AuraShop.Order.Application;
 using AuraShop.Order.Application.Features.CQRS.Handlers.Address;
 using AuraShop.Order.Application.Features.CQRS.Handlers.OrderLine;
 using AuraShop.Order.Application.Interfaces;
-using AuraShop.Order.Application.Services;
 using AuraShop.Order.Persistence.Context;
 using AuraShop.Order.Persistence.Repositories;
 

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Order.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
