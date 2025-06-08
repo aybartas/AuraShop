@@ -1,17 +1,18 @@
 ﻿using AuraShop.Order.Domain.Entities;
+using AuraShop.Order.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuraShop.Order.Persistence.Context
 {
-    public class OrderContext : DbContext
+    public class OrderContext(DbContextOptions<OrderContext> options) : DbContext(options)
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(
-                "Server=localhost,1434;initial Catalog=AuraShopOrderDb;User=sa;Password=Aurashop1.;TrustServerCertificate=true");
-        }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Domain.Entities.Order> Orders { get; set; }
-        public DbSet<OrderLine> AddOrderLines { get; set; }
+        public DbSet<OrderItem> AddOrderLines { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderContext).Assembly);
+        }
     }
 }

@@ -1,8 +1,13 @@
 using AuraShop.Order.Application;
-using AuraShop.Order.Application.Features.CQRS.Handlers.Address;
-using AuraShop.Order.Application.Interfaces;
+using AuraShop.Order.Application.Contracts;
+using AuraShop.Order.Application.UnitOfWork;
 using AuraShop.Order.Persistence.Context;
 using AuraShop.Order.Persistence.Repositories;
+using AuraShop.Order.Persistence.UnitOfWork;
+using AuraShop.Order.WebApi;
+using AuraShop.Order.WebApi.Endpoints.Orders;
+using AuraShop.Shared.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,23 +18,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddDbContext<OrderContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-#region 
+builder.Services.AddDbContext<OrderContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddScoped<GetAddressByIdQueryHandler>();
-builder.Services.AddScoped<GetAddressQueryHandler>();
-builder.Services.AddScoped<CreateAddressCommandHandler>();
-builder.Services.AddScoped<UpdateAddressCommandHandler>();
-builder.Services.AddScoped<RemoveAddressCommandHandler>();
-
-
-#endregion
-
+builder.Services.AddCommonServices(typeof(OrderApplicationAssembly));
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining(typeof(OrderApiAssembly)));
 
 var app = builder.Build();
+
+var versionSet = app.GetVersionSet();
+
+app.AddOrderGroupEndpoints(versionSet);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -37,8 +39,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
