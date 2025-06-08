@@ -28,7 +28,7 @@
 
 ---
 
-## 📌 Coming Soon (optional)
+## 📌 Coming Soon 
 - ✅ Keycloak Auth
 - ✅ Payment Integration via Stripe
 - ✅ Shipment Integration
