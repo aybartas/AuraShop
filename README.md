@@ -1,6 +1,4 @@
-# AuraShop
-
-.Net Microservices App 
+# AuraShop - .Net Microservices App 
 
 🔧 Tech Stack
 
