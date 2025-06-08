@@ -18,7 +18,6 @@ var versionSet = app.GetVersionSet();
 
 app.AddFileGroupEndpoints(versionSet);
 
-
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.

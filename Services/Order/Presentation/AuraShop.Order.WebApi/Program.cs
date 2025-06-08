@@ -1,11 +1,11 @@
+using AuraShop.Order.API;
+using AuraShop.Order.API.Endpoints.Orders;
 using AuraShop.Order.Application;
 using AuraShop.Order.Application.Contracts;
 using AuraShop.Order.Application.UnitOfWork;
 using AuraShop.Order.Persistence.Context;
 using AuraShop.Order.Persistence.Repositories;
 using AuraShop.Order.Persistence.UnitOfWork;
-using AuraShop.Order.WebApi;
-using AuraShop.Order.WebApi.Endpoints.Orders;
 using AuraShop.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +17,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCommonServices(typeof(OrderApplicationAssembly));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -24,8 +25,6 @@ builder.Services.AddDbContext<OrderContext>(options => options.UseSqlServer(conn
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddCommonServices(typeof(OrderApplicationAssembly));
-builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining(typeof(OrderApiAssembly)));
 
 var app = builder.Build();
 

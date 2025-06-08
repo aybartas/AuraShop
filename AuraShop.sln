@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.Persistence", "Services\Order\Infrastructure\AuraShop.Order.Persistence\AuraShop.Order.Persistence.csproj", "{33CDA698-5BFD-4E89-ACF4-64483D4BB9C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.WebApi", "Services\Order\Presentation\AuraShop.Order.WebApi\AuraShop.Order.WebApi.csproj", "{8F280AF0-70ED-41A7-8563-4BA5073B6181}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuraShop.Order.API", "Services\Order\Presentation\AuraShop.Order.WebApi\AuraShop.Order.API.csproj", "{8F280AF0-70ED-41A7-8563-4BA5073B6181}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirements", "{DB0468C0-9842-4C11-9645-A692D7B87841}"
 	ProjectSection(SolutionItems) = preProject

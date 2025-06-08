@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning.Builder;
 
-namespace AuraShop.Order.WebApi.Endpoints.Orders
+namespace AuraShop.Order.API.Endpoints.Orders
 {
     public static class OrderEndpointExt
     {

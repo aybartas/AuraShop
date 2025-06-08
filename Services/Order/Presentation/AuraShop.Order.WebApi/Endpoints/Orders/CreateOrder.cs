@@ -4,7 +4,7 @@ using AuraShop.Shared.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuraShop.Order.WebApi.Endpoints.Orders
+namespace AuraShop.Order.API.Endpoints.Orders
 {
     public static class CreateOrder
     {

@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Order.WebApi
+﻿namespace AuraShop.Order.API
 {
     public struct OrderApiAssembly;
 }
