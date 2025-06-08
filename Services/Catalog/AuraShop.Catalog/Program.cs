@@ -1,42 +1,56 @@
-using System.Reflection;
-using AuraShop.Catalog.Services.CategoryServices;
-using AuraShop.Catalog.Services.ProductDetailsServices;
-using AuraShop.Catalog.Services.ProductImageServices;
-using AuraShop.Catalog.Services.ProductServices;
-using AuraShop.Catalog.Settings;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AuraShop.Catalog;
+using AuraShop.Catalog.Database;
+using AuraShop.Catalog.Features.Category;
+using AuraShop.Catalog.Features.Product;
+using AuraShop.Shared.Extensions;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using AuraShop.Catalog.Features.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-{
-    opt.Authority = builder.Configuration["IdentityServerUrl"];
-    opt.Audience = "ResourceCatalog";
-});
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductDetailsService, ProductDetailsService>();
-builder.Services.AddScoped<IProductImageService, ProductImageService>();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 
-builder.Services.AddScoped<IDatabaseSettings>(sp =>
+builder.Services.AddSingleton<IMongoClient>(sp =>
 {
-    return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+    var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+    return new MongoClient(settings.ConnectionString);
 });
 
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
+{
+    var client = sp.GetRequiredService<IMongoClient>();
+    var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+    return client.GetDatabase(settings.DatabaseName);
+});
+
+BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
+
+builder.Services.AddSingleton<SeedService>();
+
+builder.Services.AddCommonServices(typeof(CatalogAssembly));
 
 var app = builder.Build();
+
+var versionSet = app.GetVersionSet();
+
+app.AddCategoryGroupEndpoints(versionSet);
+app.AddProductEndpoints(versionSet);
+
+using (var scope = app.Services.CreateScope())
+{
+    var seedService = scope.ServiceProvider.GetRequiredService<SeedService>();
+    await seedService.SeedAsync();
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -44,9 +58,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
