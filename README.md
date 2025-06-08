@@ -1,22 +1,52 @@
-# 🛍️ AuraShop - .NET Microservices App
+# 🛍️ AuraShop — .NET Microservices E-Commerce Platform
 
-AuraShop is a microservices-based e-commerce application built using modern technologies to demonstrate scalable architecture, secure authentication, and efficient service communication.
+**AuraShop** is a modern, scalable e-commerce platform built using microservices architecture and the latest .NET 8 technologies.  
+It showcases clean architecture, minimal APIs, secure authentication, and production-ready best practices such as API versioning and single sign-on.
 
 ---
 
-## 🔧 Tech Stack
+## 🚀 Key Features
 
-**Frontend**:  
-- React
+- ✅ **.NET 8** with **Minimal APIs**
+- ✅ **Microservices Architecture** — Isolated, scalable services
+- ✅ **API Versioning** — Organized and backward-compatible endpoints
+- ✅ **Single Sign-On (SSO)** — Seamless auth via Duende IdentityServer
+- ✅ **Role-based Access** — Admin, User, and Anonymous permissions
+- ✅ **Containerized** — Full Docker & Docker Compose setup
+- ✅ **Cloud Ready** — Designed with production deployment in mind
 
-**Backend**:  
-- .NET Web API (C#)
+---
 
-**Databases**:  
-- **SQL Server** – Used for transactional data (orders, users, payments, etc.)  
-- **MongoDB** – Used for catalog data due to its flexible, schema-less structure  
-- **Redis** – Used for high-speed basket (cart) operations and caching
+## 🛠️ Tech Stack
 
-**Containerization**:  
-- Docker  
-- Docker Compose
+### 🎨 Frontend
+- **React** 
+
+### 🧠 Backend
+- **.NET 8 Web API ** —  with minimal APIs
+
+### 🗄️ Databases
+- 🧾 **SQL Server** — For transactional data (Orders, Users, Payments)
+- 📦 **MongoDB** — For flexible product catalog management
+- ⚡ **Redis** — For ultra-fast basket operations and caching
+
+### 📦 Containerization
+- 🐳 **Docker** 
+- 🧩 **Docker Compose** 
+
+---
+
+## 📌 Coming Soon (optional)
+- ✅ Kubernetes Deployment
+- ✅ Unit & Integration Tests
+- ✅ CI/CD with GitHub Actions
+
+---
+
+## 📄 License
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+> 💬 **Need help or want to contribute?**  
+Feel free to open an issue or submit a pull request!
