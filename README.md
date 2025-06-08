@@ -15,7 +15,7 @@
 - **React** 
 
 ### 🧠 Backend
-- **.NET 8 Web API ** —  with minimal APIs
+- **.NET 8 Web API** —  with minimal APIs
 
 ### 🗄️ Databases
 - 🧾 **SQL Server** — For transactional data (Orders, Users, Payments)
