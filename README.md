@@ -1,21 +1,13 @@
-# 🛍️ AuraShop — .NET Microservices E-Commerce Platform
+# 🛍️ AuraShop — .NET Microservices E-Commerce App
 
 **AuraShop** is a modern, scalable e-commerce platform built using microservices architecture and the latest .NET 8 technologies.  
-It showcases clean architecture, minimal APIs, secure authentication, and production-ready best practices such as API versioning and single sign-on.
 
----
-
-## 🚀 Key Features
-
-- ✅ **.NET 8** with **Minimal APIs**
-- ✅ **Microservices Architecture** — Isolated, scalable services
-- ✅ **API Versioning** — Organized and backward-compatible endpoints
-- ✅ **Single Sign-On (SSO)** — Seamless auth via Duende IdentityServer
+- ✅ .NET 8 with minimal APIs.
+- ✅ **Single Sign-On (SSO)**
+- ✅ **Clean Architecture** and **Vertical Slice Architecture** used.
 - ✅ **Role-based Access** — Admin, User, and Anonymous permissions
 - ✅ **Containerized** — Full Docker & Docker Compose setup
 - ✅ **Cloud Ready** — Designed with production deployment in mind
-
----
 
 ## 🛠️ Tech Stack
 
@@ -37,6 +29,10 @@ It showcases clean architecture, minimal APIs, secure authentication, and produc
 ---
 
 ## 📌 Coming Soon (optional)
+- ✅ Keycloak Auth
+- ✅ Payment Integration via Stripe
+- ✅ Shipment Integration
+- ✅ AI Search
 - ✅ Kubernetes Deployment
 - ✅ Unit & Integration Tests
 - ✅ CI/CD with GitHub Actions
