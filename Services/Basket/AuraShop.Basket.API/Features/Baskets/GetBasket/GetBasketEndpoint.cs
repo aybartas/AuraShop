@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.GetBasket
 {
-    public static class GetBasketItemEndpoint
+    public static class GetBasketEndpoint
     {
         public static RouteGroupBuilder GetBasketItemGroupEndpoint(this RouteGroupBuilder group)
         {

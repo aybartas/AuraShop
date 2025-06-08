@@ -24,7 +24,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<OrderContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 

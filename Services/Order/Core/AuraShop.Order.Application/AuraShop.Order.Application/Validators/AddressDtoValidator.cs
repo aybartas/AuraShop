@@ -1,9 +1,9 @@
-﻿using AuraShop.Order.Application.Features.Order.Dtos;
+﻿using AuraShop.Order.Application.Dtos;
 using FluentValidation;
 
 namespace AuraShop.Order.Application.Validators;
 
-public class AddressDtoValidator : AbstractValidator<AddressDto>
+public class AddressDtoValidator : AbstractValidator<OrderAddressDto>
 {
     public AddressDtoValidator()
     {

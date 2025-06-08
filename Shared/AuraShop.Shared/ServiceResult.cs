@@ -104,32 +104,6 @@ namespace AuraShop.Shared
                 UrlAsCreated = url
             };
         }
-        public new static ServiceResult<T> Error(ApiException exception)
-        {
-
-            if (string.IsNullOrEmpty(exception.Content))
-            {
-                return new ServiceResult<T>()
-                {
-                    ProblemDetails = new ProblemDetails
-                    {
-                        Title = exception.Message,
-                    },
-                    Status = exception.StatusCode
-                };
-            }
-
-            var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(exception.Content,new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            });
-
-            return new ServiceResult<T>
-            {
-                Status = exception.StatusCode,
-                ProblemDetails = problemDetails,
-            };
-        }
         public new static ServiceResult<T> Error(ProblemDetails problemDetails,HttpStatusCode status)
         {
             return new ServiceResult<T>()

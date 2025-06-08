@@ -8,7 +8,7 @@ namespace AuraShop.Order.API.Endpoints.Orders
 {
     public static class CreateOrder
     {
-        public static RouteGroupBuilder AddOrderGroupEndpointExt(this RouteGroupBuilder group)
+        public static RouteGroupBuilder AddCreateOrderEndpoint(this RouteGroupBuilder group)
         {
             group.MapPost("/", async ([FromBody] CreateOrderCommand command, IMediator mediator) =>
                 {

@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Order.Application.Features.Order.Dtos
+﻿namespace AuraShop.Order.Application.Dtos
 {
     public class OrderItemDto
     {

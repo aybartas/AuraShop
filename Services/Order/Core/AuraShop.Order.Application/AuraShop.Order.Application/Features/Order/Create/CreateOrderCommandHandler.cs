@@ -23,11 +23,11 @@ public class CreateOrderCommandHandler(
             userAddress = new Address
             {
                 UserId = identityService.UserId,
-                Street = request.ShippingAddress.Street,
-                City = request.ShippingAddress.City,
-                State = request.ShippingAddress.State,
-                ZipCode = request.ShippingAddress.ZipCode,
-                Country = request.ShippingAddress.Country
+                Street = request.ShippingOrderAddress.Street,
+                City = request.ShippingOrderAddress.City,
+                State = request.ShippingOrderAddress.State,
+                ZipCode = request.ShippingOrderAddress.ZipCode,
+                Country = request.ShippingOrderAddress.Country
             };
 
             await addressRepository.AddAsync(userAddress);
@@ -37,11 +37,11 @@ public class CreateOrderCommandHandler(
         var orderAddress = new OrderAddress
         {
             UserAddressId = userAddress?.Id,
-            Street = request.ShippingAddress.Street,
-            City = request.ShippingAddress.City,
-            State = request.ShippingAddress.State,
-            ZipCode = request.ShippingAddress.ZipCode,
-            Country = request.ShippingAddress.Country,
+            Street = request.ShippingOrderAddress.Street,
+            City = request.ShippingOrderAddress.City,
+            State = request.ShippingOrderAddress.State,
+            ZipCode = request.ShippingOrderAddress.ZipCode,
+            Country = request.ShippingOrderAddress.Country,
         };
 
         var order = Domain.Entities.Order.CreateInitialOrder(identityService.UserId, orderAddress);

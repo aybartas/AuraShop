@@ -6,7 +6,7 @@ using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.GetBasket;
 
-public class GetBasketItemQueryHandler(IMapper mapper, BasketService basketService): IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
+public class GetBasketQueryHandler(IMapper mapper, BasketService basketService): IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
 {
     public async Task<ServiceResult<BasketDto>> Handle(GetBasketQuery request, CancellationToken cancellationToken)
     {

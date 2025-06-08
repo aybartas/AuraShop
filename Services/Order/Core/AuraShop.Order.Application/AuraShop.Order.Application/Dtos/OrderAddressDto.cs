@@ -1,8 +1,8 @@
-﻿namespace AuraShop.Order.Application.Features.Order.Dtos;
+﻿namespace AuraShop.Order.Application.Dtos;
 
-public class AddressDto
+public class OrderAddressDto
 {
-    public int? AddressId { get; set; } = null!;
+    public int? UserAddressId { get; set; }
     public string Street { get; set; } = null!;
     public string City { get; set; } = null!;
     public string State { get; set; } = null!;

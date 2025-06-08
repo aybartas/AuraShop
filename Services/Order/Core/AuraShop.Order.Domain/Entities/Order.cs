@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿
 namespace AuraShop.Order.Domain.Entities
 {
     public class Order : BaseEntity
@@ -63,7 +62,6 @@ namespace AuraShop.Order.Domain.Entities
         }
     }
 
-    [Owned]
     public class OrderAddress
     {
         public int? UserAddressId { get; set; } = null!;

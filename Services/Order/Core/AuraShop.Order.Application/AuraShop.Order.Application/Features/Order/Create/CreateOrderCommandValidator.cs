@@ -7,7 +7,7 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {
     public CreateOrderCommandValidator()
     {
-        RuleFor(x => x.ShippingAddress)
+        RuleFor(x => x.ShippingOrderAddress)
             .NotNull().WithMessage("Shipping address is required.")
             .SetValidator(new AddressDtoValidator());
 
