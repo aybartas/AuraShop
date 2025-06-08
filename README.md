@@ -12,11 +12,11 @@ AuraShop is a microservices-based e-commerce application built using modern tech
 **Backend**:  
 - .NET Web API (C#)
 
-**Containerization**:  
-- Docker  
-- Docker Compose
-
 **Databases**:  
 - **SQL Server** – Used for transactional data (orders, users, payments, etc.)  
 - **MongoDB** – Used for catalog data due to its flexible, schema-less structure  
 - **Redis** – Used for high-speed basket (cart) operations and caching
+
+**Containerization**:  
+- Docker  
+- Docker Compose
