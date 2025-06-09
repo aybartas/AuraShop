@@ -37,6 +37,8 @@ BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresent
 
 builder.Services.AddSingleton<SeedService>();
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddCommonServices(typeof(CatalogAssembly));
 
 var app = builder.Build();
