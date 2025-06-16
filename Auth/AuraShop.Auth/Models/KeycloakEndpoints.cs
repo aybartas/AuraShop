@@ -3,7 +3,6 @@
 public class KeycloakEndpoints(string baseUrl, string realm)
 {
     private readonly string _baseUrl = baseUrl.TrimEnd('/');
-
     public string TokenEndpoint() => $"{_baseUrl}/realms/{realm}/protocol/openid-connect/token";
     public string AdminTokenEndpoint() => $"{_baseUrl}/realms/master/protocol/openid-connect/token";
     public string UsersEndpoint() => $"{_baseUrl}/admin/realms/{realm}/users";
