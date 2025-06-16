@@ -1,11 +1,7 @@
-import { useTheme } from "../../contexts/ThemeContext";
-
-import logo from "../../assets/logo.svg"; // Direct import as file
+import logo from "../../assets/logo.svg";
 import { useState } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { useNavigate, NavLink } from "react-router-dom";
-
-interface Props {}
+import { NavLink } from "react-router-dom";
 
 interface CategoryLink {
   name: string;
@@ -20,7 +16,7 @@ const categories: CategoryLink[] = [
   { name: "Category 3", subcategories: ["Sub X"] },
 ];
 
-export default function Header({}: Props) {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
@@ -36,7 +32,6 @@ export default function Header({}: Props) {
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
-        {/* Logo and Name */}
         <NavLink className="flex items-center space-x-2" to={"/"}>
           <img src={logo} alt="Logo" className="h-8 w-8" />;
           <span className="text-xl font-bold text-gray-800">AuraShop</span>
@@ -54,7 +49,7 @@ export default function Header({}: Props) {
               <NavLink to={category?.url || ""}>
                 <button className="text-gray-700 hover:text-blue-500">
                   {category.name}
-                </button>{" "}
+                </button>
               </NavLink>
 
               {activeCategory === index && (
@@ -84,8 +79,11 @@ export default function Header({}: Props) {
 
         {/* Account Section */}
         <div className="hidden md:flex items-center space-x-4">
-          <button className="text-gray-700 hover:text-blue-500">Login</button>
-          <button className="text-gray-700 hover:text-blue-500">Sign Up</button>
+          <NavLink to={"/login"}>
+            <button className="text-gray-700 hover:text-blue-500">
+              Login / Sign Up
+            </button>
+          </NavLink>
         </div>
 
         <div className="hidden md:flex items-center space-x-4">

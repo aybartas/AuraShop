@@ -1,4 +1,17 @@
 services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    command: start-dev
+    container_name: identity-keycloak
+    environment:
+      KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN}"
+      KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD}"
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    ports:
+      - "8888:8080"
+
   mongo.db.catalog:
     restart: always
     image: mongo:8.0-rc
@@ -43,3 +56,5 @@ volumes:
     mongo.db.discount.volume:
     redis.db.basket.volume:
     sqlserver.order.volume:
+    keycloak_data:
+

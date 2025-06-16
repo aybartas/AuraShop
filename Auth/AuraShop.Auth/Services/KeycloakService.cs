@@ -1,0 +1,142 @@
+﻿using AuraShop.Auth.Models;
+using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+
+namespace AuraShop.Auth.Services
+{
+    public class KeycloakService
+    {
+        private readonly HttpClient _http;
+        private readonly KeycloakConfig _options;
+        private readonly KeycloakEndpoints _endpoints;
+
+        public KeycloakService(HttpClient http, IOptions<KeycloakConfig> options)
+        {
+            _http = http;
+            _options = options.Value;
+            _endpoints = new KeycloakEndpoints(_options.BaseUrl, _options.Realm);
+        }
+
+        private async Task<T> ParseResponseAsync<T>(HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException($"Keycloak API Error: {response.StatusCode} - {content}");
+            return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        }
+
+        public async Task<TokenResponse> LoginAsync(string username, string password)
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+            new KeyValuePair<string, string>("client_id", _options.ClientId),
+            new KeyValuePair<string, string>("grant_type", "password"),
+            new KeyValuePair<string, string>("username", username),
+            new KeyValuePair<string, string>("password", password)
+        });
+
+            var response = await _http.PostAsync(_endpoints.TokenEndpoint(), content);
+
+            return await ParseResponseAsync<TokenResponse>(response);
+        }
+
+        public async Task<string> GetAdminTokenAsync()
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+            new KeyValuePair<string, string>("client_id", "admin-cli"),
+            new KeyValuePair<string, string>("grant_type", "password"),
+            new KeyValuePair<string, string>("username", _options.AdminUser),
+            new KeyValuePair<string, string>("password", _options.AdminPassword)
+        });
+
+            var response = await _http.PostAsync(_endpoints.AdminTokenEndpoint(), content);
+
+            var tokenResponse = await ParseResponseAsync<TokenResponse>(response);
+
+            return tokenResponse.AccessToken;
+        }
+
+        public async Task<string> RegisterUserAsync(string username, string password, string email)
+        {
+            var token = await GetAdminTokenAsync();
+
+            var userRequest = new UserRegistrationRequest
+            {
+                Username = username,
+                Email = email,
+                Enabled = true,
+                Credentials =
+                [
+                    new Credential
+                {
+                    Type = "password",
+                    Value = password,
+                    Temporary = false
+                }
+                ]
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, _endpoints.UsersEndpoint());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(JsonSerializer.Serialize(userRequest), Encoding.UTF8, "application/json");
+
+            var response = await _http.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+
+            var location = response.Headers.Location;
+            if (location == null)
+                throw new InvalidOperationException("User creation location header missing");
+
+            var userId = location.Segments.Last();
+
+            await AssignRealmRoleToUserAsync(userId, "user");
+
+            return userId;
+        }
+
+        private async Task<JsonElement> GetRealmRoleAsync(string roleName, string token)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _endpoints.RolesEndpoint(roleName));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _http.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var doc = JsonDocument.Parse(json);
+
+            return doc.RootElement;
+        }
+
+        private async Task AssignRealmRoleToUserAsync(string userId, string roleName)
+        {
+            var token = await GetAdminTokenAsync();
+
+            var role = await GetRealmRoleAsync(roleName, token);
+
+            var rolesPayload = new[]
+            {
+            new
+            {
+                id = role.GetProperty("id").GetString(),
+                name = role.GetProperty("name").GetString()
+            }
+        };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, _endpoints.AssignRoleToUserEndpoint(userId));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(JsonSerializer.Serialize(rolesPayload), Encoding.UTF8, "application/json");
+
+            var response = await _http.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+        }
+    }
+
+}

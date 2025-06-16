@@ -2,7 +2,7 @@ import Carousel from "./Carousel";
 import PageLayout from "../../layout/PageLayout";
 import ProductSection from "./ProductSection";
 
-function HomePage() {
+function Home() {
   return (
     <PageLayout>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -17,7 +17,7 @@ function HomePage() {
           <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
             {/* Image with centered text and button */}
             <img
-              src="https://via.placeholder.com/300x300?text=Product+2"
+              src="https://picsum.photos/300"
               alt="Product 2"
               className="w-full h-48 object-cover"
             />
@@ -38,7 +38,7 @@ function HomePage() {
           <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
             {/* Image with centered text and button */}
             <img
-              src="https://via.placeholder.com/300x300?text=Product+2"
+              src="https://picsum.photos/300"
               alt="Product 2"
               className="w-full h-48 object-cover"
             />
@@ -62,4 +62,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Home;
