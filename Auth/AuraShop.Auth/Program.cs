@@ -1,8 +1,11 @@
 using AuraShop.Auth;
+using AuraShop.Auth.Features.GetProfile;
 using AuraShop.Auth.Features.Login;
 using AuraShop.Auth.Features.Register;
+using AuraShop.Auth.Models;
 using AuraShop.Auth.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +21,17 @@ builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<RegisterHandler>();
 
 builder.Services.Configure<KeycloakConfig>(builder.Configuration.GetSection("Keycloak"));
+builder.Services.AddSingleton(sp =>
+{
+    var options = sp.GetRequiredService<IOptions<KeycloakConfig>>().Value;
+    return new KeycloakEndpoints(options);
+});
+
 builder.Services.AddHttpClient<KeycloakService>();
 
 var app = builder.Build();
 
-app.AddLoginEndpoint().AddRegisterEndpoint();
+app.AddLoginEndpoint().AddRegisterEndpoint().AddGetProfileEndpoint();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

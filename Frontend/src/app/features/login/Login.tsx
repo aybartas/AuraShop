@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import axios from "axios";
+import { useForm, Controller } from "react-hook-form";
+import { AuthService } from "../../../api/auth/AuthService";
+import { useAuth } from "../../../hooks/useAuth";
 
 // ----------------- TYPES -----------------
 type FormValues = {
@@ -11,6 +12,7 @@ type FormValues = {
 
 const Login: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
+  const { login, user } = useAuth();
 
   const {
     control,
@@ -25,14 +27,26 @@ const Login: React.FC = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     try {
-      const url = isRegistering ? "/api/register" : "/api/login";
-      await axios.post(url, data);
-      alert(isRegistering ? "Registration successful!" : "Login successful!");
-      reset();
-    } catch (error) {
-      alert("Operation failed. Please check your credentials.");
+      if (isRegistering) {
+        await AuthService.register({
+          email: data.email,
+          username: data.username!,
+          password: data.password,
+        });
+        alert("Registration successful! Please log in.");
+        setIsRegistering(false);
+        reset();
+      } else {
+        const res = await AuthService.login({
+          email: data.email,
+          password: data.password,
+        });
+        login(res.data.access_token);
+      }
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -181,7 +195,7 @@ const Login: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-orange-600 hover:bg-orange-700 transition text-white font-bold py-3 rounded-md uppercase"
+          className="w-full bg-orange-500 hover:bg-orange-700 transition text-white font-bold py-3 rounded-md uppercase"
         >
           {isSubmitting
             ? isRegistering

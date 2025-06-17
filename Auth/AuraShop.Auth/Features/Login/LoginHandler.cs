@@ -1,4 +1,5 @@
-﻿using AuraShop.Auth.Models;
+﻿using AuraShop.Auth.Dtos;
+using AuraShop.Auth.Models;
 using AuraShop.Auth.Services;
 using AuraShop.Shared;
 
@@ -10,11 +11,28 @@ public class LoginRequest
     public string Password { get; set; }
 }
 
+public class LoginResponse
+{
+    public string AccessToken { get; set; }
+    public UserDto User { get; set; }
+}
+
 public class LoginHandler(KeycloakService keycloak)
 {
-    public async Task<ServiceResult<TokenResponse>> HandleAsync(LoginRequest request)
+    public async Task<ServiceResult<LoginResponse>> HandleAsync(LoginRequest request)
     {
         var response = await keycloak.LoginAsync(request.Username, request.Password);
-        return ServiceResult<TokenResponse>.SuccessAsOk(response);
+
+        var userInfo = await keycloak.GetUserInfoAsync(response.AccessToken);
+
+        return ServiceResult<LoginResponse>.SuccessAsOk(new LoginResponse
+        {
+            AccessToken = response.AccessToken,
+            User = new UserDto
+            {
+                Email = userInfo.Email,
+                Username = userInfo.PreferredUsername
+            }
+        });
     }
 }

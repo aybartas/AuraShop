@@ -6,20 +6,11 @@ using System.Text.Json;
 
 namespace AuraShop.Auth.Services
 {
-    public class KeycloakService
+    public class KeycloakService(HttpClient http, IOptions<KeycloakConfig> options, KeycloakEndpoints endpoints)
     {
-        private readonly HttpClient _http;
-        private readonly KeycloakConfig _options;
-        private readonly KeycloakEndpoints _endpoints;
+        private readonly KeycloakConfig _options = options.Value;
 
-        public KeycloakService(HttpClient http, IOptions<KeycloakConfig> options)
-        {
-            _http = http;
-            _options = options.Value;
-            _endpoints = new KeycloakEndpoints(_options.BaseUrl, _options.Realm);
-        }
-
-        private async Task<T> ParseResponseAsync<T>(HttpResponseMessage response)
+        private static async Task<T> ParseResponseAsync<T>(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
@@ -34,10 +25,12 @@ namespace AuraShop.Auth.Services
             new KeyValuePair<string, string>("client_id", _options.ClientId),
             new KeyValuePair<string, string>("grant_type", "password"),
             new KeyValuePair<string, string>("username", username),
-            new KeyValuePair<string, string>("password", password)
+            new KeyValuePair<string, string>("password", password),
+            new KeyValuePair<string, string>("scope", "openid")  
+
         });
 
-            var response = await _http.PostAsync(_endpoints.TokenEndpoint(), content);
+            var response = await http.PostAsync(endpoints.TokenEndpoint(), content);
 
             return await ParseResponseAsync<TokenResponse>(response);
         }
@@ -46,13 +39,13 @@ namespace AuraShop.Auth.Services
         {
             var content = new FormUrlEncodedContent(new[]
             {
-            new KeyValuePair<string, string>("client_id", "admin-cli"),
-            new KeyValuePair<string, string>("grant_type", "password"),
-            new KeyValuePair<string, string>("username", _options.AdminUser),
-            new KeyValuePair<string, string>("password", _options.AdminPassword)
-        });
+                new KeyValuePair<string, string>("client_id", "admin-cli"),
+                new KeyValuePair<string, string>("grant_type", "password"),
+                new KeyValuePair<string, string>("username", _options.AdminUser),
+                new KeyValuePair<string, string>("password", _options.AdminPassword)
+            });
 
-            var response = await _http.PostAsync(_endpoints.AdminTokenEndpoint(), content);
+            var response = await http.PostAsync(endpoints.AdminTokenEndpoint(), content);
 
             var tokenResponse = await ParseResponseAsync<TokenResponse>(response);
 
@@ -79,11 +72,11 @@ namespace AuraShop.Auth.Services
                 ]
             };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, _endpoints.UsersEndpoint());
+            var request = new HttpRequestMessage(HttpMethod.Post, endpoints.UsersEndpoint());
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             request.Content = new StringContent(JsonSerializer.Serialize(userRequest), Encoding.UTF8, "application/json");
 
-            var response = await _http.SendAsync(request);
+            var response = await http.SendAsync(request);
 
             response.EnsureSuccessStatusCode();
 
@@ -100,10 +93,10 @@ namespace AuraShop.Auth.Services
 
         private async Task<JsonElement> GetRealmRoleAsync(string roleName, string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _endpoints.RolesEndpoint(roleName));
+            var request = new HttpRequestMessage(HttpMethod.Get, endpoints.RolesEndpoint(roleName));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _http.SendAsync(request);
+            var response = await http.SendAsync(request);
 
             response.EnsureSuccessStatusCode();
 
@@ -112,6 +105,16 @@ namespace AuraShop.Auth.Services
             var doc = JsonDocument.Parse(json);
 
             return doc.RootElement;
+        }
+
+        public async Task<User> GetUserInfoAsync(string accessToken)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, endpoints.UserInfoEndpoint());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var response = await http.SendAsync(request);
+
+            return await ParseResponseAsync<User>(response);
         }
 
         private async Task AssignRealmRoleToUserAsync(string userId, string roleName)
@@ -129,11 +132,11 @@ namespace AuraShop.Auth.Services
             }
         };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, _endpoints.AssignRoleToUserEndpoint(userId));
+            var request = new HttpRequestMessage(HttpMethod.Post, endpoints.AssignRoleToUserEndpoint(userId));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             request.Content = new StringContent(JsonSerializer.Serialize(rolesPayload), Encoding.UTF8, "application/json");
 
-            var response = await _http.SendAsync(request);
+            var response = await http.SendAsync(request);
 
             response.EnsureSuccessStatusCode();
         }
