@@ -19,6 +19,7 @@ builder.Services.AddScoped<KeycloakService>();
 // Register handlers as scoped services
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<RegisterHandler>();
+builder.Services.AddScoped<GetProfileHandler>();
 
 builder.Services.Configure<KeycloakConfig>(builder.Configuration.GetSection("Keycloak"));
 builder.Services.AddSingleton(sp =>

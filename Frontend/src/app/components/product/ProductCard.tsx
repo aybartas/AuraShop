@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../models/Product";
+import { Product } from "../../../types/Product";
 
 export function ProductCard({
   image,

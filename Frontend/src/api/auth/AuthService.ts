@@ -1,4 +1,4 @@
-import http from "./http";
+import http from "../http";
 
 interface LoginRequest {
   email: string;
@@ -12,7 +12,7 @@ interface RegisterRequest {
 }
 
 interface LoginResponse {
-  access_token: string;
+  accessToken: string;
 }
 
 export const AuthService = {

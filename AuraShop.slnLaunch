@@ -48,11 +48,6 @@
     "Name": "Auth All",
     "Projects": [
       {
-        "Path": "Services\\Catalog\\AuraShop.Catalog\\AuraShop.Catalog.csproj",
-        "Action": "Start",
-        "DebugTarget": "http"
-      },
-      {
         "Path": "Gateway\\AuraShop.Gateway\\AuraShop.Gateway.csproj",
         "Action": "Start",
         "DebugTarget": "http"

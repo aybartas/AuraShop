@@ -5,14 +5,14 @@ import { useAuth } from "../../../hooks/useAuth";
 
 // ----------------- TYPES -----------------
 type FormValues = {
-  username?: string;
+  username: string;
   email: string;
   password: string;
 };
 
 const Login: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const {
     control,
@@ -21,7 +21,6 @@ const Login: React.FC = () => {
     reset,
   } = useForm<FormValues>({
     defaultValues: {
-      username: "",
       email: "",
       password: "",
     },
@@ -32,10 +31,9 @@ const Login: React.FC = () => {
       if (isRegistering) {
         await AuthService.register({
           email: data.email,
-          username: data.username!,
+          username: data.username,
           password: data.password,
         });
-        alert("Registration successful! Please log in.");
         setIsRegistering(false);
         reset();
       } else {
@@ -43,7 +41,7 @@ const Login: React.FC = () => {
           email: data.email,
           password: data.password,
         });
-        login(res.data.access_token);
+        login(res.data.accessToken);
       }
     } catch (err: any) {
       alert(err.response?.data?.message || "Something went wrong");
@@ -160,12 +158,6 @@ const Login: React.FC = () => {
             control={control}
             rules={{
               required: "Password is required",
-              minLength: {
-                value: isRegistering ? 6 : 1,
-                message: isRegistering
-                  ? "Password must be at least 6 characters"
-                  : "Password is required",
-              },
             }}
             render={({ field }) => (
               <input

@@ -1,11 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../api/auth/AuthService";
-
-interface User {
-  email: string;
-  username: string;
-}
+import { User } from "../types/User";
 
 interface AuthContextProps {
   user: User | null;
@@ -23,14 +19,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       AuthService.getProfile()
         .then((res) => setUser(res.data))
         .catch(() => localStorage.removeItem("token"));
+    } else {
+      setUser(null);
     }
-  }, []);
+  }, [token]);
 
   const login = (token: string) => {
     localStorage.setItem("token", token);

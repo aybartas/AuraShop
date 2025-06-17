@@ -30,7 +30,7 @@ namespace AuraShop.Auth.Services
 
         });
 
-            var response = await http.PostAsync(endpoints.TokenEndpoint(), content);
+            var response = await http.PostAsync(endpoints.TokenEndpoint, content);
 
             return await ParseResponseAsync<TokenResponse>(response);
         }
@@ -39,13 +39,12 @@ namespace AuraShop.Auth.Services
         {
             var content = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("client_id", "admin-cli"),
-                new KeyValuePair<string, string>("grant_type", "password"),
-                new KeyValuePair<string, string>("username", _options.AdminUser),
-                new KeyValuePair<string, string>("password", _options.AdminPassword)
+                new KeyValuePair<string, string>("client_id", _options.AdminClientId),       
+                new KeyValuePair<string, string>("client_secret", _options.AdminClientSecret),
+                new KeyValuePair<string, string>("grant_type", "client_credentials")   
             });
 
-            var response = await http.PostAsync(endpoints.AdminTokenEndpoint(), content);
+            var response = await http.PostAsync(endpoints.AdminTokenEndpoint, content);
 
             var tokenResponse = await ParseResponseAsync<TokenResponse>(response);
 
@@ -78,6 +77,9 @@ namespace AuraShop.Auth.Services
 
             var response = await http.SendAsync(request);
 
+            var content = await response.Content.ReadAsStringAsync();
+
+
             response.EnsureSuccessStatusCode();
 
             var location = response.Headers.Location;
@@ -109,7 +111,7 @@ namespace AuraShop.Auth.Services
 
         public async Task<User> GetUserInfoAsync(string accessToken)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, endpoints.UserInfoEndpoint());
+            var request = new HttpRequestMessage(HttpMethod.Get, endpoints.UserInfoEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             var response = await http.SendAsync(request);

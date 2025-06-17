@@ -5,7 +5,7 @@
         public string BaseUrl { get; set; } = null!;
         public string Realm { get; set; } = null!;
         public string ClientId { get; set; } = null!;
-        public string AdminUser { get; set; } = null!;
-        public string AdminPassword { get; set; } = null!;
+        public string AdminClientId { get; set; } = null!;
+        public string AdminClientSecret { get; set; } = null!;
     }
 }
