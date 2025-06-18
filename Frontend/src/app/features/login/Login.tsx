@@ -5,7 +5,6 @@ import { useAuth } from "../../../hooks/useAuth";
 
 // ----------------- TYPES -----------------
 type FormValues = {
-  username: string;
   email: string;
   password: string;
 };
@@ -18,29 +17,33 @@ const Login: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<FormValues>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
-
   const onSubmit = async (data: FormValues) => {
     try {
       if (isRegistering) {
         await AuthService.register({
           email: data.email,
-          username: data.username,
           password: data.password,
         });
-        setIsRegistering(false);
-        reset();
+
+        const res = await AuthService.login({
+          email: data.email,
+          password: data.password,
+        });
+
+        login(res.data.accessToken);
       } else {
         const res = await AuthService.login({
           email: data.email,
           password: data.password,
         });
+        console.log("Login response:", res.data);
+
         login(res.data.accessToken);
       }
     } catch (err: any) {
@@ -85,40 +88,6 @@ const Login: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {isRegistering && (
-          <div>
-            <label className="block mb-1 font-semibold text-gray-700">
-              Username
-            </label>
-            <Controller
-              name="username"
-              control={control}
-              rules={{
-                required: "Username is required",
-                minLength: {
-                  value: 3,
-                  message: "Username must be at least 3 characters",
-                },
-              }}
-              render={({ field }) => (
-                <input
-                  type="text"
-                  {...field}
-                  placeholder="Enter a username"
-                  className={`w-full border rounded px-3 py-2 focus:outline-none ${
-                    errors.username ? "border-red-500" : "border-gray-300"
-                  }`}
-                />
-              )}
-            />
-            {errors.username && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.username.message}
-              </p>
-            )}
-          </div>
-        )}
-
         <div>
           <label className="block mb-1 font-semibold text-gray-700">
             Email

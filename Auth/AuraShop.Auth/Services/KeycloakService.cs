@@ -18,13 +18,13 @@ namespace AuraShop.Auth.Services
             return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
         }
 
-        public async Task<TokenResponse> LoginAsync(string username, string password)
+        public async Task<TokenResponse> LoginAsync(string email, string password)
         {
             var content = new FormUrlEncodedContent(new[]
             {
             new KeyValuePair<string, string>("client_id", _options.ClientId),
             new KeyValuePair<string, string>("grant_type", "password"),
-            new KeyValuePair<string, string>("username", username),
+            new KeyValuePair<string, string>("username", email),
             new KeyValuePair<string, string>("password", password),
             new KeyValuePair<string, string>("scope", "openid")  
 
@@ -51,13 +51,13 @@ namespace AuraShop.Auth.Services
             return tokenResponse.AccessToken;
         }
 
-        public async Task<string> RegisterUserAsync(string username, string password, string email)
+        public async Task<string> RegisterUserAsync(string email,string password)
         {
             var token = await GetAdminTokenAsync();
 
             var userRequest = new UserRegistrationRequest
             {
-                Username = username,
+                Username = email,
                 Email = email,
                 Enabled = true,
                 Credentials =
@@ -76,9 +76,6 @@ namespace AuraShop.Auth.Services
             request.Content = new StringContent(JsonSerializer.Serialize(userRequest), Encoding.UTF8, "application/json");
 
             var response = await http.SendAsync(request);
-
-            var content = await response.Content.ReadAsStringAsync();
-
 
             response.EnsureSuccessStatusCode();
 

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../api/auth/AuthService";
 import { User } from "../types/User";
@@ -17,30 +17,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const navigate = useNavigate();
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("token")
+  );
 
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       AuthService.getProfile()
         .then((res) => setUser(res.data))
-        .catch(() => localStorage.removeItem("token"));
+        .catch((err) => {
+          console.log("profile err", err);
+          localStorage.removeItem("token");
+          setToken(null);
+          setUser(null);
+        });
     } else {
       setUser(null);
     }
   }, [token]);
 
-  const login = (token: string) => {
-    localStorage.setItem("token", token);
-    AuthService.getProfile().then((res) => {
-      setUser(res.data);
-      navigate("/catalog");
-    });
+  const login = (newToken: string) => {
+    localStorage.setItem("token", newToken);
+    setToken(newToken);
+    navigate("/catalog");
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    setToken(null);
     setUser(null);
     navigate("/catalog");
   };

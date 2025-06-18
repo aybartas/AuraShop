@@ -7,7 +7,6 @@ interface LoginRequest {
 
 interface RegisterRequest {
   email: string;
-  username: string;
   password: string;
 }
 

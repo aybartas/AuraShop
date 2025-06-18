@@ -1,19 +1,38 @@
 ﻿using AuraShop.Auth.Dtos;
+using AuraShop.Auth.Models;
 using AuraShop.Auth.Services;
 using AuraShop.Shared;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace AuraShop.Auth.Features.GetProfile;
 
-public class GetProfileHandler(KeycloakService keycloak)
+public class GetProfileHandler
 {
-    public async Task<ServiceResult<UserDto>> HandleAsync(GetProfileRequest request)
+    public ServiceResult<UserDto> HandleAsync(IHttpContextAccessor httpContextAccessor)
     {
-        var userInfo = await keycloak.GetUserInfoAsync(request.AccessToken);
+        var user = httpContextAccessor.HttpContext?.User;
 
-        return ServiceResult<UserDto>.SuccessAsOk(new UserDto
+        if (user == null || !user.Identity?.IsAuthenticated == true)
+            return ServiceResult<UserDto>.Unauthorized();
+
+        var identity = user.Identity as ClaimsIdentity;
+        if (identity == null)
+            return ServiceResult<UserDto>.Unauthorized();
+
+        var userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var username = identity.FindFirst("preferred_username")?.Value;
+        var email = identity.FindFirst(ClaimTypes.Email)?.Value;
+
+        var roles = identity.FindAll("role").Select(r => r.Value).ToList();
+
+        var userDto = new UserDto
         {
-            Email = userInfo.Email,
-            Username = userInfo.PreferredUsername
-        });
+            Username = username,
+            Email = email,
+            Roles = roles,
+        };
+
+        return ServiceResult<UserDto>.SuccessAsOk(userDto);
     }
 }

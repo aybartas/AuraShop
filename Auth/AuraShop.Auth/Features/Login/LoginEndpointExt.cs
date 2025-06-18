@@ -5,15 +5,15 @@ namespace AuraShop.Auth.Features.Login
 {
     public static class LoginEndpointExt 
     {
-        public static WebApplication AddLoginEndpoint(this WebApplication app)
+        public static RouteGroupBuilder AddLoginEndpoint(this RouteGroupBuilder groupBuilder)
         {
-            app.MapPost("/api/auth/login", async ([FromBody] LoginRequest req, LoginHandler handler) =>
+            groupBuilder.MapPost("/login", async ([FromBody] LoginRequest req, LoginHandler handler) =>
             {
                 var response = await handler.HandleAsync(req);
                 return response.ToResult();
             });
 
-            return app;
+            return groupBuilder;
         }
     }
 }

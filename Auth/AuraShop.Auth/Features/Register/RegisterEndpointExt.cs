@@ -5,13 +5,13 @@ namespace AuraShop.Auth.Features.Register;
 
 public static class RegisterEndpointExt
 {
-    public static WebApplication AddRegisterEndpoint(this WebApplication app)
+    public static RouteGroupBuilder AddRegisterEndpoint(this RouteGroupBuilder builder)
     {
-        app.MapPost("/api/auth/register", async ([FromBody] RegisterRequest req, RegisterHandler handler) =>
+        builder.MapPost("/register", async ([FromBody] RegisterRequest req, RegisterHandler handler) =>
         {
             var registerResponse = await handler.HandleAsync(req);
             return registerResponse.ToResult();
         });
-        return app;
+        return builder;
     }
 }

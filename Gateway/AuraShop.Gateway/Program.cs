@@ -10,19 +10,6 @@ builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.Authority = builder.Configuration["Jwt:Issuer"];
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false 
-        };
-        options.RequireHttpsMetadata = false; 
-    });
-
-builder.Services.AddAuthorization();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
@@ -48,8 +35,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowSpecificOrigins");
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapReverseProxy();
 

@@ -2,6 +2,7 @@ import logo from "../../assets/logo.svg";
 import { useState } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 interface CategoryLink {
   name: string;
@@ -17,6 +18,8 @@ const categories: CategoryLink[] = [
 ];
 
 export default function Header() {
+  const { user, logout } = useAuth();
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
@@ -78,13 +81,25 @@ export default function Header() {
         </div>
 
         {/* Account Section */}
-        <div className="hidden md:flex items-center space-x-4">
-          <NavLink to={"/login"}>
-            <button className="text-gray-700 hover:text-blue-500">
-              Login / Sign Up
+        {!user ? (
+          <div className="hidden md:flex items-center space-x-4">
+            <NavLink to={"/login"}>
+              <button className="text-gray-700 hover:text-blue-500">
+                Login / Sign Up
+              </button>
+            </NavLink>
+          </div>
+        ) : (
+          <div className="hidden md:flex items-center space-x-4">
+            <span className="text-gray-700">Hello, {user.username}</span>
+            <button
+              onClick={logout}
+              className="text-gray-700 hover:text-blue-500"
+            >
+              Logout
             </button>
-          </NavLink>
-        </div>
+          </div>
+        )}
 
         <div className="hidden md:flex items-center space-x-4">
           <button className="text-gray-700 hover:text-blue-500">Account</button>

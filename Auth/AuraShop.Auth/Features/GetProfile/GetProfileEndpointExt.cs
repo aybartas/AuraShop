@@ -5,15 +5,15 @@ namespace AuraShop.Auth.Features.GetProfile
 {
     public static class GetProfileEndpointExt
     {
-        public static WebApplication AddGetProfileEndpoint(this WebApplication app)
+        public static RouteGroupBuilder AddGetProfileEndpoint(this RouteGroupBuilder builder)
         {
-            app.MapPost("/api/auth/profile", async ([FromBody] GetProfileRequest req, GetProfileHandler handler) =>
+            builder.MapGet("/profile", (GetProfileHandler handler, IHttpContextAccessor httpContextAccessor) =>
             {
-                var response = await handler.HandleAsync(req);
+                var response =  handler.HandleAsync(httpContextAccessor);
                 return response.ToResult();
-            });
+            }).RequireAuthorization();
 
-            return app;
+            return builder;
         }
     }
 }
