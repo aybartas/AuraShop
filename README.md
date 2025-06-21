@@ -11,12 +11,14 @@
 
 ## 🛠️ Tech Stack
 
-### 🎨 Frontend
-- **React** 
-
 ### 🧠 Backend
 - **.NET 8 Web API** —  with minimal APIs
-- ** Keycloak ** as Authorization server
+- **Keycloak** as Authorization server
+
+### 🎨 Frontend
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
 
 ### 🗄️ Databases
 - 🧾 **SQL Server** — For transactional data (Orders, Users, Payments)
