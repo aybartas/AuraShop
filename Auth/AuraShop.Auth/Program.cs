@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = $"{keycloakConfig.BaseUrl.TrimEnd('/')}/realms/{keycloakConfig.Realm}";
-        options.RequireHttpsMetadata = false; // Use true in production
+        options.RequireHttpsMetadata = false;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -75,11 +75,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             },
             OnAuthenticationFailed = context =>
             {
-                // Log the exception, or do other custom logic
                 Console.WriteLine(context.Exception.Message);
-
-
-                // Optionally, modify the response
                 context.Response.StatusCode = 401;
                 context.Response.ContentType = "application/json";
                 var result = JsonSerializer.Serialize(new { error = "Authentication failed", details = context.Exception.Message });

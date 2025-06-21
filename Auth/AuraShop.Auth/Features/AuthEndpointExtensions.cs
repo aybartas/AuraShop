@@ -8,7 +8,7 @@ namespace AuraShop.Auth.Features
     {
         public static void AddAuthEndpoints(this WebApplication app)
         {
-            app.MapGroup("api/auth").WithTags("Auth").AddLoginEndpoint().AddRegisterEndpoint().AddGetProfileEndpoint();
+            app.MapGroup("api/v1/auth").WithTags("Auth").AddLoginEndpoint().AddRegisterEndpoint().AddGetProfileEndpoint();
         }
     }
 }

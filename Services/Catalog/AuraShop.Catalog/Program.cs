@@ -51,7 +51,9 @@ app.AddProductEndpoints(versionSet);
 using (var scope = app.Services.CreateScope())
 {
     var seedService = scope.ServiceProvider.GetRequiredService<SeedService>();
+
     await seedService.SeedAsync();
+
 }
 
 if (app.Environment.IsDevelopment())
