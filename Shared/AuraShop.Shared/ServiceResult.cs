@@ -18,6 +18,21 @@ namespace AuraShop.Shared
                 Status = HttpStatusCode.NoContent
             };
         }
+
+        public static ServiceResult Unauthorized(string detail = "Unauthorized access")
+        {
+            return new ServiceResult()
+            {
+                Status = HttpStatusCode.Unauthorized,
+                ProblemDetails = new ProblemDetails
+                {
+                    Title = "Unauthorized",
+                    Status = (int)HttpStatusCode.Unauthorized,
+                    Detail = detail
+                }
+            };
+        }
+
         public static ServiceResult ErrorAsNotFound(string detail = "The requested resource was not found")
         {
             return new ServiceResult()
@@ -104,14 +119,22 @@ namespace AuraShop.Shared
                 UrlAsCreated = url
             };
         }
-        public new static ServiceResult<T> Error(ProblemDetails problemDetails,HttpStatusCode status)
+
+
+        public static ServiceResult<T> Unauthorized(string detail = "Unauthorized access")
         {
             return new ServiceResult<T>()
             {
-                ProblemDetails = problemDetails,
-                Status = status
+                Status = HttpStatusCode.Unauthorized,
+                ProblemDetails = new ProblemDetails
+                {
+                    Title = "Unauthorized",
+                    Status = (int)HttpStatusCode.Unauthorized,
+                    Detail = detail
+                }
             };
         }
+
 
         public static ServiceResult<T> ErrorAsNotFound(string detail = "The requested resource was not found")
         {
@@ -125,7 +148,7 @@ namespace AuraShop.Shared
                 }
             };
         }
-        public new static ServiceResult<T> Error(string title, string detail, HttpStatusCode status)
+        public static ServiceResult<T> Error(string title, string detail, HttpStatusCode status)
         {
             return new ServiceResult<T>
             {
@@ -135,20 +158,6 @@ namespace AuraShop.Shared
                     Title = title,
                     Status = (int?)status,
                     Detail = detail,
-                },
-            };
-        }
-        public new static ServiceResult<T> Error(IDictionary<string,object> errors)
-        {
-            return new ServiceResult<T>()
-            {
-                Status = HttpStatusCode.BadRequest,
-                ProblemDetails = new ProblemDetails
-                {
-                    Title = "Validation errors occured",
-                    Detail = "Please check the errors property for more details",
-                    Extensions = errors,
-                    Status = (int?)HttpStatusCode.BadRequest,
                 },
             };
         }

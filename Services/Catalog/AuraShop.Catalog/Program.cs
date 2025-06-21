@@ -37,6 +37,8 @@ BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresent
 
 builder.Services.AddSingleton<SeedService>();
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddCommonServices(typeof(CatalogAssembly));
 
 var app = builder.Build();
@@ -49,7 +51,9 @@ app.AddProductEndpoints(versionSet);
 using (var scope = app.Services.CreateScope())
 {
     var seedService = scope.ServiceProvider.GetRequiredService<SeedService>();
+
     await seedService.SeedAsync();
+
 }
 
 if (app.Environment.IsDevelopment())

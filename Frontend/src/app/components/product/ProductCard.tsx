@@ -1,34 +1,36 @@
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../models/Product";
+import { Product } from "../../../types/Product";
 
-export function ProductCard({
-  image,
-  discount,
-  name,
-  description,
-  price,
-  id,
-}: Product) {
+interface ProductCardProps {
+  product: Product;
+}
+
+export function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate(`/catalog/${id}`);
+    navigate(`/catalog/${product.id}`);
   };
+
   return (
     <div
       onClick={handleNavigate}
       className="bg-white rounded-lg shadow-md overflow-hidden relative hover:cursor-pointer"
     >
-      <img src={image} alt={name} className="w-full h-48 object-cover" />
-      {discount && (
-        <div className="absolute top-2 right-2 bg-red-400 text-white px-3 py-1 rounded-full">
-          {discount} Off
-        </div>
-      )}
+      <img
+        src={product.images?.[0] || "https://via.placeholder.com/300x200"}
+        alt={product.name}
+        className="w-full h-48 object-cover"
+      />
+
       <div className="p-4">
-        <h3 className="text-lg font-semibold">{name}</h3>
-        <p className="text-gray-500 mb-2">{description}</p>
-        <span className="text-xl font-bold text-red-500">{price}</span>
+        <h3 className="text-lg font-semibold">{product.name}</h3>
+        <p className="text-gray-500 text-sm mb-2 line-clamp-2">
+          {product.description}
+        </p>
+        <span className="text-xl font-bold text-orange-600">
+          ${product.price.toFixed(2)}
+        </span>
       </div>
     </div>
   );

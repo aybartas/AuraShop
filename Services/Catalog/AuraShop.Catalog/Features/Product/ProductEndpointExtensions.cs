@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning.Builder;
 using AuraShop.Catalog.Features.Product.Create;
 using AuraShop.Catalog.Features.Product.Delete;
-using AuraShop.Catalog.Features.Product.GetAll;
+using AuraShop.Catalog.Features.Product.GetAllProduct;
 using AuraShop.Catalog.Features.Product.GetById;
 using AuraShop.Catalog.Features.Product.Update;
 

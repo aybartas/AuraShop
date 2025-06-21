@@ -48,9 +48,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "File", "File", "{4EC1144E-C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.File", "Services\File\AuraShop.File\AuraShop.File.csproj", "{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{40D3E4EE-4960-4401-90FA-D764F80B4205}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Order.Application", "Services\Order\Core\AuraShop.Order.Application\AuraShop.Order.Application\AuraShop.Order.Application.csproj", "{96241DC8-4349-4F08-8BB7-C8F546005ED7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{CC4BBCC9-CDFE-4123-A44E-36215E3DD5D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Gateway", "Gateway\AuraShop.Gateway\AuraShop.Gateway.csproj", "{B8ED569F-5C0F-46BB-AFDC-8C75D39244F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{979FA8F0-D213-4317-B15F-10CF8F39B202}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuraShop.Auth", "Auth\AuraShop.Auth\AuraShop.Auth.csproj", "{0D68B34C-B4DE-4F71-80EE-FF4F4481A820}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,6 +108,14 @@ Global
 		{96241DC8-4349-4F08-8BB7-C8F546005ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96241DC8-4349-4F08-8BB7-C8F546005ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96241DC8-4349-4F08-8BB7-C8F546005ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8ED569F-5C0F-46BB-AFDC-8C75D39244F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8ED569F-5C0F-46BB-AFDC-8C75D39244F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8ED569F-5C0F-46BB-AFDC-8C75D39244F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8ED569F-5C0F-46BB-AFDC-8C75D39244F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D68B34C-B4DE-4F71-80EE-FF4F4481A820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D68B34C-B4DE-4F71-80EE-FF4F4481A820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D68B34C-B4DE-4F71-80EE-FF4F4481A820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D68B34C-B4DE-4F71-80EE-FF4F4481A820}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +139,8 @@ Global
 		{4EC1144E-CD29-42DB-865C-53546C2D5E52} = {E41F8AE4-287C-48D1-BC44-D012C42B12EE}
 		{EA8254C9-77FB-4D80-BD62-9ECB8DEEF1FD} = {4EC1144E-CD29-42DB-865C-53546C2D5E52}
 		{96241DC8-4349-4F08-8BB7-C8F546005ED7} = {913201A8-546D-40C5-978F-9D51272A3921}
+		{B8ED569F-5C0F-46BB-AFDC-8C75D39244F9} = {CC4BBCC9-CDFE-4123-A44E-36215E3DD5D2}
+		{0D68B34C-B4DE-4F71-80EE-FF4F4481A820} = {979FA8F0-D213-4317-B15F-10CF8F39B202}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62AF2AB9-96F8-444A-A34C-D5473A2E02F3}

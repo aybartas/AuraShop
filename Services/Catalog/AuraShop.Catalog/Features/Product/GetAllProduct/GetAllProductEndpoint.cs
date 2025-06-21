@@ -1,7 +1,7 @@
 ﻿using AuraShop.Shared.Extensions;
 using MediatR;
 
-namespace AuraShop.Catalog.Features.Product.GetAll
+namespace AuraShop.Catalog.Features.Product.GetAllProduct
 {
     public static class GetAllProductEndpoint
     {
