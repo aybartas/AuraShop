@@ -11,7 +11,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 1 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <img
-              src="https://via.placeholder.com/300x300?text=Product+1"
+              src="https://picsum.photos/300"
               alt="Product 1"
               className="w-full h-48 object-cover"
             />
@@ -26,7 +26,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 2 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <img
-              src="https://via.placeholder.com/300x300?text=Product+2"
+              src="https://picsum.photos/300"
               alt="Product 2"
               className="w-full h-48 object-cover"
             />
@@ -41,7 +41,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 3 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <img
-              src="https://via.placeholder.com/300x300?text=Product+3"
+              src="https://picsum.photos/300"
               alt="Product 3"
               className="w-full h-48 object-cover"
             />
@@ -56,7 +56,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 4 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <img
-              src="https://via.placeholder.com/300x300?text=Product+4"
+              src="https://picsum.photos/300"
               alt="Product 4"
               className="w-full h-48 object-cover"
             />
@@ -77,7 +77,7 @@ const ProductSection: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
             <img
-              src="https://via.placeholder.com/300x300?text=Discounted+Product+1"
+              src="https://picsum.photos/300"
               alt="Discounted Product 1"
               className="w-full h-48 object-cover"
             />
@@ -95,7 +95,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 2 with Discount */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
             <img
-              src="https://via.placeholder.com/300x300?text=Discounted+Product+2"
+              src="https://picsum.photos/300"
               alt="Discounted Product 2"
               className="w-full h-48 object-cover"
             />
@@ -113,7 +113,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 3 with Discount */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
             <img
-              src="https://via.placeholder.com/300x300?text=Discounted+Product+3"
+              src="https://picsum.photos/300"
               alt="Discounted Product 3"
               className="w-full h-48 object-cover"
             />
@@ -131,7 +131,7 @@ const ProductSection: React.FC = () => {
           {/* Product Card 4 with Discount */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
             <img
-              src="https://via.placeholder.com/300x300?text=Discounted+Product+4"
+              src="https://picsum.photos/300"
               alt="Discounted Product 4"
               className="w-full h-48 object-cover"
             />

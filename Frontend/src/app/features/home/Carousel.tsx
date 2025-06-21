@@ -52,7 +52,7 @@ const Carousel: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval); 
   }, []);
 
   return (
@@ -64,8 +64,7 @@ const Carousel: React.FC = () => {
           opacity: 1,
         }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>{" "}
-        {/* Added rounded-lg */}
+        <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
         <div className="relative text-center text-white">
           <h2 className="text-2xl font-bold mb-2">
             {slides[currentIndex].category}

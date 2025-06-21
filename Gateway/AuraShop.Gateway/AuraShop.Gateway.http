@@ -1,0 +1,6 @@
+@AuraShop.Gateway_HostAddress = http://localhost:5215
+
+GET {{AuraShop.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

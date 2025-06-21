@@ -146,7 +146,7 @@ const FilterForm: React.FC = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm"
+        className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm"
       >
         Apply Filters
       </button>

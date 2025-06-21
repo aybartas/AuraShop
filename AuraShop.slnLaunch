@@ -1,0 +1,67 @@
+[
+  {
+    "Name": "Start All",
+    "Projects": [
+      {
+        "Path": "Services\\Catalog\\AuraShop.Catalog\\AuraShop.Catalog.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "Services\\Order\\Presentation\\AuraShop.Order.WebApi\\AuraShop.Order.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "Services\\Basket\\AuraShop.Basket.API\\AuraShop.Basket.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "Services\\Discount\\AuraShop.Discount\\AuraShop.Discount\\AuraShop.Discount.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "Gateway\\AuraShop.Gateway\\AuraShop.Gateway.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "docker-compose.dcproj",
+        "Action": "Start",
+        "DebugTarget": "Docker Compose"
+      },
+      {
+        "Path": "Services\\File\\AuraShop.File\\AuraShop.File.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "Auth\\AuraShop.Auth\\AuraShop.Auth.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
+  },
+  {
+    "Name": "Auth All",
+    "Projects": [
+      {
+        "Path": "Gateway\\AuraShop.Gateway\\AuraShop.Gateway.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "docker-compose.dcproj",
+        "Action": "Start",
+        "DebugTarget": "Docker Compose"
+      },
+      {
+        "Path": "Auth\\AuraShop.Auth\\AuraShop.Auth.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
+  }
+]
