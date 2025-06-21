@@ -1,6 +1,6 @@
 # 🛍️ AuraShop — .NET Microservices E-Commerce App
 
-**AuraShop** is a modern, scalable e-commerce platform built using microservices architecture and the latest .NET 8 technologies.  
+**AuraShop** is an e-commerce platform built using microservices architecture and the latest .NET 8 technologies.  
 
 - ✅ .NET 8 with minimal APIs.
 - ✅ **Single Sign-On (SSO)**
