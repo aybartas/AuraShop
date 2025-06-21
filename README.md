@@ -16,6 +16,7 @@
 
 ### 🧠 Backend
 - **.NET 8 Web API** —  with minimal APIs
+- ** Keycloak ** as Authorization server
 
 ### 🗄️ Databases
 - 🧾 **SQL Server** — For transactional data (Orders, Users, Payments)
@@ -29,7 +30,6 @@
 ---
 
 ## 📌 Coming Soon 
-- ✅ Keycloak Auth
 - ✅ Payment Integration via Stripe
 - ✅ Shipment Integration
 - ✅ AI Search
