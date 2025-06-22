@@ -4,10 +4,10 @@ namespace AuraShop.Basket.Data;
 
 public class Basket
 {
-    public Guid UserId { get; set; }
     public List<BasketItem> BasketItems { get; set; } = [];
     public string? Coupon { get; set; }
     public decimal? DiscountRate { get; set; }
+    public decimal ShippingAmount => BasketItems.Sum(item => item.Price * item.Quantity) > 500 ? 0 : 19.99m;
 
     [JsonIgnore]
     public bool HasDiscount => DiscountRate is > 0 && string.IsNullOrEmpty(Coupon);
@@ -16,7 +16,7 @@ public class Basket
     public decimal TotalPrice => BasketItems.Sum(item => item.Price * item.Quantity);
 
     [JsonIgnore]
-    public decimal? TotalDiscountedPrice => HasDiscount ?  BasketItems.Sum(item => item.DiscountedPrice.Value * item.Quantity) : null;
+    public decimal? TotalDiscountedPrice => HasDiscount ? BasketItems.Sum(item => item.DiscountedPrice.Value * item.Quantity) : null;
     public void ApplyDiscount(string coupon, decimal discountRate)
     {
         Coupon = coupon;
@@ -45,4 +45,5 @@ public class Basket
             item.DiscountedPrice = null;
         }
     }
+
 }

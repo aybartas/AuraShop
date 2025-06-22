@@ -4,25 +4,20 @@ using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.RemoveDiscount;
 
-public class RemoveDiscountCommandHandler : IRequestHandler<RemoveDiscountCommand, ServiceResult>
+public class RemoveDiscountCommandHandler(BasketService basketService, IBasketAuthService basketAuthService) : IRequestHandler<RemoveDiscountCommand, ServiceResult>
 {
-    private readonly BasketService _basketService;
-    public RemoveDiscountCommandHandler(BasketService basketService)
-    {
-        _basketService = basketService;
-    }
     public async Task<ServiceResult> Handle(RemoveDiscountCommand command, CancellationToken cancellationToken)
     {
-        var existingBasketJson = await _basketService.GetBasketAsync(cancellationToken);
+        var userContext = basketAuthService.GetUser();
 
-        if (string.IsNullOrEmpty(existingBasketJson))
+        var currentBasket = await basketService.GetBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);
+
+        if (currentBasket is null)
             return ServiceResult.ErrorAsNotFound("Basket not found");
-        
-        var currentBasket = JsonSerializer.Deserialize<Data.Basket>(existingBasketJson);
 
         currentBasket.RemoveDiscount();
 
-        await _basketService.SetBasketAsync(currentBasket, cancellationToken);
+        await basketService.SetBasketAsync(userContext.UserId, userContext.IsAnonymous, currentBasket, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
     }

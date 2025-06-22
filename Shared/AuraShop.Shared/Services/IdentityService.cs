@@ -1,7 +1,17 @@
-﻿namespace AuraShop.Shared.Services;
+﻿using Microsoft.AspNetCore.Http;
 
-public class IdentityService : IIdentityService
+namespace AuraShop.Shared.Services;
+
+public class IdentityService(IHttpContextAccessor contextAccessor) : IIdentityService
 {
-    public Guid UserId => Guid.Parse("d1f01b7e-3e3a-4f5d-9a3c-1ab2e5eaf8a4");
-    public string Username => "test-user";
+    public Guid? UserId
+    {
+        get
+        {
+            var user = contextAccessor.HttpContext?.User;
+            var id = user?.FindFirst("sub")?.Value;
+
+            return Guid.TryParse(id, out var guid) ? guid : null;
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class GetUserOrdersQueryHandler(IOrderRepository orderRepository, IMapper
 {
     public async Task<ServiceResult<GetUserOrdersQueryResponse>> Handle(GetUserOrdersQuery request, CancellationToken cancellationToken)
     {
-        var userOrders = await orderRepository.GetOrdersByUserId(identityService.UserId);
+        var userOrders = await orderRepository.GetOrdersByUserId(identityService.UserId.Value);
 
         var orders = mapper.Map<List<OrderDto>>(userOrders);
 

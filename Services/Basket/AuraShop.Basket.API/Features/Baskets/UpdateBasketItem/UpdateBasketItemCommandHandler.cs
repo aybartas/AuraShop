@@ -1,14 +1,13 @@
-﻿using System.Text.Json;
+﻿using AuraShop.Basket.Features.Baskets.DeleteBasketItem;
 using AuraShop.Shared;
 using MediatR;
 
-namespace AuraShop.Basket.Features.Baskets.DeleteBasketItem;
+namespace AuraShop.Basket.Features.Baskets.UpdateBasketItem;
 
-public class DeleteBasketItemCommandHandler(BasketService basketService, IBasketAuthService basketAuthService) : IRequestHandler<DeleteBasketItemCommand, ServiceResult>
+public class UpdateBasketItemCommandHandler(BasketService basketService, IBasketAuthService basketAuthService) : IRequestHandler<UpdateBasketItemCommand, ServiceResult>
 {
-    public async Task<ServiceResult> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
+    public async Task<ServiceResult> Handle(UpdateBasketItemCommand request, CancellationToken cancellationToken)
     {
-        // Get current user context (userId + isAnonymous)
         var userContext = basketAuthService.GetUser();
 
         var currentBasket = await basketService.GetBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);
@@ -21,7 +20,10 @@ public class DeleteBasketItemCommandHandler(BasketService basketService, IBasket
         if (existingItem is null)
             return ServiceResult.ErrorAsNotFound("Basket item not found");
 
-        currentBasket.BasketItems.Remove(existingItem);
+        existingItem.Quantity = request.Quantity;
+
+        if (existingItem.Quantity <= 0)
+            currentBasket.BasketItems.Remove(existingItem);
 
         if (currentBasket.BasketItems.Count == 0)
             await basketService.RemoveBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);

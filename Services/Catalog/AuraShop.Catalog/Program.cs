@@ -39,7 +39,7 @@ builder.Services.AddSingleton<SeedService>();
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddCommonServices(typeof(CatalogAssembly));
+builder.Services.AddCommonServices(builder.Configuration,typeof(CatalogAssembly));
 
 var app = builder.Build();
 
