@@ -6,17 +6,8 @@ using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.AddBasketItem;
 
-public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommand, ServiceResult>
+public class AddBasketItemCommandHandler(BasketService basketService, IBasketAuthService basketAuthService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
 {
-    private readonly BasketService _basketService;
-    private readonly IBasketAuthService _basketAuthService;
-
-    public AddBasketItemCommandHandler(BasketService basketService, IBasketAuthService basketAuthService)
-    {
-        _basketService = basketService;
-        _basketAuthService = basketAuthService;
-    }
-
     public async Task<ServiceResult> Handle(AddBasketItemCommand command, CancellationToken cancellationToken)
     {
         var newItem = new BasketItem
@@ -31,11 +22,11 @@ public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommand,
         };
 
         // Get user ID and anon status from BasketAuthService
-        var userContext = _basketAuthService.GetUser();
+        var userContext = basketAuthService.GetUser();
         var userId = userContext.UserId;
         var isAnonymous = userContext.IsAnonymous;
 
-        var existingBasketJson = await _basketService.GetBasketAsync(userId, isAnonymous, cancellationToken);
+        var existingBasketJson = await basketService.GetBasketAsync(userId, isAnonymous, cancellationToken);
 
         if (existingBasketJson is null)
         {
@@ -44,7 +35,7 @@ public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommand,
                 BasketItems = [newItem]
             };
 
-            await _basketService.SetBasketAsync(userId, isAnonymous, newBasket, cancellationToken);
+            await basketService.SetBasketAsync(userId, isAnonymous, newBasket, cancellationToken);
 
             return ServiceResult.SuccessAsNoContent();
         }
@@ -60,7 +51,7 @@ public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommand,
         if (existingBasketJson.HasDiscount)
             existingBasketJson.ReApplyDiscount();
 
-        await _basketService.SetBasketAsync(userId, isAnonymous, existingBasketJson, cancellationToken);
+        await basketService.SetBasketAsync(userId, isAnonymous, existingBasketJson, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
     }

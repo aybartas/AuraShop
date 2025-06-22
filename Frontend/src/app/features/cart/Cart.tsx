@@ -1,42 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "../../layout/PageLayout";
 import { MdDelete, MdAdd, MdRemove } from "react-icons/md";
-
-interface BasketItem {
-  productId: string;
-  productName: string;
-  imageUrl: string;
-  quantity: number;
-  price: number;
-  discountedPrice?: number;
-}
-
-interface Basket {
-  basketItems: BasketItem[];
-  discountRate?: number;
-  shippingAmount: number;
-}
-
-const initialBasket: Basket = {
-  shippingAmount: 19.99,
-  basketItems: [
-    {
-      productId: "1",
-      productName: "Wireless Headphones",
-      imageUrl: "https://picsum.photos/300",
-      quantity: 2,
-      price: 99.99,
-      discountedPrice: 89.99,
-    },
-    {
-      productId: "2",
-      productName: "Smart Watch",
-      imageUrl: "https://picsum.photos/300",
-      quantity: 1,
-      price: 199.99,
-    },
-  ],
-};
+import { useBasket } from "../../../hooks/useBasket";
+import { useNavigate } from "react-router-dom";
+import { BasketService } from "../../../api/services/BasketService";
 
 const VALID_COUPONS: Record<string, number> = {
   SAVE10: 10,
@@ -45,45 +12,44 @@ const VALID_COUPONS: Record<string, number> = {
 };
 
 function Cart() {
-  const [basket, setBasket] = useState<Basket>(initialBasket);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponError, setCouponError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
+  const { basket, refreshBasket, loading } = useBasket();
+
   // Quantity handlers
-  const handleQuantityChange = (productId: string, delta: number) => {
-    setBasket((prev) => ({
-      ...prev,
-      basketItems: prev.basketItems
-        .map((item) =>
-          item.productId === productId
-            ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-            : item
-        )
-        .filter((item) => item.quantity > 0),
-    }));
-  };
 
   // Remove item
-  const handleRemove = (productId: string) => {
-    setBasket((prev) => ({
-      ...prev,
-      basketItems: prev.basketItems.filter(
-        (item) => item.productId !== productId
-      ),
-    }));
-  };
+  const handleRemove = (productId: string) => {};
 
   // Calculate totals
-  const subtotal = basket.basketItems.reduce(
-    (sum, item) => sum + (item.discountedPrice ?? item.price) * item.quantity,
-    0
-  );
+  const subtotal =
+    basket?.basketItems?.reduce(
+      (sum, item) =>
+        sum + (item?.discountedPrice ?? item.price) * item.quantity,
+      0
+    ) || 0;
 
   // Calculate discount based on coupon
   const couponDiscountRate = appliedCoupon ? VALID_COUPONS[appliedCoupon] : 0;
   const discountAmount = (subtotal * couponDiscountRate) / 100;
-  const total = subtotal + basket.shippingAmount - discountAmount;
+  const total = subtotal + (basket?.shippingAmount || 0) - discountAmount;
+
+  const handleUpdateCartItem = async (productId: string, quantity: number) => {
+    BasketService.updateCartItem({
+      quantity,
+      productId,
+    })
+      .then(() => {
+        refreshBasket();
+      })
+      .catch((error) => {
+        console.error("Failed to add item to cart:", error);
+      });
+  };
 
   // Apply coupon handler
   const applyCoupon = () => {
@@ -117,12 +83,24 @@ function Cart() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="md:col-span-2 space-y-6">
-            {basket.basketItems.length === 0 ? (
-              <p className="text-gray-500 text-center text-lg">
-                Your cart is empty.
-              </p>
+            {!basket?.basketItems?.length ? (
+              <div className="p-6 border bg-white shadow-md flex flex-col items-center justify-center space-y-6 rounded-lg">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  Your Cart is empty
+                </h2>
+                <p className="text-lg text-gray-600">
+                  It seems you've not added any items yet.
+                </p>
+
+                <button
+                  onClick={() => navigate(`/catalog`)}
+                  className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm"
+                >
+                  Start Shopping
+                </button>
+              </div>
             ) : (
-              basket.basketItems.map((item) => (
+              basket?.basketItems?.map((item) => (
                 <div
                   key={item.productId}
                   className="flex items-center gap-6 p-5 border rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow"
@@ -139,63 +117,72 @@ function Cart() {
                     <p className="text-sm text-gray-500 mt-1">
                       ${(item.discountedPrice ?? item.price).toFixed(2)} / unit
                     </p>
-
                     <div className="mt-3 flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <button
+                          aria-label={`Decrease quantity of ${item.productName}`}
+                          onClick={() =>
+                            handleUpdateCartItem(
+                              item.productId,
+                              item.quantity - 1
+                            )
+                          }
+                          disabled={item.quantity <= 1}
+                          className="p-2 border rounded-md hover:bg-gray-100 transition"
+                        >
+                          <MdRemove size={20} />
+                        </button>
+                        <span className="w-8 text-center text-lg font-medium">
+                          {item.quantity}
+                        </span>
+                        <button
+                          aria-label={`Increase quantity of ${item.productName}`}
+                          onClick={() =>
+                            handleUpdateCartItem(
+                              item.productId,
+                              item.quantity + 1
+                            )
+                          }
+                          className="p-2 border rounded-md hover:bg-gray-100 transition"
+                        >
+                          <MdAdd size={20} />
+                        </button>
+                      </div>
                       <button
-                        aria-label={`Decrease quantity of ${item.productName}`}
-                        onClick={() => handleQuantityChange(item.productId, -1)}
-                        className="p-2 border rounded-md hover:bg-gray-100 transition"
+                        aria-label={`Remove ${item.productName} from cart`}
+                        onClick={() => handleRemove(item.productId)}
+                        className="flex items-center text-red-600 hover:text-red-800 "
                       >
-                        <MdRemove size={20} />
-                      </button>
-                      <span className="w-8 text-center text-lg font-medium">
-                        {item.quantity}
-                      </span>
-                      <button
-                        aria-label={`Increase quantity of ${item.productName}`}
-                        onClick={() => handleQuantityChange(item.productId, 1)}
-                        className="p-2 border rounded-md hover:bg-gray-100 transition"
-                      >
-                        <MdAdd size={20} />
+                        <MdDelete size={28} />
                       </button>
                     </div>
                   </div>
-
-                  <div className="flex flex-col items-end">
-                    <p className="text-xl font-semibold text-gray-900">
-                      $
-                      {(
-                        (item.discountedPrice ?? item.price) * item.quantity
-                      ).toFixed(2)}
-                    </p>
-                    <button
-                      aria-label={`Remove ${item.productName} from cart`}
-                      onClick={() => handleRemove(item.productId)}
-                      className="text-red-600 hover:text-red-800 mt-3"
-                    >
-                      <MdDelete size={24} />
-                    </button>
-                  </div>
+                  <p className="text-xl font-semibold text-gray-800">
+                    $
+                    {(
+                      (item.discountedPrice ?? item.price) * item.quantity
+                    ).toFixed(2)}
+                  </p>
                 </div>
               ))
             )}
           </div>
 
           {/* Order Summary */}
-          <div className="p-6 border rounded-lg bg-white shadow-md space-y-8 h-fit">
+          <div className="p-6 border rounded-lg bg-white shadow-md space-y-8">
             <h3 className="text-2xl font-semibold text-gray-900">
               Order Summary
             </h3>
 
             {/* Summary Items */}
             <div className="space-y-4 text-gray-700 text-base">
-              <div className="flex justify-between">
+              <div className="flex justify-between font-semibold">
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between font-semibold">
                 <span>Shipping</span>
-                <span>${basket.shippingAmount.toFixed(2)}</span>
+                <span>${basket?.shippingAmount?.toFixed(2)}</span>
               </div>
               {discountAmount > 0 && (
                 <div className="flex justify-between text-green-700 font-semibold">
@@ -209,7 +196,6 @@ function Cart() {
               </div>
             </div>
 
-            {/* Coupon Input */}
             <div className="space-y-2">
               <label
                 htmlFor="coupon"
@@ -263,11 +249,9 @@ function Cart() {
               )}
             </div>
 
-            {/* Checkout Button */}
             <button
               className="w-full bg-orange-500 text-white py-3 rounded-md hover:bg-orange-600 transition disabled:opacity-50 text-lg font-semibold"
-              disabled={basket.basketItems.length === 0}
-              aria-disabled={basket.basketItems.length === 0}
+              disabled={!basket?.basketItems?.length}
             >
               Complete Order
             </button>

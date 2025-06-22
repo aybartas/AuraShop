@@ -13,9 +13,6 @@ public class GetBasketQueryHandler(IMapper mapper, BasketService basketService, 
 
         var currentBasket = await basketService.GetBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);
 
-        if (currentBasket is null)
-            return ServiceResult<BasketDto>.ErrorAsNotFound("Basket not found");
-
         var basket = mapper.Map<BasketDto>(currentBasket);
 
         return ServiceResult<BasketDto>.SuccessAsOk(basket);

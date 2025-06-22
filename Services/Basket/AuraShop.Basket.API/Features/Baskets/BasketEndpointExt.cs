@@ -4,6 +4,7 @@ using AuraShop.Basket.Features.Baskets.ApplyDiscount;
 using AuraShop.Basket.Features.Baskets.DeleteBasketItem;
 using AuraShop.Basket.Features.Baskets.GetBasket;
 using AuraShop.Basket.Features.Baskets.RemoveDiscount;
+using AuraShop.Basket.Features.Baskets.UpdateBasketItem;
 
 namespace AuraShop.Basket.Features.Baskets
 {
@@ -17,6 +18,7 @@ namespace AuraShop.Basket.Features.Baskets
                 .GetBasketItemGroupEndpoint()
                 .ApplyCouponToBasketEndpoint()
                 .RemoveDiscountGroupEndpoint()
+                .UpdateBasketItemEndpoint()
                 .WithApiVersionSet(apiVersionSet);
         }
     }

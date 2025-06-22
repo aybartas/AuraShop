@@ -34,7 +34,7 @@
             context.Response.Cookies.Append("anonUserId", newAnonId.ToString(), new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = context.Request.IsHttps,
                 SameSite = SameSiteMode.Lax,
                 Expires = DateTimeOffset.UtcNow.AddDays(30),
                 IsEssential = true

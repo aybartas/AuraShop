@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { CatalogService } from "../../../api/services/CatalogService";
 import { useParams } from "react-router-dom";
 import { BasketService } from "../../../api/services/BasketService";
+import { useBasket } from "../../../hooks/useBasket";
 
 interface AddToCartForm {
   size: string;
@@ -30,6 +31,7 @@ function ProductDetails() {
     },
   ]);
   const [loading, setLoading] = useState<boolean>(false);
+  const { refreshBasket } = useBasket();
 
   const { id } = useParams();
 
@@ -74,7 +76,7 @@ function ProductDetails() {
 
     BasketService.addItemToCart(cartItem)
       .then(() => {
-        alert("✅ Product added to cart!");
+        refreshBasket();
       })
       .catch((error) => {
         console.error("Failed to add item to cart:", error);

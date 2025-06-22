@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useBasket } from "../../hooks/useBasket";
 
 interface CategoryLink {
   name: string;
@@ -13,6 +14,7 @@ const categories: CategoryLink[] = [{ name: "Catalog", url: "/catalog" }];
 
 export default function Header() {
   const { user, logout } = useAuth();
+  const { basket } = useBasket();
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
@@ -98,10 +100,15 @@ export default function Header() {
           )}
           <NavLink
             to="/cart"
-            className="flex items-center text-gray-700 hover:text-blue-600"
+            className="relative flex items-center text-gray-700 hover:text-blue-600"
           >
             <ShoppingCartIcon className="h-5 w-5 mr-1" />
             Cart
+            {basket?.basketItems && (
+              <span className="absolute -top-1 -right-6  px-2 py-1 text-xs font-bold leading-none text-white bg-orange-600 rounded-full">
+                {basket?.basketItems?.length}
+              </span>
+            )}
           </NavLink>
         </div>
 

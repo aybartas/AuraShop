@@ -4,4 +4,5 @@ export interface BasketItem {
   imageUrl: string;
   quantity: number;
   price: number;
+  discountedPrice?: number;
 }
