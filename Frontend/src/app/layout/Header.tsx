@@ -94,12 +94,6 @@ export default function Header() {
               >
                 Login
               </NavLink>
-              <NavLink
-                to="/signup"
-                className="text-gray-700 hover:text-blue-600 transition"
-              >
-                Sign Up
-              </NavLink>
             </>
           )}
           <NavLink

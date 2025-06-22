@@ -8,59 +8,59 @@ namespace AuraShop.Basket.Features.Baskets.AddBasketItem;
 
 public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommand, ServiceResult>
 {
-    private readonly IIdentityService _identityService;
     private readonly BasketService _basketService;
+    private readonly IBasketAuthService _basketAuthService;
 
-    public AddBasketItemCommandHandler( IIdentityService identityService, BasketService basketService)
+    public AddBasketItemCommandHandler(BasketService basketService, IBasketAuthService basketAuthService)
     {
-        _identityService = identityService;
         _basketService = basketService;
+        _basketAuthService = basketAuthService;
     }
 
-    public async Task<ServiceResult> Handle(AddBasketItemCommand request, CancellationToken cancellationToken)
+    public async Task<ServiceResult> Handle(AddBasketItemCommand command, CancellationToken cancellationToken)
     {
-        var existingBasket = await _basketService.GetBasketAsync(cancellationToken);
-
         var newItem = new BasketItem
         {
-            ProductId = request.ProductId,
-            ProductName = request.ProductName,
-            ImageUrl = request.ImageUrl,
-            Quantity = request.Quantity,
-            Price = request.Price,
+            ProductId = command.ProductId,
+            ProductName = command.ProductName,
+            ImageUrl = command.ImageUrl,
+            Quantity = command.Quantity,
+            Price = command.Price,
+            Size = command.Size,
+            Color = command.Color,
         };
 
-        if (string.IsNullOrEmpty(existingBasket))
+        // Get user ID and anon status from BasketAuthService
+        var userContext = _basketAuthService.GetUser();
+        var userId = userContext.UserId;
+        var isAnonymous = userContext.IsAnonymous;
+
+        var existingBasketJson = await _basketService.GetBasketAsync(userId, isAnonymous, cancellationToken);
+
+        if (existingBasketJson is null)
         {
             var newBasket = new Data.Basket
             {
-                UserId = _identityService.UserId,
                 BasketItems = [newItem]
             };
 
-            await _basketService.SetBasketAsync(newBasket, cancellationToken);
+            await _basketService.SetBasketAsync(userId, isAnonymous, newBasket, cancellationToken);
 
             return ServiceResult.SuccessAsNoContent();
         }
 
-        var currentBasket = JsonSerializer.Deserialize<Data.Basket>(existingBasket) ?? new Data.Basket
-        {
-            UserId = _identityService.UserId,
-            BasketItems = []
-        };
+   
+        var existingItem = existingBasketJson.BasketItems.FirstOrDefault(x => x.ProductId == command.ProductId);
 
-        var existingItem = currentBasket.BasketItems
-            .FirstOrDefault(x => x.ProductId == request.ProductId);
-
-        if (existingItem is not null)
-            existingItem.Quantity += request.Quantity;
+        if (existingItem != null)
+            existingItem.Quantity += command.Quantity;
         else
-            currentBasket.BasketItems.Add(newItem);
+            existingBasketJson.BasketItems.Add(newItem);
 
-        if (currentBasket.HasDiscount)
-            currentBasket.ReApplyDiscount();
+        if (existingBasketJson.HasDiscount)
+            existingBasketJson.ReApplyDiscount();
 
-        await _basketService.SetBasketAsync(currentBasket, cancellationToken);
+        await _basketService.SetBasketAsync(userId, isAnonymous, existingBasketJson, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
     }

@@ -3,17 +3,19 @@ import Header from "./app/layout/Header";
 import Catalog from "./app/features/catalog/Catalog";
 import ProductDetails from "./app/features/catalog/ProductDetails";
 import Home from "./app/features/home/Home";
-import Login from "./app/features/login/login";
+import Login from "./app/features/login/Login";
+import Cart from "./app/features/cart/Cart";
 
 function App() {
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
         <Route path="catalog" element={<Catalog />} />
         <Route path="catalog/:id" element={<ProductDetails />} />
         <Route path="login" element={<Login />} />
+        <Route path="cart" element={<Cart />} />
 
         {/* <Route path="catalog/:id" element={<ProductDetail />} />
 

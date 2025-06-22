@@ -7,24 +7,26 @@ namespace AuraShop.Basket.Features.Baskets.ApplyDiscount;
 public class ApplyDiscountCommandHandler : IRequestHandler<ApplyCouponCommand, ServiceResult>
 {
     private readonly BasketService _basketService;
+    private readonly IBasketAuthService _basketAuthService;
 
-    public ApplyDiscountCommandHandler(BasketService basketService)
+    public ApplyDiscountCommandHandler(BasketService basketService, IBasketAuthService basketAuthService)
     {
         _basketService = basketService;
+        _basketAuthService = basketAuthService;
     }
 
     public async Task<ServiceResult> Handle(ApplyCouponCommand command, CancellationToken cancellationToken)
     {
-        var existingBasketJson = await _basketService.GetBasketAsync(cancellationToken);
+        var userContext = _basketAuthService.GetUser();
 
-        if (string.IsNullOrEmpty(existingBasketJson))
+        var currentBasket = await _basketService.GetBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);
+
+        if (currentBasket is null)
             return ServiceResult.ErrorAsNotFound("Basket not found");
-        
-        var currentBasket = JsonSerializer.Deserialize<Data.Basket>(existingBasketJson);
 
-        currentBasket.ApplyDiscount(command.Coupon,command.DiscountRate);
+        currentBasket.ApplyDiscount(command.Coupon, command.DiscountRate);
 
-        await _basketService.SetBasketAsync(currentBasket, cancellationToken);
+        await _basketService.SetBasketAsync(userContext.UserId, userContext.IsAnonymous, currentBasket, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
     }

@@ -16,6 +16,7 @@ builder.Services.AddStackExchangeRedisCache(opt =>
 });
 
 builder.Services.AddScoped<BasketService>();
+builder.Services.AddScoped<IBasketAuthService,BasketAuthService>();
 
 var app = builder.Build();
 
@@ -27,6 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 var versionSet = app.GetVersionSet();
+
 
 app.AddBasketEndpoints(versionSet);
 

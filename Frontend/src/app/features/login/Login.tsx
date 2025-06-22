@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { AuthService } from "../../../api/auth/AuthService";
+import { AuthService } from "../../../api/services/AuthService";
 import { useAuth } from "../../../hooks/useAuth";
 
 // ----------------- TYPES -----------------
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 p-6 border border-gray-200 rounded-md shadow-sm">
+    <div className="max-w-md mx-auto mt-12 p-6 border border-gray-200  rounded-xl shadow-sm">
       <h2 className="text-2xl font-semibold mb-1 text-center">
         {isRegistering ? "Create Account" : "Hello,"}
       </h2>

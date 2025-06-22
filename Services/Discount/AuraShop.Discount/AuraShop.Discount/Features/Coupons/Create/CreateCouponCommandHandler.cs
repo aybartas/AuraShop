@@ -20,7 +20,7 @@ public class CreateCouponCommandHandler : IRequestHandler<CreateCouponCommand, S
     }
     public async Task<ServiceResult<CreateCouponResponse>> Handle(CreateCouponCommand command, CancellationToken cancellationToken)
     {
-        var userCoupons=  await _couponService.GetUserCoupons(_identityService.UserId);
+        var userCoupons=  await _couponService.GetUserCoupons(_identityService.UserId.Value);
 
         var existingCoupon = userCoupons.FirstOrDefault(x => x.Code == command.Code);
 
@@ -29,7 +29,7 @@ public class CreateCouponCommandHandler : IRequestHandler<CreateCouponCommand, S
 
         var coupon = _mapper.Map<Coupon>(command);
 
-        coupon.UserId = _identityService.UserId;
+        coupon.UserId = _identityService.UserId.Value;
         coupon.Id = NewId.NextSequentialGuid();
 
         await _couponService.CreateCouponAsync(coupon);

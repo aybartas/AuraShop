@@ -22,7 +22,7 @@ public class CreateOrderCommandHandler(
         {
             userAddress = new Address
             {
-                UserId = identityService.UserId,
+                UserId = identityService.UserId.Value,
                 Street = request.ShippingOrderAddress.Street,
                 City = request.ShippingOrderAddress.City,
                 State = request.ShippingOrderAddress.State,
@@ -44,7 +44,7 @@ public class CreateOrderCommandHandler(
             Country = request.ShippingOrderAddress.Country,
         };
 
-        var order = Domain.Entities.Order.CreateInitialOrder(identityService.UserId, orderAddress);
+        var order = Domain.Entities.Order.CreateInitialOrder(identityService.UserId.Value, orderAddress);
 
         if (!string.IsNullOrEmpty(request.CouponCode))
         {
