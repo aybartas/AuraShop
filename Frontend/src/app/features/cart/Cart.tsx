@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PageLayout from "../../layout/PageLayout";
 import { MdDelete, MdAdd, MdRemove } from "react-icons/md";
 import { useBasket } from "../../../hooks/useBasket";
@@ -17,14 +17,9 @@ function Cart() {
   const [couponError, setCouponError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const { basket, refreshBasket } = useBasket();
 
-  const { basket, refreshBasket, loading } = useBasket();
-
-  // Quantity handlers
-
-  // Remove item
-
-  // Calculate totals
+  // Calculate subtotal
   const subtotal =
     basket?.basketItems?.reduce(
       (sum, item) =>
@@ -32,33 +27,20 @@ function Cart() {
       0
     ) || 0;
 
-  // Calculate discount based on coupon
+  // Coupon discount
   const couponDiscountRate = appliedCoupon ? VALID_COUPONS[appliedCoupon] : 0;
   const discountAmount = (subtotal * couponDiscountRate) / 100;
+
+  // Shipping info
+  const FREE_SHIPPING_THRESHOLD = 500;
+  const amountLeftForFreeShipping = Math.max(
+    0,
+    FREE_SHIPPING_THRESHOLD - subtotal
+  );
+
+  // Calculate total
   const total = subtotal + (basket?.shippingAmount || 0) - discountAmount;
 
-  const handleUpdateCartItem = async (productId: string, quantity: number) => {
-    BasketService.updateCartItem({
-      quantity,
-      productId,
-    })
-      .then(() => {
-        refreshBasket();
-      })
-      .catch((error) => {
-        console.error("Failed to add item to cart:", error);
-      });
-  };
-
-  const handleDeleteCartItem = async (productId: string) => {
-    BasketService.removeItemFromCart(productId)
-      .then(() => {
-        refreshBasket();
-      })
-      .catch((error) => {
-        console.error("Failed to remove item from cart:", error);
-      });
-  };
   // Apply coupon handler
   const applyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
@@ -76,7 +58,7 @@ function Cart() {
     setAppliedCoupon(code);
   };
 
-  // Remove applied coupon
+  // Remove coupon handler
   const removeCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode("");
@@ -130,10 +112,10 @@ function Cart() {
                         <button
                           aria-label={`Decrease quantity of ${item.productName}`}
                           onClick={() =>
-                            handleUpdateCartItem(
-                              item.productId,
-                              item.quantity - 1
-                            )
+                            BasketService.updateCartItem({
+                              quantity: item.quantity - 1,
+                              productId: item.productId,
+                            }).then(refreshBasket)
                           }
                           disabled={item.quantity <= 1}
                           className="p-2 border rounded-md hover:bg-gray-100 transition"
@@ -146,10 +128,10 @@ function Cart() {
                         <button
                           aria-label={`Increase quantity of ${item.productName}`}
                           onClick={() =>
-                            handleUpdateCartItem(
-                              item.productId,
-                              item.quantity + 1
-                            )
+                            BasketService.updateCartItem({
+                              quantity: item.quantity + 1,
+                              productId: item.productId,
+                            }).then(refreshBasket)
                           }
                           className="p-2 border rounded-md hover:bg-gray-100 transition"
                         >
@@ -158,7 +140,11 @@ function Cart() {
                       </div>
                       <button
                         aria-label={`Remove ${item.productName} from cart`}
-                        onClick={() => handleDeleteCartItem(item.productId)}
+                        onClick={() =>
+                          BasketService.removeItemFromCart(item.productId).then(
+                            refreshBasket
+                          )
+                        }
                         className="flex items-center text-red-600 hover:text-red-800 "
                       >
                         <MdDelete size={28} />
@@ -188,22 +174,41 @@ function Cart() {
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-semibold">
-                <span>Shipping</span>
-                <span>${basket?.shippingAmount?.toFixed(2)}</span>
+
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between font-semibold">
+                  <span>Shipping</span>
+                  {basket?.basketItems?.length &&
+                  basket.shippingAmount === 0 ? (
+                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-semibold">
+                      Free Shipping
+                    </span>
+                  ) : (
+                    <span>${basket?.shippingAmount?.toFixed(2)}</span>
+                  )}
+                </div>
+                {subtotal < FREE_SHIPPING_THRESHOLD && (
+                  <p className="text-xs text-gray-500 italic">
+                    Add ${amountLeftForFreeShipping.toFixed(2)} more to qualify
+                    for free shipping.
+                  </p>
+                )}
               </div>
+
               {discountAmount > 0 && (
                 <div className="flex justify-between text-green-700 font-semibold">
                   <span>Discount</span>
                   <span>- ${discountAmount.toFixed(2)}</span>
                 </div>
               )}
+
               <div className="flex justify-between border-t pt-4 text-lg font-bold text-gray-900">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
               </div>
             </div>
 
+            {/* Coupon Section */}
             <div className="space-y-2">
               <label
                 htmlFor="coupon"
@@ -215,7 +220,7 @@ function Cart() {
                 <input
                   id="coupon"
                   type="text"
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 transition"
                   placeholder="Enter coupon code"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
