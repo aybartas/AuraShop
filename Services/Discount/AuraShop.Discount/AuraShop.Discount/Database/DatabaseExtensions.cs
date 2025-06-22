@@ -12,23 +12,39 @@ namespace AuraShop.Discount.Database
             var db = scope.ServiceProvider.GetRequiredService<IMongoDatabase>();
             var settings = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value;
 
-            var collectionName = settings.CouponsCollectionName;
+            var couponsCollectionName = settings.CouponsCollectionName;
 
-            var existingCollections = await db.ListCollectionNames().ToListAsync();
-            if (!existingCollections.Contains(collectionName))
+            var existingCollections = await (await db.ListCollectionNamesAsync()).ToListAsync();
+
+            if (!existingCollections.Contains(couponsCollectionName))
             {
-                await db.CreateCollectionAsync(collectionName);
+                await db.CreateCollectionAsync(couponsCollectionName);
 
-                var couponCollection = db.GetCollection<Coupon>(collectionName);
+                var couponCollection = db.GetCollection<Coupon>(couponsCollectionName);
 
                 var indexKeys = Builders<Coupon>.IndexKeys
-                    .Ascending(c => c.Code)
-                    .Ascending(c => c.UserId);
+                    .Ascending(c => c.Code);
 
                 var indexOptions = new CreateIndexOptions { Unique = true };
                 var indexModel = new CreateIndexModel<Coupon>(indexKeys, indexOptions);
 
                 await couponCollection.Indexes.CreateOneAsync(indexModel);
+            }
+
+            var couponUsageCollectionName = settings.CouponsCollectionName;
+
+            if (!existingCollections.Contains(couponUsageCollectionName))
+            {
+                await db.CreateCollectionAsync(couponUsageCollectionName);
+
+                var couponUsageCollection = db.GetCollection<CouponUsage>(couponUsageCollectionName);
+
+                var indexKeys = Builders<CouponUsage>.IndexKeys
+                    .Ascending(c => c.UserId);
+
+                var indexModel = new CreateIndexModel<CouponUsage>(indexKeys);
+
+                await couponUsageCollection.Indexes.CreateOneAsync(indexModel);
             }
         }
     }

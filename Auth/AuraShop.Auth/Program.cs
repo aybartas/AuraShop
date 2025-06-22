@@ -5,6 +5,7 @@ using AuraShop.Auth.Features.Login;
 using AuraShop.Auth.Features.Register;
 using AuraShop.Auth.Models;
 using AuraShop.Auth.Services;
+using AuraShop.Shared.Configs;
 using Microsoft.Extensions.Options;
 using AuraShop.Shared.Extensions;
 

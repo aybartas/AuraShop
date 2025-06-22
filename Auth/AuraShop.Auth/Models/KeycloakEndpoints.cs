@@ -1,4 +1,6 @@
-﻿namespace AuraShop.Auth.Models;
+﻿using AuraShop.Shared.Configs;
+
+namespace AuraShop.Auth.Models;
 
 public class KeycloakEndpoints(KeycloakConfig config)
 {
