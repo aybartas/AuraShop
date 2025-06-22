@@ -31,7 +31,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
-builder.Services.AddCommonServices(typeof(DiscountAssembly));
+builder.Services.AddCommonServices(builder.Configuration, typeof(DiscountAssembly));
 
 BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
 

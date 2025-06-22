@@ -1,11 +1,12 @@
 ﻿using AuraShop.Auth.Services;
 using AuraShop.Shared;
+using MediatR;
 
 namespace AuraShop.Auth.Features.Login;
 
-public class LoginHandler(KeycloakService keycloak)
+public class LoginHandler(KeycloakService keycloak) : IRequestHandler<LoginRequest, ServiceResult<LoginResponse>>
 {
-    public async Task<ServiceResult<LoginResponse>> HandleAsync(LoginRequest request)
+    public async Task<ServiceResult<LoginResponse>> Handle(LoginRequest request, CancellationToken cancellationToken)
     {
         var response = await keycloak.LoginAsync(request.Email, request.Password);
 

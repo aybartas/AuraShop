@@ -23,7 +23,6 @@ function Cart() {
   // Quantity handlers
 
   // Remove item
-  const handleRemove = (productId: string) => {};
 
   // Calculate totals
   const subtotal =
@@ -51,6 +50,15 @@ function Cart() {
       });
   };
 
+  const handleDeleteCartItem = async (productId: string) => {
+    BasketService.removeItemFromCart(productId)
+      .then(() => {
+        refreshBasket();
+      })
+      .catch((error) => {
+        console.error("Failed to remove item from cart:", error);
+      });
+  };
   // Apply coupon handler
   const applyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
@@ -150,7 +158,7 @@ function Cart() {
                       </div>
                       <button
                         aria-label={`Remove ${item.productName} from cart`}
-                        onClick={() => handleRemove(item.productId)}
+                        onClick={() => handleDeleteCartItem(item.productId)}
                         className="flex items-center text-red-600 hover:text-red-800 "
                       >
                         <MdDelete size={28} />

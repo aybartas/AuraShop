@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-builder.Services.AddCommonServices(typeof(FileAssembly));
+builder.Services.AddCommonServices(builder.Configuration, typeof(FileAssembly));
 
 var app = builder.Build();
 

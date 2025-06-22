@@ -1,4 +1,6 @@
-﻿namespace AuraShop.Basket.Features.Baskets
+﻿using System.Security.Claims;
+
+namespace AuraShop.Basket.Features.Baskets
 {
     public class BasketUserContext(Guid userId, bool isAnonymous)
     {
@@ -20,7 +22,7 @@
 
             if (user.Identity?.IsAuthenticated == true)
             {
-                var idClaim = user.FindFirst("sub")?.Value;
+                var idClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (Guid.TryParse(idClaim, out var userId))
                     return new BasketUserContext(userId, false);
             }

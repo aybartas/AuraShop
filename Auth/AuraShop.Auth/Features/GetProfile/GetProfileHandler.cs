@@ -1,24 +1,23 @@
 ﻿using AuraShop.Auth.Dtos;
-using AuraShop.Auth.Models;
-using AuraShop.Auth.Services;
+
 using AuraShop.Shared;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using MediatR;
 
 namespace AuraShop.Auth.Features.GetProfile;
 
-public class GetProfileHandler
+public class GetProfileHandler(IHttpContextAccessor httpContextAccessor) : IRequestHandler<GetProfileRequest, ServiceResult<UserDto>>
 {
-    public ServiceResult<UserDto> HandleAsync(IHttpContextAccessor httpContextAccessor)
+
+    public Task<ServiceResult<UserDto>> Handle(GetProfileRequest request, CancellationToken cancellationToken)
     {
         var user = httpContextAccessor.HttpContext?.User;
 
         if (user == null || !user.Identity?.IsAuthenticated == true)
-            return ServiceResult<UserDto>.Unauthorized();
+            return Task.FromResult(ServiceResult<UserDto>.Unauthorized());
 
-        var identity = user.Identity as ClaimsIdentity;
-        if (identity == null)
-            return ServiceResult<UserDto>.Unauthorized();
+        if (user.Identity is not ClaimsIdentity identity)
+            return Task.FromResult(ServiceResult<UserDto>.Unauthorized());
 
         var userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var username = identity.FindFirst("preferred_username")?.Value;
@@ -33,6 +32,6 @@ public class GetProfileHandler
             Roles = roles,
         };
 
-        return ServiceResult<UserDto>.SuccessAsOk(userDto);
+        return Task.FromResult(ServiceResult<UserDto>.SuccessAsOk(userDto));
     }
 }
