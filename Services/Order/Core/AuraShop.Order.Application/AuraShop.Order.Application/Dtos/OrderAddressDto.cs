@@ -2,7 +2,7 @@
 
 public class OrderAddressDto
 {
-    public int? UserAddressId { get; set; }
+    public int? AddressId { get; set; }
     public string Street { get; set; } = null!;
     public string City { get; set; } = null!;
     public string State { get; set; } = null!;

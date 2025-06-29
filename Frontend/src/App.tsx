@@ -5,6 +5,7 @@ import ProductDetails from "./app/features/catalog/ProductDetails";
 import Home from "./app/features/home/Home";
 import Login from "./app/features/login/Login";
 import Cart from "./app/features/cart/Cart";
+import Checkout from "./app/features/checkout/Checkout";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="catalog/:id" element={<ProductDetails />} />
         <Route path="login" element={<Login />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="checkout" element={<Checkout />} />
 
         {/* <Route path="catalog/:id" element={<ProductDetail />} />
 

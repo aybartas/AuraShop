@@ -268,10 +268,11 @@ function Cart() {
             </div>
 
             <button
+              onClick={() => navigate("/checkout")}
               className="w-full bg-orange-500 text-white py-3 rounded-md hover:bg-orange-600 transition disabled:opacity-50 text-lg font-semibold"
               disabled={!basket?.basketItems?.length}
             >
-              Complete Order
+              Continue To Checkout
             </button>
           </div>
         </div>
