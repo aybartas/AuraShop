@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../api/auth/AuthService";
+import { AuthService } from "../api/services/AuthService";
 import { User } from "../types/User";
 
 interface AuthContextProps {

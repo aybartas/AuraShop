@@ -7,7 +7,7 @@ namespace AuraShop.Basket.Features.Baskets.DeleteBasketItem
     {
         public static RouteGroupBuilder DeleteBasketItemGroupEndpoint(this RouteGroupBuilder group)
         {
-            group.MapDelete("/item/{productId:guid}", async (Guid productId, IMediator mediator) =>
+            group.MapDelete("/items/{productId:guid}", async (Guid productId, IMediator mediator) =>
                 {
                     var result = await mediator.Send(new DeleteBasketItemCommand(productId));
                     return result.ToResult();

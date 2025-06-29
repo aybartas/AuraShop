@@ -4,9 +4,9 @@ using MediatR;
 
 namespace AuraShop.Discount.Features.Coupons.Create
 {
-    public static class CreateCouponEndpoint
+    public static class CreateCouponUsageEndpoint
     {
-        public static RouteGroupBuilder CreateDiscount(this RouteGroupBuilder group)
+        public static RouteGroupBuilder CreateCoupon(this RouteGroupBuilder group)
         {
             group.MapPost("/", async (CreateCouponCommand command, IMediator mediator) =>
             {

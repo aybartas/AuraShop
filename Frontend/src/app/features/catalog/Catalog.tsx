@@ -3,7 +3,7 @@ import FilterForm from "./FilterForm";
 import ProductList from "../home/ProductLİst";
 import { useEffect, useState } from "react";
 import { Product } from "../../../types/Product";
-import { CatalogService } from "../../../api/catalog/CatalogService";
+import { CatalogService } from "../../../api/services/CatalogService";
 
 function Catalog() {
   const [products, setProducts] = useState<Product[]>([]);

@@ -1,4 +1,4 @@
-﻿namespace AuraShop.Auth
+﻿namespace AuraShop.Shared.Configs
 {
     public class KeycloakConfig
     {

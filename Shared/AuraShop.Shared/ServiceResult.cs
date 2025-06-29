@@ -1,7 +1,8 @@
-﻿using System.Net;
+﻿using Refit;
+using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Refit;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace AuraShop.Shared
@@ -79,7 +80,21 @@ namespace AuraShop.Shared
                 Status = status
             };
         }
-        public static ServiceResult Error(IDictionary<string, object> errors)
+        public static ServiceResult BadRequest(string error)
+        {
+            return new ServiceResult()
+            {
+                Status = HttpStatusCode.BadRequest,
+                ProblemDetails = new ProblemDetails
+                {
+                    Title = "Validation errors occured",
+                    Detail = error,
+                    Status = (int?)HttpStatusCode.BadRequest,
+                },
+            };
+        }
+
+        public static ServiceResult ErrorAsBadRequest(IDictionary<string, object> errors)
         {
             return new ServiceResult()
             {
@@ -135,19 +150,8 @@ namespace AuraShop.Shared
             };
         }
 
-
-        public static ServiceResult<T> ErrorAsNotFound(string detail = "The requested resource was not found")
-        {
-            return new ServiceResult<T>()
-            {
-                Status = HttpStatusCode.NotFound,
-                ProblemDetails = new ProblemDetails
-                {
-                    Type = "Not found",
-                    Detail = detail,
-                }
-            };
-        }
+     
+     
         public static ServiceResult<T> Error(string title, string detail, HttpStatusCode status)
         {
             return new ServiceResult<T>

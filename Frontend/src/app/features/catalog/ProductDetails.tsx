@@ -3,8 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 import PageLayout from "../../layout/PageLayout";
 import { Product } from "../../../types/Product";
 import { useEffect, useState } from "react";
-import { CatalogService } from "../../../api/catalog/CatalogService";
+import { CatalogService } from "../../../api/services/CatalogService";
 import { useParams } from "react-router-dom";
+import { BasketService } from "../../../api/services/BasketService";
+import { useBasket } from "../../../hooks/useBasket";
 
 interface AddToCartForm {
   size: string;
@@ -28,6 +30,8 @@ function ProductDetails() {
       comment: "Great product!",
     },
   ]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { refreshBasket } = useBasket();
 
   const { id } = useParams();
 
@@ -60,32 +64,27 @@ function ProductDetails() {
 
     const cartItem = {
       productId: product.id,
-      name: product.name,
+      productName: product.name,
       price: product.price,
-      image: product.images?.[0],
-      color: formData.color,
-      size: formData.size,
       quantity: 1,
+      imageUrl: product.images?.[0],
+      size: formData.size,
+      color: formData.color,
     };
 
-    try {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cartItem),
+    setLoading(true);
+
+    BasketService.addItemToCart(cartItem)
+      .then(() => {
+        refreshBasket();
+      })
+      .catch((error) => {
+        console.error("Failed to add item to cart:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      if (!res.ok) throw new Error("Failed to add to cart");
-
-      alert("✅ Product added to cart!");
-    } catch (error) {
-      console.error(error);
-      alert("❌ Something went wrong while adding to cart.");
-    }
   };
-
   if (!product)
     return (
       <PageLayout>
@@ -210,13 +209,43 @@ function ProductDetails() {
                 </div>
               )}
 
-              <div className="w-full justify-center flex  pt-4">
+              <div className="w-full justify-center flex pt-4">
                 <button
                   type="submit"
-                  className="w-full sm:w-auto flex items-center justify-center gap-3 bg-orange-500 text-white px-6 py-3 text-base font-semibold rounded-lg shadow-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 transition duration-300"
+                  disabled={loading}
+                  className={`w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 text-base font-semibold rounded-lg shadow-md transition duration-300
+                    ${
+                      loading
+                        ? "bg-orange-300 cursor-not-allowed"
+                        : "bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 text-white"
+                    }
+                  `}
                 >
-                  <ShoppingCartIcon className="w-6 h-6" />
-                  Add to Cart
+                  {loading ? (
+                    <svg
+                      className="w-6 h-6 text-white animate-spin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      />
+                    </svg>
+                  ) : (
+                    <ShoppingCartIcon className="w-6 h-6 text-white" />
+                  )}
+                  {loading ? "Adding..." : "Add to Cart"}
                 </button>
               </div>
             </form>

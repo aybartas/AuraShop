@@ -1,6 +1,6 @@
 using AuraShop.Discount;
 using AuraShop.Discount.Database;
-using AuraShop.Discount.Features.Coupons;
+using AuraShop.Discount.Features;
 using AuraShop.Shared.Extensions;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -31,7 +31,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
-builder.Services.AddCommonServices(typeof(DiscountAssembly));
+builder.Services.AddCommonServices(builder.Configuration, typeof(DiscountAssembly));
 
 BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
 

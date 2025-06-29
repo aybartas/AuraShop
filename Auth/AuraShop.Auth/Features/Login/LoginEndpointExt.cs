@@ -1,4 +1,5 @@
 ﻿using AuraShop.Shared.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuraShop.Auth.Features.Login
@@ -7,10 +8,10 @@ namespace AuraShop.Auth.Features.Login
     {
         public static RouteGroupBuilder AddLoginEndpoint(this RouteGroupBuilder groupBuilder)
         {
-            groupBuilder.MapPost("/login", async ([FromBody] LoginRequest req, LoginHandler handler) =>
+            groupBuilder.MapPost("/login", async ([FromBody] LoginRequest req, IMediator mediator) =>
             {
-                var response = await handler.HandleAsync(req);
-                return response.ToResult();
+                var result = await mediator.Send(req);
+                return result.ToResult();
             });
 
             return groupBuilder;

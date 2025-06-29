@@ -2,9 +2,9 @@
 
 namespace AuraShop.Discount.Features.Coupons.Create
 {
-    public class CreateCouponCommandValidator : AbstractValidator<CreateCouponCommand>
+    public partial class CreateCouponUsageCommandValidator : AbstractValidator<CreateCouponCommand>
     {
-        public CreateCouponCommandValidator()
+        public CreateCouponUsageCommandValidator()
         {
             RuleFor(x => x.Code)
                 .NotEmpty()

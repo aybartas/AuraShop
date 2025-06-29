@@ -1,30 +1,28 @@
-﻿using System.Text.Json;
-using AuraShop.Shared;
+﻿using AuraShop.Shared;
 using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.ApplyDiscount;
 
-public class ApplyDiscountCommandHandler : IRequestHandler<ApplyCouponCommand, ServiceResult>
+public class ApplyDiscountCommandHandler(BasketService basketService, IDiscountService discountService , IBasketAuthService basketAuthService) : IRequestHandler<ApplyCouponCommand, ServiceResult>
 {
-    private readonly BasketService _basketService;
-
-    public ApplyDiscountCommandHandler(BasketService basketService)
-    {
-        _basketService = basketService;
-    }
-
     public async Task<ServiceResult> Handle(ApplyCouponCommand command, CancellationToken cancellationToken)
     {
-        var existingBasketJson = await _basketService.GetBasketAsync(cancellationToken);
+        var userContext = basketAuthService.GetUser();
 
-        if (string.IsNullOrEmpty(existingBasketJson))
+        var currentBasket = await basketService.GetBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);
+
+        if (currentBasket is null)
             return ServiceResult.ErrorAsNotFound("Basket not found");
+
+        var validationResponse = await discountService.ValidateCouponAsync(command.CouponCode);
+
+        if (!validationResponse.IsValid)
+            return ServiceResult.BadRequest(validationResponse.ErrorMessage);
         
-        var currentBasket = JsonSerializer.Deserialize<Data.Basket>(existingBasketJson);
 
-        currentBasket.ApplyDiscount(command.Coupon,command.DiscountRate);
+        currentBasket.ApplyDiscount(validationResponse.CouponCode,validationResponse.DiscountRate);
 
-        await _basketService.SetBasketAsync(currentBasket, cancellationToken);
+        await basketService.SetBasketAsync(userContext.UserId, userContext.IsAnonymous, currentBasket, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
     }

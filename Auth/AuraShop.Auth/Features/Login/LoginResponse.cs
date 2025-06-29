@@ -1,6 +1,8 @@
-﻿namespace AuraShop.Auth.Features.Login;
+﻿using MediatR;
 
-public class LoginResponse
+namespace AuraShop.Auth.Features.Login;
+
+public class LoginResponse : IRequest<LoginResponse>
 {
     public string AccessToken { get; set; }
 }
