@@ -1,4 +1,5 @@
 ﻿using AuraShop.Discount.Features.Coupons;
+using AuraShop.Discount.Features.CouponUsages;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -29,6 +30,34 @@ namespace AuraShop.Discount.Database
                 var indexModel = new CreateIndexModel<Coupon>(indexKeys, indexOptions);
 
                 await couponCollection.Indexes.CreateOneAsync(indexModel);
+
+                var seedCoupons = new List<Coupon>()
+                {
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Code = "SAVE10",
+                        DiscountRate = 10,
+                        ExpireDate = DateTime.UtcNow.AddDays(30)
+                    },
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Code = "SAVE20",
+                        DiscountRate = 20,
+                        ExpireDate = DateTime.UtcNow.AddDays(30)
+                    },
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Code = "SAVE50",
+                        DiscountRate = 50,
+                        ExpireDate = DateTime.UtcNow.AddDays(30)
+                    },
+                };
+
+                await couponCollection.InsertManyAsync(seedCoupons);
+
             }
 
             var couponUsageCollectionName = settings.CouponsCollectionName;

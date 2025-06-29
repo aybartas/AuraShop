@@ -1,9 +1,9 @@
-﻿namespace AuraShop.Discount.Features.Coupons;
+﻿namespace AuraShop.Discount.Features.CouponUsages;
 
 public class CouponUsageDto
 {
     public Guid Id { get; set; }
-    public string CouponId { get; set; }
+    public Guid CouponId { get; set; }
     public Guid UserId { get; set; }
     public DateTime AppliedAt { get; set; }
 }

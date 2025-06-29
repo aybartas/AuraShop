@@ -1,6 +1,6 @@
 using AuraShop.Discount;
 using AuraShop.Discount.Database;
-using AuraShop.Discount.Features.Coupons;
+using AuraShop.Discount.Features;
 using AuraShop.Shared.Extensions;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;

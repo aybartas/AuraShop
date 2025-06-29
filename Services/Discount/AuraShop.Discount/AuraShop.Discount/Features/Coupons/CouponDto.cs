@@ -4,8 +4,7 @@
     {
         public Guid Id { get; set; }
         public string Code { get; set; }
-        public decimal Rate { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public bool IsActive { get; set; }
+        public decimal DiscountRate { get; set; }
+        public DateTime ExpireDate { get; set; }
     }
 }

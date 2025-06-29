@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace AuraShop.Shared.Services;
 
@@ -9,9 +10,16 @@ public class IdentityService(IHttpContextAccessor contextAccessor) : IIdentitySe
         get
         {
             var user = contextAccessor.HttpContext?.User;
-            var id = user?.FindFirst("sub")?.Value;
+            if (user == null)
+                return null;
 
-            return Guid.TryParse(id, out var guid) ? guid : null;
+            var subClaim = user.FindFirst(ClaimTypes.NameIdentifier) ?? user.FindFirst("sub");
+
+
+            if (subClaim == null)
+                return null;
+
+            return Guid.TryParse(subClaim.Value, out var userId) ? userId : null;
         }
     }
 }

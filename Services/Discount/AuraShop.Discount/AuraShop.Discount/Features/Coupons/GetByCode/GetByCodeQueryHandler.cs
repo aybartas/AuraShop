@@ -8,7 +8,7 @@ public class GetByCodeQueryHandler(ICouponService couponService, IMapper mapper)
 {
     public async Task<ServiceResult<List<CouponDto>>> Handle(GetByCodeQuery request, CancellationToken cancellationToken)
     {
-        var categories = await couponService.GetAllCategoriesAsync();
+        var categories = await couponService.GetCouponsAsync();
 
         var mappedCategories = mapper.Map<List<CouponDto>>(categories);
 

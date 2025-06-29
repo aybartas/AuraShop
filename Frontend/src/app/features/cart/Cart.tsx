@@ -1,38 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "../../layout/PageLayout";
 import { MdDelete, MdAdd, MdRemove } from "react-icons/md";
 import { useBasket } from "../../../hooks/useBasket";
 import { useNavigate } from "react-router-dom";
 import { BasketService } from "../../../api/services/BasketService";
 
-const VALID_COUPONS: Record<string, number> = {
-  SAVE10: 10,
-  SAVE20: 20,
-  FREESHIP: 0,
-};
+const FREE_SHIPPING_THRESHOLD = 500;
 
 function Cart() {
-  const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponError, setCouponError] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const { basket, refreshBasket } = useBasket();
+  const [couponCode, setCouponCode] = useState("");
+
+  useEffect(() => {
+    setCouponCode(basket?.coupon || "");
+    setAppliedCoupon(basket?.coupon || "");
+  }, [basket?.coupon]);
 
   // Calculate subtotal
   const subtotal =
     basket?.basketItems?.reduce(
-      (sum, item) =>
-        sum + (item?.discountedPrice ?? item.price) * item.quantity,
+      (sum, item) => sum + item.price * item.quantity,
       0
     ) || 0;
 
   // Coupon discount
-  const couponDiscountRate = appliedCoupon ? VALID_COUPONS[appliedCoupon] : 0;
+  const couponDiscountRate = basket?.discountRate || 0;
   const discountAmount = (subtotal * couponDiscountRate) / 100;
 
   // Shipping info
-  const FREE_SHIPPING_THRESHOLD = 500;
   const amountLeftForFreeShipping = Math.max(
     0,
     FREE_SHIPPING_THRESHOLD - subtotal
@@ -43,26 +42,33 @@ function Cart() {
 
   // Apply coupon handler
   const applyCoupon = () => {
-    const code = couponCode.trim().toUpperCase();
-    if (!code) {
-      setCouponError("Please enter a coupon code.");
-      setAppliedCoupon(null);
-      return;
-    }
-    if (!(code in VALID_COUPONS)) {
-      setCouponError("Invalid coupon code.");
-      setAppliedCoupon(null);
-      return;
-    }
-    setCouponError(null);
-    setAppliedCoupon(code);
+    BasketService.applyDiscount({ couponCode: couponCode })
+      .then(() => {
+        setCouponError(null);
+        refreshBasket();
+        setAppliedCoupon(couponCode);
+      })
+      .catch((error) => {
+        const message =
+          error?.response?.status === 400 && error?.response?.data?.detail
+            ? error.response.data.detail
+            : "Error occured while applying coupon";
+
+        setCouponError(message);
+      });
   };
 
   // Remove coupon handler
   const removeCoupon = () => {
-    setAppliedCoupon(null);
-    setCouponCode("");
-    setCouponError(null);
+    BasketService.removeDiscount()
+      .then(() => {
+        setCouponError(null);
+        setAppliedCoupon(null);
+        refreshBasket();
+      })
+      .catch(() => {
+        setCouponError("Error while removing basket");
+      });
   };
 
   return (
@@ -152,10 +158,7 @@ function Cart() {
                     </div>
                   </div>
                   <p className="text-xl font-semibold text-gray-800">
-                    $
-                    {(
-                      (item.discountedPrice ?? item.price) * item.quantity
-                    ).toFixed(2)}
+                    ${((item.price ?? item.price) * item.quantity).toFixed(2)}
                   </p>
                 </div>
               ))
@@ -232,7 +235,9 @@ function Cart() {
                   <button
                     onClick={applyCoupon}
                     className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition disabled:opacity-50"
-                    disabled={!couponCode.trim()}
+                    disabled={
+                      !couponCode.trim() || !basket?.basketItems?.length
+                    }
                   >
                     Apply
                   </button>

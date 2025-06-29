@@ -1,4 +1,5 @@
-﻿using AuraShop.Discount.Features.Coupons.Create;
+﻿
+using AuraShop.Discount.Features.Coupons.Create;
 using AutoMapper;
 
 namespace AuraShop.Discount.Features.Coupons

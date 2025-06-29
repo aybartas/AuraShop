@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace AuraShop.Basket.Features.Baskets
@@ -11,13 +12,21 @@ namespace AuraShop.Basket.Features.Baskets
         {
             var key = GetBasketKey(userId, isAnonymous);
             var json = await distributedCache.GetStringAsync(key, cancellationToken);
-            return json == null ? null : JsonSerializer.Deserialize<Data.Basket>(json);
+            return json == null ? null : JsonSerializer.Deserialize<Data.Basket>(json, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
         }
 
         public async Task SetBasketAsync(Guid userId, bool isAnonymous, Data.Basket basket, CancellationToken cancellationToken = default)
         {
             var key = GetBasketKey(userId, isAnonymous);
-            var json = JsonSerializer.Serialize(basket);
+            var json = JsonSerializer.Serialize(basket, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
             await distributedCache.SetStringAsync(key, json, cancellationToken);
         }
 
@@ -26,35 +35,5 @@ namespace AuraShop.Basket.Features.Baskets
             var key = GetBasketKey(userId, isAnonymous);
             await distributedCache.RemoveAsync(key, cancellationToken);
         }
-
-        public async Task<bool> RemoveBasketItemAsync(Guid userId, bool isAnonymous, Guid productId, CancellationToken cancellationToken = default)
-        {
-            var basket = await GetBasketAsync(userId, isAnonymous, cancellationToken);
-            if (basket == null) return false;
-
-            var item = basket.BasketItems.Find(x => x.ProductId == productId);
-            if (item == null) return false;
-
-            basket.BasketItems.Remove(item);
-
-            if (basket.BasketItems.Count == 0)
-                await RemoveBasketAsync(userId, isAnonymous, cancellationToken);
-            else
-                await SetBasketAsync(userId, isAnonymous, basket, cancellationToken);
-
-            return true;
-        }
-
-        public async Task<bool> ApplyDiscountAsync(Guid userId, bool isAnonymous, string couponCode, decimal discountRate, CancellationToken cancellationToken = default)
-        {
-            var basket = await GetBasketAsync(userId, isAnonymous, cancellationToken);
-            if (basket == null) return false;
-
-            basket.ApplyDiscount(couponCode, discountRate);
-
-            await SetBasketAsync(userId, isAnonymous, basket, cancellationToken);
-            return true;
-        }
-
     }
 }
