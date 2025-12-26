@@ -18,7 +18,6 @@ namespace AuraShop.Shared.Extensions
             services.AddVersioning();
             services.AddAutoMapper(assembly);
 
-            services.AddKeycloakAuth(configuration);
 
             services.AddScoped<IIdentityService, IdentityService>();
 

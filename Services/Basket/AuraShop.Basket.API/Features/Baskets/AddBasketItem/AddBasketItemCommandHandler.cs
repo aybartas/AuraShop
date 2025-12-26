@@ -48,8 +48,6 @@ public class AddBasketItemCommandHandler(BasketService basketService, IBasketAut
         else
             existingBasketJson.BasketItems.Add(newItem);
 
-        if (existingBasketJson.HasDiscount)
-            existingBasketJson.ReApplyDiscount();
 
         await basketService.SetBasketAsync(userId, isAnonymous, existingBasketJson, cancellationToken);
 

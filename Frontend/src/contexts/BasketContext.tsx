@@ -1,6 +1,14 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Basket } from "../types/Basket";
 import { BasketService } from "../api/services/BasketService";
+import { AuthContext } from "./AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 interface BasketContextProps {
   basket: Basket | null;
@@ -16,6 +24,8 @@ export const BasketContext = createContext<BasketContextProps | undefined>(
 export const BasketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { user } = useAuth();
+
   const [basket, setBasket] = useState<Basket | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -34,7 +44,7 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     refreshBasket();
-  }, []);
+  }, [user]);
 
   return (
     <BasketContext.Provider

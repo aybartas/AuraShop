@@ -15,5 +15,9 @@
     <ProjectReference Include="..\..\..\Shared\AuraShop.Shared\AuraShop.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Clients\" />
+  </ItemGroup>
+
 </Project>
  

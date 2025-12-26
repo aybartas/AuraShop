@@ -4,6 +4,7 @@ import { MdDelete, MdAdd, MdRemove } from "react-icons/md";
 import { useBasket } from "../../../hooks/useBasket";
 import { useNavigate } from "react-router-dom";
 import { BasketService } from "../../../api/services/BasketService";
+import CartSkeleton from "./CartSkeleton";
 
 const FREE_SHIPPING_THRESHOLD = 500;
 
@@ -15,30 +16,11 @@ function Cart() {
   const { basket, refreshBasket } = useBasket();
   const [couponCode, setCouponCode] = useState("");
 
+  console.log("basket", basket);
   useEffect(() => {
     setCouponCode(basket?.coupon || "");
     setAppliedCoupon(basket?.coupon || "");
   }, [basket?.coupon]);
-
-  // Calculate subtotal
-  const subtotal =
-    basket?.basketItems?.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    ) || 0;
-
-  // Coupon discount
-  const couponDiscountRate = basket?.discountRate || 0;
-  const discountAmount = (subtotal * couponDiscountRate) / 100;
-
-  // Shipping info
-  const amountLeftForFreeShipping = Math.max(
-    0,
-    FREE_SHIPPING_THRESHOLD - subtotal
-  );
-
-  // Calculate total
-  const total = subtotal + (basket?.shippingAmount || 0) - discountAmount;
 
   // Apply coupon handler
   const applyCoupon = () => {
@@ -70,6 +52,22 @@ function Cart() {
         setCouponError("Error while removing basket");
       });
   };
+
+  if (!basket) return <CartSkeleton />;
+
+  // Coupon discount
+  const couponDiscountRate = basket?.discountRate || 0;
+  const discountAmount = (basket.subtotal * couponDiscountRate) / 100;
+
+  // Shipping info
+  const amountLeftForFreeShipping = Math.max(
+    0,
+    FREE_SHIPPING_THRESHOLD - basket.subtotal
+  );
+
+  // Calculate total
+  const total =
+    basket.subtotal + (basket?.shippingAmount || 0) - discountAmount;
 
   return (
     <PageLayout>
@@ -111,7 +109,7 @@ function Cart() {
                       {item.productName}
                     </h3>
                     <p className="text-sm text-gray-500 mt-1">
-                      ${(item.discountedPrice ?? item.price).toFixed(2)} / unit
+                      ${item.price.toFixed(2)} / unit
                     </p>
                     <div className="mt-3 flex items-center gap-3">
                       <div className="flex items-center gap-2">
@@ -158,7 +156,7 @@ function Cart() {
                     </div>
                   </div>
                   <p className="text-xl font-semibold text-gray-800">
-                    ${((item.price ?? item.price) * item.quantity).toFixed(2)}
+                    ${(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
               ))
@@ -175,7 +173,7 @@ function Cart() {
             <div className="space-y-4 text-gray-700 text-base">
               <div className="flex justify-between font-semibold">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>${basket.subtotal?.toFixed(2)}</span>
               </div>
 
               <div className="flex flex-col gap-1">
@@ -190,7 +188,7 @@ function Cart() {
                     <span>${basket?.shippingAmount?.toFixed(2)}</span>
                   )}
                 </div>
-                {subtotal < FREE_SHIPPING_THRESHOLD && (
+                {basket.subtotal < FREE_SHIPPING_THRESHOLD && (
                   <p className="text-xs text-gray-500 italic">
                     Add ${amountLeftForFreeShipping.toFixed(2)} more to qualify
                     for free shipping.
@@ -268,10 +266,11 @@ function Cart() {
             </div>
 
             <button
+              onClick={() => navigate("/checkout")}
               className="w-full bg-orange-500 text-white py-3 rounded-md hover:bg-orange-600 transition disabled:opacity-50 text-lg font-semibold"
               disabled={!basket?.basketItems?.length}
             >
-              Complete Order
+              Continue To Checkout
             </button>
           </div>
         </div>

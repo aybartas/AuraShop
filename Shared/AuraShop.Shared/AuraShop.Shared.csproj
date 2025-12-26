@@ -24,4 +24,8 @@
     <None Include="Extensions\RegistrationExt.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configs\" />
+  </ItemGroup>
+
 </Project>

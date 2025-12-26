@@ -125,7 +125,7 @@ namespace AuraShop.Shared
                 Data = data
             };
         }
-        public static ServiceResult<T> SuccessAsCreated(T data, string url)
+        public static ServiceResult<T> SuccessAsCreated(T data, string url = "")
         {
             return new ServiceResult<T>()
             {
@@ -135,6 +135,18 @@ namespace AuraShop.Shared
             };
         }
 
+        public static ServiceResult<T> ErrorAsNotFound(string detail = "The requested resource was not found")
+        {
+            return new ServiceResult<T>()
+            {
+                Status = HttpStatusCode.NotFound,
+                ProblemDetails = new ProblemDetails
+                {
+                    Type = "Not found",
+                    Detail = detail,
+                }
+            };
+        }
 
         public static ServiceResult<T> Unauthorized(string detail = "Unauthorized access")
         {

@@ -8,42 +8,19 @@ public class Basket
     public string? Coupon { get; set; }
     public decimal? DiscountRate { get; set; }
     public decimal ShippingAmount => BasketItems.Sum(item => item.Price * item.Quantity) > 500 ? 0 : 19.99m;
-
-    [JsonIgnore]
-    public bool HasDiscount => DiscountRate is > 0 && string.IsNullOrEmpty(Coupon);
-
-    [JsonIgnore]
-    public decimal TotalPrice => BasketItems.Sum(item => item.Price * item.Quantity);
-
-    [JsonIgnore]
-    public decimal? TotalDiscountedPrice => HasDiscount ? BasketItems.Sum(item => item.DiscountedPrice.Value * item.Quantity) : null;
+    public decimal Subtotal => BasketItems.Sum(item => item.Price * item.Quantity);
+    public decimal TotalPrice => DiscountRate.HasValue? Subtotal + ShippingAmount * (1 - (DiscountRate.Value / 100)) : Subtotal + ShippingAmount;
+    
     public void ApplyDiscount(string coupon, decimal discountRate)
     {
         Coupon = coupon;
         DiscountRate = discountRate;
-
-        foreach (var item in BasketItems)
-        {
-            item.DiscountedPrice = item.Price - (item.Price * discountRate / 100);
-        }
     }
 
-    public void ReApplyDiscount()
-    {
-        foreach (var item in BasketItems)
-        {
-            item.DiscountedPrice = item.Price - (item.Price * DiscountRate / 100);
-        }
-    }
     public void RemoveDiscount()
     {
         DiscountRate = null;
         Coupon = null;
-
-        foreach (var item in BasketItems)
-        {
-            item.DiscountedPrice = null;
-        }
     }
 
 }
