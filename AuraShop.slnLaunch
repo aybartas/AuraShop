@@ -41,6 +41,11 @@
         "Path": "Auth\\AuraShop.Auth\\AuraShop.Auth.csproj",
         "Action": "Start",
         "DebugTarget": "http"
+      },
+      {
+        "Path": "..\\AuraShop.Payment\\AuraShop.Payment.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
       }
     ]
   },

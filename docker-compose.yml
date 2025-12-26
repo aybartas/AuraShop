@@ -1,35 +1,6 @@
 version: '3.8'
 
 services:
-  postgres.identity:
-    image: postgres:15
-    container_name: keycloak-db
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: ${KEYCLOAK_ADMIN}
-      POSTGRES_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    ports:
-    - "5433:5432"  
-    volumes:
-      - keycloak_pgdata:/var/lib/postgresql/data
-    networks:
-      - identity-network
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:24.0.3
-    container_name: identity-keycloak
-    command: start-dev
-    environment:
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
-      KC_DB_USERNAME: ${KEYCLOAK_ADMIN}
-      KC_DB_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    ports:
-      - "8888:8080"
-    networks:
-      - identity-network
 
   mongo.db.catalog:
     image: mongo:8.0-rc
@@ -85,7 +56,6 @@ volumes:
   mongo.db.discount.volume:
   redis.db.basket.volume:
   sqlserver.order.volume:
-  keycloak_pgdata:
 
 networks:
   identity-network:

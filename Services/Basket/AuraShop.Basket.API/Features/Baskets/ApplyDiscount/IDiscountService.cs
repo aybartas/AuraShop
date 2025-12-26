@@ -3,14 +3,6 @@ using System.Text.Json;
 
 namespace AuraShop.Basket.Features.Baskets.ApplyDiscount
 {
-    public class ValidationResponse
-    {
-        public bool IsValid { get; set; }
-        public string CouponCode { get; set; }
-        public decimal DiscountRate { get; set; }
-        public string? ErrorMessage { get; set; }
-    }
- 
     public interface IDiscountService
     {
         Task<ValidationResponse> ValidateCouponAsync(string couponCode);

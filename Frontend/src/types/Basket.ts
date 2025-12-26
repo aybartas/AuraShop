@@ -2,10 +2,9 @@ import { BasketItem } from "./BasketItem";
 
 export interface Basket {
   basketItems: BasketItem[];
-  coupon?: string;
-  discountRate?: number;
+  coupon?: string | null;
+  discountRate?: number | null;
   shippingAmount: number;
-  hasDiscount: boolean;
+  subtotal: number;
   totalPrice: number;
-  totalDiscountedPrice?: number;
 }
