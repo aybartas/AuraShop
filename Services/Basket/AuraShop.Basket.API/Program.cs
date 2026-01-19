@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCommonServices(builder.Configuration, typeof(BasketAssembly));
+builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(BasketAssembly));
 
 builder.Services.AddStackExchangeRedisCache(opt =>
 {
@@ -37,6 +37,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var versionSet = app.GetVersionSet();
 

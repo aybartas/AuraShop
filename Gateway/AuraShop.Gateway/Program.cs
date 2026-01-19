@@ -1,4 +1,4 @@
-using Microsoft.IdentityModel.Tokens;
+using AuraShop.Shared.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,13 +9,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
+builder.Services.AddKeycloakAuthentication(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
         policy
-            .WithOrigins("http://localhost:3000") 
+            .WithOrigins("http://localhost:3000", "http://localhost:8080") 
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials(); 
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowSpecificOrigins");
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapReverseProxy();
 

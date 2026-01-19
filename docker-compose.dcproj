@@ -10,5 +10,6 @@
     <None Include=".env" />
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="keycloak\realm-export.json" />
   </ItemGroup>
 </Project>

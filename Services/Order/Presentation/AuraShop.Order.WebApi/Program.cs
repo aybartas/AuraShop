@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCommonServices(builder.Configuration, typeof(OrderApplicationAssembly));
+builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(OrderApplicationAssembly));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

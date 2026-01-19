@@ -1,4 +1,5 @@
-﻿using AuraShop.Shared.Services;
+﻿using AuraShop.Shared.Auth;
+using AuraShop.Shared.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,17 @@ namespace AuraShop.Shared.Extensions
 
 
             services.AddScoped<IIdentityService, IdentityService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCommonServicesWithAuth(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            Type assembly)
+        {
+            services.AddCommonServices(configuration, assembly);
+            services.AddKeycloakAuthentication(configuration);
 
             return services;
         }

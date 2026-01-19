@@ -31,7 +31,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
-builder.Services.AddCommonServices(builder.Configuration, typeof(DiscountAssembly));
+builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(DiscountAssembly));
 
 BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
 
@@ -48,6 +48,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 

@@ -37,9 +37,7 @@ BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresent
 
 builder.Services.AddSingleton<SeedService>();
 
-builder.Services.AddAuthorization();
-
-builder.Services.AddCommonServices(builder.Configuration,typeof(CatalogAssembly));
+builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(CatalogAssembly));
 
 var app = builder.Build();
 
@@ -62,6 +60,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
