@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning.Builder;
+using AuraShop.Shared.Auth;
 
 namespace AuraShop.Order.API.Endpoints.Orders
 {
@@ -8,6 +9,7 @@ namespace AuraShop.Order.API.Endpoints.Orders
         {
             app.MapGroup("api/v{version:apiVersion}/orders")
                 .WithTags("Order")
+                .RequireAuthorization(Policies.Authenticated)
                 .AddCreateOrderEndpoint()
                 .AddGetOrdersEndpoint()
                 .WithApiVersionSet(apiVersionSet);

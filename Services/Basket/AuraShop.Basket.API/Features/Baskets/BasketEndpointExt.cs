@@ -5,6 +5,7 @@ using AuraShop.Basket.Features.Baskets.DeleteBasketItem;
 using AuraShop.Basket.Features.Baskets.GetBasket;
 using AuraShop.Basket.Features.Baskets.RemoveDiscount;
 using AuraShop.Basket.Features.Baskets.UpdateBasketItem;
+using AuraShop.Shared.Auth;
 
 namespace AuraShop.Basket.Features.Baskets
 {
@@ -12,7 +13,9 @@ namespace AuraShop.Basket.Features.Baskets
     {
         public static void AddBasketEndpoints(this WebApplication app, ApiVersionSet apiVersionSet)
         {
-            app.MapGroup("api/v{version:apiVersion}/baskets").WithTags("Basket")
+            app.MapGroup("api/v{version:apiVersion}/baskets")
+                .WithTags("Basket")
+                .RequireAuthorization(Policies.Authenticated)
                 .AddBasketItemGroupEndpoint()
                 .DeleteBasketItemGroupEndpoint()
                 .GetBasketItemGroupEndpoint()
