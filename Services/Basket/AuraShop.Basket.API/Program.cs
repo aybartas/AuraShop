@@ -19,7 +19,6 @@ builder.Services.AddStackExchangeRedisCache(opt =>
 });
 
 builder.Services.AddScoped<BasketService>();
-builder.Services.AddScoped<IBasketAuthService, BasketAuthService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddHttpClient<IDiscountService, DiscountService>(client =>
 {

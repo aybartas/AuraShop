@@ -6,10 +6,12 @@ using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.AddBasketItem;
 
-public class AddBasketItemCommandHandler(BasketService basketService, IBasketAuthService basketAuthService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
+public class AddBasketItemCommandHandler(BasketService basketService, IIdentityService identityService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
 {
     public async Task<ServiceResult> Handle(AddBasketItemCommand command, CancellationToken cancellationToken)
     {
+        var userId = identityService.UserId.Value;
+
         var newItem = new BasketItem
         {
             ProductId = command.ProductId,
@@ -21,12 +23,7 @@ public class AddBasketItemCommandHandler(BasketService basketService, IBasketAut
             Color = command.Color,
         };
 
-        // Get user ID and anon status from BasketAuthService
-        var userContext = basketAuthService.GetUser();
-        var userId = userContext.UserId;
-        var isAnonymous = userContext.IsAnonymous;
-
-        var existingBasketJson = await basketService.GetBasketAsync(userId, isAnonymous, cancellationToken);
+        var existingBasketJson = await basketService.GetBasketAsync(userId, cancellationToken);
 
         if (existingBasketJson is null)
         {
@@ -35,11 +32,10 @@ public class AddBasketItemCommandHandler(BasketService basketService, IBasketAut
                 BasketItems = [newItem]
             };
 
-            await basketService.SetBasketAsync(userId, isAnonymous, newBasket, cancellationToken);
+            await basketService.SetBasketAsync(userId, newBasket, cancellationToken);
 
             return ServiceResult.SuccessAsNoContent();
         }
-
    
         var existingItem = existingBasketJson.BasketItems.FirstOrDefault(x => x.ProductId == command.ProductId);
 
@@ -48,8 +44,7 @@ public class AddBasketItemCommandHandler(BasketService basketService, IBasketAut
         else
             existingBasketJson.BasketItems.Add(newItem);
 
-
-        await basketService.SetBasketAsync(userId, isAnonymous, existingBasketJson, cancellationToken);
+        await basketService.SetBasketAsync(userId, existingBasketJson, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
     }

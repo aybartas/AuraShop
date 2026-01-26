@@ -1,17 +1,18 @@
 ﻿using AuraShop.Basket.Dtos;
 using AuraShop.Shared;
+using AuraShop.Shared.Services;
 using AutoMapper;
 using MediatR;
 
 namespace AuraShop.Basket.Features.Baskets.GetBasket;
 
-public class GetBasketQueryHandler(IMapper mapper, BasketService basketService, IBasketAuthService basketAuthService)  : IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
+public class GetBasketQueryHandler(IMapper mapper, BasketService basketService,  IIdentityService identityService)  : IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
 {
     public async Task<ServiceResult<BasketDto>> Handle(GetBasketQuery request, CancellationToken cancellationToken)
     {
-        var userContext = basketAuthService.GetUser();
+        var userId = identityService.UserId.Value;
 
-        var currentBasket = await basketService.GetBasketAsync(userContext.UserId, userContext.IsAnonymous, cancellationToken);
+        var currentBasket = await basketService.GetBasketAsync(userId, cancellationToken);
 
         var basket = mapper.Map<BasketDto>(currentBasket);
 
