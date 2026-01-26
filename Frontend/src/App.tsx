@@ -18,25 +18,6 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="cart" element={<Cart />} />
         <Route path="checkout" element={<Checkout />} />
-
-        {/* <Route path="catalog/:id" element={<ProductDetail />} />
-
-        <Route element={<RequireAuth />}>
-          <Route path="checkout" element={<CheckOutPage />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="orders/:id" element={<OrderDetail />} />
-        </Route>
-
-        <Route element={<RequireAdmin />}>
-          <Route path="inventory" element={<Inventory />} />
-        </Route>
-        <Route path="about" element={<AboutPage />} />
-        <Route path="basket" element={<BasketPage />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="server-error" element={<ServerError />} />
-        <Route path="not-found" element={<NotFound />} />
-        <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
       </Routes>
     </>
   );

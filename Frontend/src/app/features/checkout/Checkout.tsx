@@ -8,17 +8,9 @@ import {
 } from "react-hook-form";
 import { useBasket } from "../../../hooks/useBasket";
 import { useNavigate } from "react-router-dom";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { PaymentService } from "../../../api/services/PaymentService";
 import CheckoutSkeleton from "./CheckoutSkeleton";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 const initialAddresses = [
   {
@@ -204,10 +196,6 @@ function AddressSelection() {
   );
 }
 
-function PaymentForm() {
-  return <PaymentElement />;
-}
-
 function CheckoutContent() {
   const methods = useForm();
   const stripe = useStripe();
@@ -217,7 +205,7 @@ function CheckoutContent() {
   const subtotal =
     basket?.basketItems?.reduce(
       (sum, item) => sum + item.price * item.quantity,
-      0
+      0,
     ) || 0;
   const discountAmount = (subtotal * (basket?.discountRate || 0)) / 100;
   const shippingCost = basket?.shippingAmount || 0;
@@ -268,7 +256,6 @@ function CheckoutContent() {
         <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
             <AddressSelection />
-            <PaymentForm />
           </div>
 
           <div className="p-6 border rounded-lg bg-white shadow-md space-y-6">
@@ -323,9 +310,5 @@ export default function CheckoutPage() {
 
   if (!clientSecret) return <CheckoutSkeleton />;
 
-  return (
-    <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutContent />
-    </Elements>
-  );
+  return <CheckoutContent />;
 }

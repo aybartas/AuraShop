@@ -8,9 +8,7 @@ namespace AuraShop.Shared.Auth;
 
 public static class KeycloakAuthExtensions
 {
-    public static IServiceCollection AddKeycloakAuthentication(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddKeycloakAuthentication(  this IServiceCollection services, IConfiguration configuration)
     {
         var keycloakSettings = configuration
             .GetSection(KeycloakSettings.SectionName)
@@ -29,12 +27,6 @@ public static class KeycloakAuthExtensions
             options.Authority = keycloakSettings.RealmUrl;
             options.Audience = keycloakSettings.Audience;
             options.RequireHttpsMetadata = keycloakSettings.RequireHttpsMetadata;
-
-            if (!string.IsNullOrEmpty(keycloakSettings.MetadataAddress))
-            {
-                options.MetadataAddress = keycloakSettings.MetadataAddress;
-            }
-
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,

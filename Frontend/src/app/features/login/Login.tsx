@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { AuthService } from "../../../api/services/AuthService";
-import { useAuth } from "../../../hooks/useAuth";
 
 // ----------------- TYPES -----------------
 type FormValues = {
@@ -11,7 +9,6 @@ type FormValues = {
 
 const Login: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const { login } = useAuth();
 
   const {
     control,
@@ -23,32 +20,14 @@ const Login: React.FC = () => {
       password: "",
     },
   });
+
   const onSubmit = async (data: FormValues) => {
-    try {
-      if (isRegistering) {
-        await AuthService.register({
-          email: data.email,
-          password: data.password,
-        });
-
-        const res = await AuthService.login({
-          email: data.email,
-          password: data.password,
-        });
-
-        login(res.data.accessToken);
-      } else {
-        const res = await AuthService.login({
-          email: data.email,
-          password: data.password,
-        });
-        console.log("Login response:", res.data);
-
-        login(res.data.accessToken);
-      }
-    } catch (err: any) {
-      alert(err.response?.data?.message || "Something went wrong");
-    }
+    // No authentication logic
+    alert(
+      isRegistering
+        ? "Registration is disabled. Keycloak will be used."
+        : "Login is disabled. Keycloak will be used.",
+    );
   };
 
   return (
@@ -163,8 +142,8 @@ const Login: React.FC = () => {
               ? "Signing up..."
               : "Logging in..."
             : isRegistering
-            ? "SIGN UP"
-            : "LOGIN"}
+              ? "SIGN UP"
+              : "LOGIN"}
         </button>
       </form>
     </div>

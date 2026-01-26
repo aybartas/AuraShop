@@ -5,15 +5,19 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { BasketProvider } from "./contexts/BasketContext.tsx";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import keycloak from "./api/auth/keycloak.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <BasketProvider>
-          <App />
-        </BasketProvider>
-      </AuthProvider>
+      <ReactKeycloakProvider authClient={keycloak}>
+        <AuthProvider>
+          <BasketProvider>
+            <App />
+          </BasketProvider>
+        </AuthProvider>
+      </ReactKeycloakProvider>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );

@@ -2,7 +2,7 @@ import logo from "../../assets/logo.svg";
 import { useState } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../contexts/AuthContext";
 import { useBasket } from "../../hooks/useBasket";
 
 interface CategoryLink {
@@ -13,8 +13,10 @@ interface CategoryLink {
 const categories: CategoryLink[] = [{ name: "Catalog", url: "/catalog" }];
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { keycloak } = useAuth();
   const { basket } = useBasket();
+
+  console.log("keycloak", keycloak);
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
@@ -23,6 +25,8 @@ export default function Header() {
   const handleMouseLeave = (index: number) => {
     if (activeCategory === index) setActiveCategory(null);
   };
+
+  console.log("keycloak.tokenParsed", keycloak?.tokenParsed);
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -78,11 +82,15 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex items-center space-x-6">
-          {user ? (
+          {keycloak?.authenticated ? (
             <>
-              <span className="text-gray-700">Hello, {user.email}</span>
+              <span className="text-gray-700">
+                Hello,{" "}
+                {keycloak.tokenParsed?.preferred_username ||
+                  keycloak.tokenParsed?.email}
+              </span>
               <button
-                onClick={logout}
+                onClick={() => keycloak.logout()}
                 className="text-gray-700 hover:text-red-600"
               >
                 Logout
@@ -90,12 +98,18 @@ export default function Header() {
             </>
           ) : (
             <>
-              <NavLink
-                to="/login"
+              <button
+                onClick={() => keycloak?.login()}
                 className="text-gray-700 hover:text-blue-600 transition"
               >
                 Login
-              </NavLink>
+              </button>
+              <button
+                onClick={() => keycloak?.register()}
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Register
+              </button>
             </>
           )}
           <NavLink
@@ -199,30 +213,42 @@ export default function Header() {
           </div>
 
           <div className="mt-4 space-y-2">
-            {user ? (
+            {keycloak?.authenticated ? (
               <>
-                <span className="block text-gray-700">Hello, {user.email}</span>
+                <span className="block text-gray-700">
+                  Hello,{" "}
+                  {keycloak.tokenParsed?.preferred_username ||
+                    keycloak.tokenParsed?.email}
+                </span>
                 <button
-                  onClick={logout}
+                  onClick={() => keycloak.logout()}
                   className="w-full text-left text-gray-700 hover:text-red-600"
                 >
                   Logout
                 </button>
+                <button
+                  onClick={() =>
+                    window.open(keycloak.createAccountUrl(), "_blank")
+                  }
+                  className="w-full text-left text-gray-700 hover:text-blue-600"
+                >
+                  Profile
+                </button>
               </>
             ) : (
               <>
-                <NavLink
-                  to="/login"
-                  className="block text-gray-700 hover:text-blue-600"
+                <button
+                  onClick={() => keycloak?.login()}
+                  className="block w-full text-left text-gray-700 hover:text-blue-600"
                 >
                   Login
-                </NavLink>
-                <NavLink
-                  to="/signup"
-                  className="block text-gray-700 hover:text-blue-600"
+                </button>
+                <button
+                  onClick={() => keycloak?.register()}
+                  className="block w-full text-left text-gray-700 hover:text-blue-600"
                 >
-                  Sign Up
-                </NavLink>
+                  Register
+                </button>
               </>
             )}
             <NavLink

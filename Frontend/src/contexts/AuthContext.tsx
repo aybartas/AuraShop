@@ -1,59 +1,20 @@
-import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthService } from "../api/services/AuthService";
-import { User } from "../types/User";
+import { createContext, useContext, ReactNode } from "react";
+import { useKeycloak } from "@react-keycloak/web";
+import { AuthContextType } from "../api/auth/keycloak";
 
-interface AuthContextProps {
-  user: User | null;
-  login: (token: string) => void;
-  logout: () => void;
-}
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthContext = createContext<AuthContextProps | undefined>(
-  undefined
-);
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem("token")
-  );
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (token) {
-      AuthService.getProfile()
-        .then((res) => setUser(res.data))
-        .catch((err) => {
-          console.log("profile err", err);
-          localStorage.removeItem("token");
-          setToken(null);
-          setUser(null);
-        });
-    } else {
-      setUser(null);
-    }
-  }, [token]);
-
-  const login = (newToken: string) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
-    navigate("/catalog");
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-    setUser(null);
-    navigate("/catalog");
-  };
-
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const { keycloak, initialized } = useKeycloak();
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ keycloak, initialized }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
+  return context;
 };
