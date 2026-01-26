@@ -25,12 +25,8 @@ builder.Services.AddHttpClient<IDiscountService, DiscountService>(client =>
     client.BaseAddress = new Uri(builder.Configuration["DiscountService:BaseUrl"]);
 });
 
-
-
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
