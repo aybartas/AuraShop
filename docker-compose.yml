@@ -35,7 +35,7 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
+      - ./Shared/AuraShop.Shared/Auth/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
     depends_on:
       - keycloak.db
     networks:

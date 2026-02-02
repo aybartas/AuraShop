@@ -1,0 +1,6 @@
+@AuraShop.Payment_HostAddress = http://localhost:5131
+
+GET {{AuraShop.Payment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
