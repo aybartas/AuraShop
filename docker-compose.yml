@@ -1,6 +1,50 @@
-version: '3.8'
-
 services:
+  aurashop.gateway:
+    image: ${DOCKER_REGISTRY-}aurashopgateway
+    build:
+      context: .
+      dockerfile: Gateway/AuraShop.Gateway/Dockerfile
+
+  aurashop.basket:
+    image: ${DOCKER_REGISTRY-}aurashopbasket
+    build:
+      context: .
+      dockerfile: Services/Basket/AuraShop.Basket/Dockerfile
+
+
+  aurashop.catalog:
+    image: ${DOCKER_REGISTRY-}aurashopcatalog
+    build:
+      context: .
+      dockerfile: Services/Catalog/AuraShop.Catalog/Dockerfile
+
+
+  aurashop.discount:
+    image: ${DOCKER_REGISTRY-}aurashopdiscount
+    build:
+      context: ..
+      dockerfile: AuraShop/Services/Discount/AuraShop.Discount/Dockerfile
+
+
+  aurashop.file:
+    image: ${DOCKER_REGISTRY-}aurashopfile
+    build:
+      context: .
+      dockerfile: Services/File/AuraShop.File/Dockerfile
+
+
+  aurashop.payment:
+    image: ${DOCKER_REGISTRY-}aurashoppayment
+    build:
+      context: .
+      dockerfile: Services/Payment/AuraShop.Payment/Dockerfile
+
+
+  aurashop.order.api:
+    image: ${DOCKER_REGISTRY-}aurashoporderapi
+    build:
+      context: .
+      dockerfile: Services/Order/Presentation/AuraShop.Order.WebApi/Dockerfile
 
   keycloak.db:
     image: postgres:16-alpine
@@ -14,8 +58,7 @@ services:
       - keycloak.db.volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    networks:
-      - identity-network
+
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
@@ -38,8 +81,7 @@ services:
       - ./Shared/AuraShop.Shared/Auth/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
     depends_on:
       - keycloak.db
-    networks:
-      - identity-network
+
 
   mongo.db.catalog:
     image: mongo:8.0-rc
@@ -49,8 +91,7 @@ services:
       - "27030:27017"
     volumes:
       - mongo.db.catalog.volume:/data/db
-    networks:
-      - identity-network
+
 
   mongo.db.discount:
     image: mongo:8.0-rc
@@ -60,8 +101,7 @@ services:
       - "27031:27017"
     volumes:
       - mongo.db.discount.volume:/data/db
-    networks:
-      - identity-network
+
 
   redis.db:
     image: redis:7.0-alpine
@@ -72,8 +112,7 @@ services:
       - "6379:6379"
     volumes:
       - redis.db.basket.volume:/data
-    networks:
-      - identity-network
+
 
   sqlserver.order:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -87,8 +126,7 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - sqlserver.order.volume:/var/opt/mssql
-    networks:
-      - identity-network
+
 
 volumes:
   keycloak.db.volume:
@@ -96,8 +134,3 @@ volumes:
   mongo.db.discount.volume:
   redis.db.basket.volume:
   sqlserver.order.volume:
-
-networks:
-  identity-network:
-    driver: bridge
-

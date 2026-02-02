@@ -11,20 +11,20 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AuraShop/Services/Discount/AuraShop.Discount/AuraShop.Discount.csproj", "AuraShop/Services/Discount/AuraShop.Discount/"]
-COPY ["AuraShop/Shared/AuraShop.Shared/AuraShop.Shared.csproj", "AuraShop/Shared/AuraShop.Shared/"]
-RUN dotnet restore "./AuraShop/Services/Discount/AuraShop.Discount/AuraShop.Discount.csproj"
+COPY ["Services/Basket/AuraShop.Basket/AuraShop.Basket.csproj", "Services/Basket/AuraShop.Basket/"]
+COPY ["Shared/AuraShop.Shared/AuraShop.Shared.csproj", "Shared/AuraShop.Shared/"]
+RUN dotnet restore "./Services/Basket/AuraShop.Basket/AuraShop.Basket.csproj"
 COPY . .
-WORKDIR "/src/AuraShop/Services/Discount/AuraShop.Discount"
-RUN dotnet build "./AuraShop.Discount.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Services/Basket/AuraShop.Basket"
+RUN dotnet build "./AuraShop.Basket.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AuraShop.Discount.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AuraShop.Basket.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AuraShop.Discount.dll"]
+ENTRYPOINT ["dotnet", "AuraShop.Basket.dll"]
