@@ -1,8 +1,7 @@
 ﻿using Asp.Versioning.Builder;
 using AuraShop.Payment.Features.Payments.CreatePayment;
 
-
-namespace AuraShop.Catalog.Features.Product
+namespace AuraShop.Payment.Features.Payments
 {
     public static class PaymentEndpointExtensions
     {

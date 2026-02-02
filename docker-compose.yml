@@ -1,51 +1,108 @@
+
 services:
+  # ================== GATEWAY ==================
   aurashop.gateway:
     image: ${DOCKER_REGISTRY-}aurashopgateway
     build:
       context: .
       dockerfile: Gateway/AuraShop.Gateway/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+    ports:
+      - "5000:8080"
 
+  # ================== BASKET ==================
   aurashop.basket:
     image: ${DOCKER_REGISTRY-}aurashopbasket
     build:
       context: .
       dockerfile: Services/Basket/AuraShop.Basket/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+    ports:
+      - "7074:8080"
+    depends_on:
+      - redis.db
 
-
+  # ================== CATALOG ==================
   aurashop.catalog:
     image: ${DOCKER_REGISTRY-}aurashopcatalog
     build:
       context: .
       dockerfile: Services/Catalog/AuraShop.Catalog/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_HTTPS_PORTS: 8081
+    ports:
+      - "7070:8080"
+      - "7170:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - mongo.db.catalog
 
-
+  # ================== DISCOUNT ==================
   aurashop.discount:
     image: ${DOCKER_REGISTRY-}aurashopdiscount
     build:
-      context: ..
-      dockerfile: AuraShop/Services/Discount/AuraShop.Discount/Dockerfile
+      context: .
+      dockerfile: Services/Discount/AuraShop.Discount/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+    ports:
+      - "7071:8080"
+    depends_on:
+      - mongo.db.discount
 
-
+  # ================== FILE ==================
   aurashop.file:
     image: ${DOCKER_REGISTRY-}aurashopfile
     build:
       context: .
       dockerfile: Services/File/AuraShop.File/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+    ports:
+      - "7075:8080"
 
-
+  # ================== PAYMENT ==================
   aurashop.payment:
     image: ${DOCKER_REGISTRY-}aurashoppayment
     build:
       context: .
       dockerfile: Services/Payment/AuraShop.Payment/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+    ports:
+      - "7076:8080"
 
-
+  # ================== ORDER ==================
   aurashop.order.api:
     image: ${DOCKER_REGISTRY-}aurashoporderapi
     build:
       context: .
       dockerfile: Services/Order/Presentation/AuraShop.Order.WebApi/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_HTTPS_PORTS: 8081
+    ports:
+      - "7072:8080"
+      - "7172:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - sqlserver.order
 
+  # ================== KEYCLOAK DB ==================
   keycloak.db:
     image: postgres:16-alpine
     container_name: keycloak.postgres
@@ -53,13 +110,13 @@ services:
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: "${KEYCLOAK_DB_PASSWORD:-keycloak}"
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak}
     volumes:
       - keycloak.db.volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
-
+  # ================== KEYCLOAK ==================
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
     container_name: aurashop.keycloak
@@ -69,11 +126,9 @@ services:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak.db:5432/keycloak
       KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: "${KEYCLOAK_DB_PASSWORD:-keycloak}"
-      KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN:-admin}"
-      KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD:-admin}"
-      KC_HEALTH_ENABLED: "true"
-      KC_METRICS_ENABLED: "true"
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
       KC_HTTP_PORT: 8080
     ports:
       - "8081:8080"
@@ -82,7 +137,7 @@ services:
     depends_on:
       - keycloak.db
 
-
+  # ================== DATABASES ==================
   mongo.db.catalog:
     image: mongo:8.0-rc
     container_name: catalog.mongo
@@ -92,7 +147,6 @@ services:
     volumes:
       - mongo.db.catalog.volume:/data/db
 
-
   mongo.db.discount:
     image: mongo:8.0-rc
     container_name: discount.mongo
@@ -101,7 +155,6 @@ services:
       - "27031:27017"
     volumes:
       - mongo.db.discount.volume:/data/db
-
 
   redis.db:
     image: redis:7.0-alpine
@@ -113,7 +166,6 @@ services:
     volumes:
       - redis.db.basket.volume:/data
 
-
   sqlserver.order:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: order.sqlserver
@@ -122,11 +174,23 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "${ORDERDB_PASSWORD}"
+      SA_PASSWORD: ${SQLDB_PASSWORD}
       ACCEPT_EULA: "Y"
     volumes:
       - sqlserver.order.volume:/var/opt/mssql
 
+  sqlserver.payment:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: payment.sqlserver
+    user: root
+    restart: always
+    ports:
+      - "1434:1433"
+    environment:
+      SA_PASSWORD: ${SQLDB_PASSWORD}
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sqlserver.payment.volume:/var/opt/mssql
 
 volumes:
   keycloak.db.volume:
@@ -134,3 +198,4 @@ volumes:
   mongo.db.discount.volume:
   redis.db.basket.volume:
   sqlserver.order.volume:
+  sqlserver.payment.volume:

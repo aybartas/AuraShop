@@ -1,5 +1,5 @@
-using AuraShop.Catalog.Features.Product;
 using AuraShop.Payment.Extensions;
+using AuraShop.Payment.Features.Payments;
 using AuraShop.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
