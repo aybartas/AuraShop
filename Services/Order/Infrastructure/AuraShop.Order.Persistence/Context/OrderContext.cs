@@ -1,5 +1,4 @@
 ﻿using AuraShop.Order.Domain.Entities;
-using AuraShop.Order.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuraShop.Order.Persistence.Context

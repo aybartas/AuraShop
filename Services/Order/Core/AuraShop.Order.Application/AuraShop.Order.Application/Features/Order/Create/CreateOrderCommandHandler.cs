@@ -60,6 +60,7 @@ public class CreateOrderCommandHandler(
         await orderRepository.AddAsync(order);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
+        // TODO: Call payment service
         order.SetPaid("test-payment");
 
         orderRepository.Update(order);

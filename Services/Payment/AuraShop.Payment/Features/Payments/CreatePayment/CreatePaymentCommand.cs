@@ -9,4 +9,5 @@ public class CreatePaymentCommand : IRequest<ServiceResult<CreatePaymentResult>>
     public string Currency { get; set; } = "usd";
     public string? StripeToken { get; set; }
     public string? Description { get; set; }
+    public string? OrderNumber { get; set; }
 }

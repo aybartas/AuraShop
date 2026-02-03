@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning.Builder;
 using AuraShop.Payment.Features.Payments.CreatePayment;
+using AuraShop.Payment.Features.Payments.GetAllByUser;
+using AuraShop.Shared.Auth;
 
 namespace AuraShop.Payment.Features.Payments
 {
@@ -8,7 +10,8 @@ namespace AuraShop.Payment.Features.Payments
         public static void AddPaymentEndpoints(this WebApplication app , ApiVersionSet apiVersionSet)
         {
             app.MapGroup("api/v{version:apiVersion}/payments").WithTags("Payments")
-                .CreatePayment()
+                .RequireAuthorization(Policies.Authenticated)
+                .CreatePayment().GetAllByUser()
                 .WithApiVersionSet(apiVersionSet);
         }
     }

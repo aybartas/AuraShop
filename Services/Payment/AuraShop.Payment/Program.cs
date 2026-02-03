@@ -1,6 +1,8 @@
+using AuraShop.Payment.Database;
 using AuraShop.Payment.Extensions;
 using AuraShop.Payment.Features.Payments;
 using AuraShop.Shared.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPaymentServices(builder.Configuration);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<PaymentDbContext>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 var versionSet = app.GetVersionSet();

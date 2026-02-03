@@ -1,7 +1,7 @@
-using AuraShop.Payment.Features;
 using FluentValidation;
 using Stripe;
 using AuraShop.Payment.Features.Payments.CreatePayment;
+using AuraShop.Payment.Features.Payments;
 
 namespace AuraShop.Payment.Extensions;
 

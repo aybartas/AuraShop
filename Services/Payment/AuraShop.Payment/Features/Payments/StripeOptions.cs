@@ -1,4 +1,4 @@
-namespace AuraShop.Payment.Features;
+namespace AuraShop.Payment.Features.Payments;
 
 public class StripeOptions
 {
