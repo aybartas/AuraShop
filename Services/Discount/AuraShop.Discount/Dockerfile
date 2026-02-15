@@ -11,11 +11,11 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AuraShop/Services/Discount/AuraShop.Discount/AuraShop.Discount.csproj", "AuraShop/Services/Discount/AuraShop.Discount/"]
-COPY ["AuraShop/Shared/AuraShop.Shared/AuraShop.Shared.csproj", "AuraShop/Shared/AuraShop.Shared/"]
-RUN dotnet restore "./AuraShop/Services/Discount/AuraShop.Discount/AuraShop.Discount.csproj"
+COPY ["Services/Discount/AuraShop.Discount/AuraShop.Discount.csproj", "Services/Discount/AuraShop.Discount/"]
+COPY ["Shared/AuraShop.Shared/AuraShop.Shared.csproj", "Shared/AuraShop.Shared/"]
+RUN dotnet restore "./Services/Discount/AuraShop.Discount/AuraShop.Discount.csproj"
 COPY . .
-WORKDIR "/src/AuraShop/Services/Discount/AuraShop.Discount"
+WORKDIR "/src/Services/Discount/AuraShop.Discount"
 RUN dotnet build "./AuraShop.Discount.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

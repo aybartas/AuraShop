@@ -2,15 +2,18 @@ using AuraShop.Catalog;
 using AuraShop.Catalog.Database;
 using AuraShop.Catalog.Features.Category;
 using AuraShop.Catalog.Features.Product;
-using AuraShop.Shared.Extensions;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using AuraShop.Catalog.Features.Seed;
+using AuraShop.Shared.Extensions;
+using AuraShop.Shared.Mongo;
+using Microsoft.Extensions.Options;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
+
+MongoConvention.AddMongoConventionPack();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -54,11 +57,9 @@ using (var scope = app.Services.CreateScope())
 
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
 
 app.UseAuthentication();
 app.UseAuthorization();

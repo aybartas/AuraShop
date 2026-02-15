@@ -2,6 +2,7 @@ using AuraShop.Discount;
 using AuraShop.Discount.Database;
 using AuraShop.Discount.Features;
 using AuraShop.Shared.Extensions;
+using AuraShop.Shared.Mongo;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -9,6 +10,8 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
+
+MongoConvention.AddMongoConventionPack();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
