@@ -19,16 +19,12 @@ namespace AuraShop.Shared.Extensions
             services.AddVersioning();
             services.AddAutoMapper(assembly);
 
-
             services.AddScoped<IIdentityService, IdentityService>();
 
             return services;
         }
 
-        public static IServiceCollection AddCommonServicesWithAuth(
-            this IServiceCollection services, 
-            IConfiguration configuration, 
-            Type assembly)
+        public static IServiceCollection AddCommonServicesWithAuth(this IServiceCollection services, IConfiguration configuration, Type assembly)
         {
             services.AddCommonServices(configuration, assembly);
             services.AddKeycloakAuthentication(configuration);

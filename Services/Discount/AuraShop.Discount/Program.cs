@@ -42,13 +42,8 @@ var versionSet = app.GetVersionSet();
 
 app.AddDiscountEndpoints(versionSet);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseAuthentication();
 app.UseAuthorization();
 

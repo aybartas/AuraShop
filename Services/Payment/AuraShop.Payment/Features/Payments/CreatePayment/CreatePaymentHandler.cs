@@ -13,7 +13,7 @@ public class CreatePaymentHandler(PaymentDbContext context, IIdentityService ide
         var options = new ChargeCreateOptions
         {
             Amount = (long)(request.Amount * 100),
-            Currency = request.Currency,
+            Currency = "usd",
             Source = request.StripeToken,
             Description = request.Description,
         };

@@ -7,10 +7,11 @@ services:
       context: .
       dockerfile: Gateway/AuraShop.Gateway/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
     ports:
       - "5000:8080"
+    container_name: aurashop.gateway
 
   # ================== BASKET ==================
   aurashop.basket:
@@ -19,12 +20,13 @@ services:
       context: .
       dockerfile: Services/Basket/AuraShop.Basket/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
     ports:
       - "7074:8080"
     depends_on:
       - redis.db
+    container_name: aurashop.basket
 
   # ================== CATALOG ==================
   aurashop.catalog:
@@ -33,17 +35,13 @@ services:
       context: .
       dockerfile: Services/Catalog/AuraShop.Catalog/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
-      ASPNETCORE_HTTPS_PORTS: 8081
     ports:
       - "7070:8080"
-      - "7170:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     depends_on:
       - mongo.db.catalog
+    container_name: aurashop.catalog
 
   # ================== DISCOUNT ==================
   aurashop.discount:
@@ -52,12 +50,13 @@ services:
       context: .
       dockerfile: Services/Discount/AuraShop.Discount/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
     ports:
       - "7071:8080"
     depends_on:
       - mongo.db.discount
+    container_name: aurashop.discount
 
   # ================== FILE ==================
   aurashop.file:
@@ -66,10 +65,11 @@ services:
       context: .
       dockerfile: Services/File/AuraShop.File/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
     ports:
       - "7075:8080"
+    container_name: aurashop.file
 
   # ================== PAYMENT ==================
   aurashop.payment:
@@ -78,10 +78,11 @@ services:
       context: .
       dockerfile: Services/Payment/AuraShop.Payment/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
     ports:
       - "7076:8080"
+    container_name: aurashop.payment
 
   # ================== ORDER ==================
   aurashop.order.api:
@@ -90,17 +91,13 @@ services:
       context: .
       dockerfile: Services/Order/Presentation/AuraShop.Order.WebApi/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
-      ASPNETCORE_HTTPS_PORTS: 8081
     ports:
       - "7072:8080"
-      - "7172:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     depends_on:
       - sqlserver.order
+    container_name: aurashop.order
 
   # ================== KEYCLOAK DB ==================
   keycloak.db:

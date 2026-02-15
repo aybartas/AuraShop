@@ -3,6 +3,6 @@ using MediatR;
 
 namespace AuraShop.Payment.Features.Payments.GetAllByUser;
 
-public record GetAllByUserQuery : IRequest<ServiceResult<List<GetAllByUserResult>>>
+public class GetAllByUserQuery : IRequest<ServiceResult<List<PaymentDto>>>
 {
 }
