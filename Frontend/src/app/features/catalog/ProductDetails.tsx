@@ -5,6 +5,7 @@ import { Product } from "../../../types/Product";
 import { useEffect, useState } from "react";
 import { CatalogService } from "../../../api/services/CatalogService";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
 import { BasketService } from "../../../api/services/BasketService";
 import { useBasket } from "../../../hooks/useBasket";
 
@@ -21,8 +22,9 @@ interface ProductComment {
 }
 
 function ProductDetails() {
+  const { keycloak } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
-  const [comments, setComments] = useState<ProductComment[]>([
+  const [comments] = useState<ProductComment[]>([
     {
       user: "Jane Doe",
       date: new Date().toISOString(),
@@ -61,6 +63,11 @@ function ProductDetails() {
 
   const onSubmit = async (formData: AddToCartForm) => {
     if (!product) return;
+
+    if (!keycloak?.authenticated) {
+      keycloak?.login();
+      return;
+    }
 
     const cartItem = {
       productId: product.id,
