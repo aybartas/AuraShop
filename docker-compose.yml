@@ -127,6 +127,7 @@ services:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
       KC_HTTP_PORT: 8080
+      KC_HOSTNAME_URL: "http://localhost:8081"
     ports:
       - "8081:8080"
     volumes:
@@ -143,6 +144,22 @@ services:
       - "27030:27017"
     volumes:
       - mongo.db.catalog.volume:/data/db
+
+  rabbitmq:
+      image: rabbitmq:3.13-management
+      container_name: rabbitmq
+      hostname: rabbitmq
+      restart: always
+      ports:
+        - "5672:5672"     
+        - "15672:15672"  
+      environment:
+        RABBITMQ_DEFAULT_USER:  ${RABBITMQ_DEFAULT_USER}
+        RABBITMQ_DEFAULT_PASS:  ${RABBITMQ_PASSWORD}
+        RABBITMQ_DEFAULT_VHOST: /
+      volumes:
+        - rabbitmq_data:/var/lib/rabbitmq
+     
 
   mongo.db.discount:
     image: mongo:8.0-rc
@@ -196,4 +213,4 @@ volumes:
   redis.db.basket.volume:
   sqlserver.order.volume:
   sqlserver.payment.volume:
-
+  rabbitmq_data:

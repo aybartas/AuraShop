@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning.Builder;
+using AuraShop.Shared.Auth;
 using AuraShop.Shared.Extensions;
 using AuraShop.Shared.Filters;
 using MediatR;
@@ -15,7 +16,7 @@ namespace AuraShop.Catalog.Features.Category.Create
 
                 return result.ToResult();
 
-            }).MapToApiVersion(1,0).AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>();
+            }).MapToApiVersion(1,0).AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>().RequireAuthorization(Policies.AdminOnly);
 
             return group;
         }

@@ -1,3 +1,4 @@
+using AuraShop.Bus;
 using AuraShop.Catalog;
 using AuraShop.Catalog.Database;
 using AuraShop.Catalog.Features.Category;
@@ -39,6 +40,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
 
 builder.Services.AddSingleton<SeedService>();
+builder.Services.AddMassTransit(builder.Configuration);
 
 builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(CatalogAssembly));
 

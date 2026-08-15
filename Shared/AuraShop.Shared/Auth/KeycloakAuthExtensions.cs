@@ -26,13 +26,13 @@ public static class KeycloakAuthExtensions
         {
             options.Authority = keycloakSettings.RealmUrl;
             options.Audience = keycloakSettings.Audience;
-            options.RequireHttpsMetadata = keycloakSettings.RequireHttpsMetadata;
+            options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
                 ValidIssuer = keycloakSettings.RealmUrl,
                 ValidateAudience = true,
-                ValidAudiences = new[] { keycloakSettings.Audience, "account" },
+                ValidAudiences = [keycloakSettings.Audience],
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ClockSkew = TimeSpan.FromSeconds(30),

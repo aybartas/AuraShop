@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { Button, Input } from "../../../components/ui";
+
 interface FilterFormInputs {
   categories: string[];
   brands: string[];
   priceRange: { min: string; max: string };
 }
 
-const FilterForm: React.FC = () => {
+const categoriesOptions = ["Electronics", "Clothing", "Home Appliances"];
+const brandOptions = ["Samsung", "Nike", "LG"];
+
+export default function FilterForm() {
   const { control, handleSubmit } = useForm<FilterFormInputs>();
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
@@ -15,29 +20,26 @@ const FilterForm: React.FC = () => {
     console.log(data);
   };
 
-  const categoriesOptions = ["Electronics", "Clothing", "Home Appliances"];
-  const brandOptions = ["Samsung", "Nike", "LG"];
-
   return (
     <form
-      className="flex flex-col gap-4 bg-white p-6 shadow-md rounded-xl"
+      className="flex flex-col gap-4 bg-background p-6 shadow-md rounded-xl border border-border"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h2 className="text-lg font-semibold mb-4">Filter Products</h2>
+      <h2 className="text-lg font-semibold text-text mb-4">Filter Products</h2>
 
       {/* Categories Filter */}
       <div
         className="flex items-center cursor-pointer mb-1 gap-2"
         onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
       >
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-text-muted">
           {isCategoriesOpen ? (
-            <ChevronUpIcon className="h-3 w-3 text-gray-500" />
+            <ChevronUpIcon className="h-3 w-3" />
           ) : (
-            <ChevronDownIcon className="h-3 w-3 text-gray-500" />
+            <ChevronDownIcon className="h-3 w-3" />
           )}
         </span>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-text">
           Categories
         </label>
       </div>
@@ -50,7 +52,7 @@ const FilterForm: React.FC = () => {
               {categoriesOptions.map((category) => (
                 <label
                   key={category}
-                  className="inline-flex items-center gap-2"
+                  className="inline-flex items-center gap-2 text-text-secondary"
                 >
                   <input
                     type="checkbox"
@@ -64,6 +66,7 @@ const FilterForm: React.FC = () => {
                         field.onChange(value.filter((v) => v !== category));
                       }
                     }}
+                    className="accent-primary"
                   />
                   {category}
                 </label>
@@ -74,8 +77,8 @@ const FilterForm: React.FC = () => {
       )}
 
       {/* Brands Filter */}
-      <div className="">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+      <div>
+        <label className="block text-sm font-medium text-text mb-1">
           Brands
         </label>
         <Controller
@@ -84,7 +87,10 @@ const FilterForm: React.FC = () => {
           render={({ field }) => (
             <div className="flex flex-col gap-2">
               {brandOptions.map((brand) => (
-                <label key={brand} className="inline-flex items-center gap-2">
+                <label
+                  key={brand}
+                  className="inline-flex items-center gap-2 text-text-secondary"
+                >
                   <input
                     type="checkbox"
                     value={brand}
@@ -97,7 +103,7 @@ const FilterForm: React.FC = () => {
                         field.onChange(value.filter((v) => v !== brand));
                       }
                     }}
-                    className="form-checkbox"
+                    className="accent-primary"
                   />
                   {brand}
                 </label>
@@ -109,49 +115,31 @@ const FilterForm: React.FC = () => {
 
       {/* Price Range Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-text mb-1">
           Price Range
         </label>
-
         <div className="flex items-center gap-4">
           <Controller
             name="priceRange.min"
             control={control}
             render={({ field }) => (
-              <input
-                {...field}
-                type="number"
-                placeholder="Min"
-                className="w-full border border-gray-300 rounded-md p-2 text-sm"
-              />
+              <Input {...field} type="number" placeholder="Min" />
             )}
           />
-          <span className="text-gray-500">-</span>
-
+          <span className="text-text-muted">-</span>
           <Controller
             name="priceRange.max"
             control={control}
             render={({ field }) => (
-              <input
-                {...field}
-                type="number"
-                placeholder="Min"
-                className="w-full border border-gray-300 rounded-md p-2 text-sm"
-              />
+              <Input {...field} type="number" placeholder="Max" />
             )}
           />
         </div>
       </div>
 
-      {/* Submit Button */}
-      <button
-        type="submit"
-        className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm"
-      >
+      <Button type="submit" variant="primary" fullWidth>
         Apply Filters
-      </button>
+      </Button>
     </form>
   );
-};
-
-export default FilterForm;
+}

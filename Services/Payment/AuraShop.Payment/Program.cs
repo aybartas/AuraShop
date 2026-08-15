@@ -1,3 +1,4 @@
+using AuraShop.Bus;
 using AuraShop.Payment;
 using AuraShop.Payment.Database;
 using AuraShop.Payment.Extensions;
@@ -14,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPaymentServices(builder.Configuration);
 builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(PaymentAssembly));
+builder.Services.AddCommonMassTransit(builder.Configuration);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -26,6 +28,9 @@ app.AddPaymentEndpoints(versionSet);
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 

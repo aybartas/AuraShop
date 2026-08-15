@@ -3,7 +3,7 @@ import Keycloak from "keycloak-js";
 const keycloak = new Keycloak({
   url: import.meta.env.VITE_KEYCLOAK_URL,
   realm: "aurashop",
-  clientId: "aurashop-client",
+  clientId: "aurashop-spa",
 });
 
 export default keycloak;

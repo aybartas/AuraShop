@@ -1,4 +1,4 @@
-﻿using AuraShop.Order.Application.Features.Order.Create;
+﻿using AuraShop.Order.Application.Usecases.Order.Create;
 using AuraShop.Shared.Extensions;
 using AuraShop.Shared.Filters;
 using MediatR;

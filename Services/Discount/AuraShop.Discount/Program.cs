@@ -1,3 +1,4 @@
+using AuraShop.Bus;
 using AuraShop.Discount;
 using AuraShop.Discount.Database;
 using AuraShop.Discount.Features;
@@ -33,6 +34,9 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
     return client.GetDatabase(settings.DatabaseName);
 });
+
+builder.Services.AddCommonMassTransit(builder.Configuration);
+
 
 builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(DiscountAssembly));
 

@@ -4,6 +4,8 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBasket } from "../../hooks/useBasket";
+import { Button, Badge } from "../../components/ui";
+import ThemeToggle from "../../components/ThemeToggle";
 
 interface CategoryLink {
   name: string;
@@ -16,8 +18,6 @@ export default function Header() {
   const { keycloak } = useAuth();
   const { basket } = useBasket();
 
-  console.log("keycloak", keycloak);
-
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
@@ -26,14 +26,12 @@ export default function Header() {
     if (activeCategory === index) setActiveCategory(null);
   };
 
-  console.log("keycloak.tokenParsed", keycloak?.tokenParsed);
-
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-background shadow-md sticky top-0 z-50 border-b border-border">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <NavLink to="/" className="flex items-center space-x-2">
           <img src={logo} alt="AuraShop" className="h-8 w-8" />
-          <span className="font-bold text-xl text-gray-800">AuraShop</span>
+          <span className="font-bold text-xl text-text">AuraShop</span>
         </NavLink>
 
         <div className="hidden md:flex items-center space-x-8">
@@ -47,22 +45,21 @@ export default function Header() {
               <NavLink
                 to={category.url || "#"}
                 className={({ isActive }) =>
-                  `px-2 py-1 text-gray-700 hover:text-blue-600 ${
-                    isActive ? "text-blue-600 font-semibold" : ""
+                  `px-2 py-1 text-text-secondary hover:text-primary transition-colors ${
+                    isActive ? "text-primary font-semibold" : ""
                   }`
                 }
               >
                 {category.name}
               </NavLink>
 
-              {/* Subcategories Dropdown */}
               {category.subcategories && activeCategory === idx && (
-                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded shadow-md min-w-[150px]">
+                <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-md min-w-[150px]">
                   {category.subcategories.map((sub, subIdx) => (
                     <NavLink
                       key={subIdx}
                       to="#"
-                      className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                      className="block px-4 py-2 text-text-secondary hover:bg-primary-light hover:text-primary"
                     >
                       {sub}
                     </NavLink>
@@ -77,58 +74,68 @@ export default function Header() {
           <input
             type="search"
             placeholder="Search anything..."
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-border rounded-lg px-4 py-2 bg-background text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-4">
+          <ThemeToggle />
+
           {keycloak?.authenticated ? (
             <>
-              <span className="text-gray-700">
+              <span className="text-text-secondary">
                 Hello,{" "}
                 {keycloak.tokenParsed?.preferred_username ||
                   keycloak.tokenParsed?.email}
               </span>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => keycloak.logout()}
-                className="text-gray-700 hover:text-red-600"
               >
                 Logout
-              </button>
+              </Button>
             </>
           ) : (
             <>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => keycloak?.login()}
-                className="text-gray-700 hover:text-blue-600 transition"
               >
                 Login
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => keycloak?.register()}
-                className="text-gray-700 hover:text-blue-600 transition"
               >
                 Register
-              </button>
+              </Button>
             </>
           )}
+
           <NavLink
             to="/cart"
-            className="relative flex items-center text-gray-700 hover:text-blue-600"
+            className="relative flex items-center text-text-secondary hover:text-primary transition-colors"
           >
             <ShoppingCartIcon className="h-5 w-5 mr-1" />
             Cart
-            {basket?.basketItems && (
-              <span className="absolute -top-1 -right-6  px-2 py-1 text-xs font-bold leading-none text-white bg-orange-600 rounded-full">
-                {basket?.basketItems?.length}
-              </span>
+            {basket?.basketItems && basket.basketItems.length > 0 && (
+              <Badge
+                variant="accent"
+                size="sm"
+                className="absolute -top-2 -right-6"
+              >
+                {basket.basketItems.length}
+              </Badge>
             )}
           </NavLink>
         </div>
 
         {/* Mobile Hamburger */}
         <button
-          className="md:hidden text-gray-700 focus:outline-none"
+          className="md:hidden text-text focus:outline-none"
           aria-label="Toggle menu"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -159,12 +166,12 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 shadow-lg px-4 pb-4">
+        <div className="md:hidden bg-background border-t border-border shadow-lg px-4 pb-4">
           <div className="pt-2 space-y-1">
             {categories.map((category, idx) => (
               <div key={idx}>
                 <button
-                  className="w-full flex justify-between items-center py-2 text-gray-700 hover:text-blue-600 focus:outline-none"
+                  className="w-full flex justify-between items-center py-2 text-text-secondary hover:text-primary focus:outline-none"
                   onClick={() =>
                     setActiveCategory(activeCategory === idx ? null : idx)
                   }
@@ -193,7 +200,7 @@ export default function Header() {
                       <NavLink
                         key={subIdx}
                         to="#"
-                        className="block py-1 text-gray-600 hover:text-blue-600"
+                        className="block py-1 text-text-secondary hover:text-primary"
                       >
                         {sub}
                       </NavLink>
@@ -208,52 +215,64 @@ export default function Header() {
             <input
               type="search"
               placeholder="Search anything..."
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-border rounded-lg px-4 py-2 bg-background text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
             />
+          </div>
+
+          <div className="mt-4 flex items-center justify-between">
+            <ThemeToggle />
           </div>
 
           <div className="mt-4 space-y-2">
             {keycloak?.authenticated ? (
               <>
-                <span className="block text-gray-700">
+                <span className="block text-text-secondary">
                   Hello,{" "}
                   {keycloak.tokenParsed?.preferred_username ||
                     keycloak.tokenParsed?.email}
                 </span>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  fullWidth
                   onClick={() => keycloak.logout()}
-                  className="w-full text-left text-gray-700 hover:text-red-600"
                 >
                   Logout
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  fullWidth
                   onClick={() =>
                     window.open(keycloak.createAccountUrl(), "_blank")
                   }
-                  className="w-full text-left text-gray-700 hover:text-blue-600"
                 >
                   Profile
-                </button>
+                </Button>
               </>
             ) : (
               <>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  fullWidth
                   onClick={() => keycloak?.login()}
-                  className="block w-full text-left text-gray-700 hover:text-blue-600"
                 >
                   Login
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  fullWidth
                   onClick={() => keycloak?.register()}
-                  className="block w-full text-left text-gray-700 hover:text-blue-600"
                 >
                   Register
-                </button>
+                </Button>
               </>
             )}
             <NavLink
               to="/cart"
-              className="flex items-center text-gray-700 hover:text-blue-600"
+              className="flex items-center text-text-secondary hover:text-primary transition-colors"
             >
               <ShoppingCartIcon className="h-5 w-5 mr-2" />
               Cart

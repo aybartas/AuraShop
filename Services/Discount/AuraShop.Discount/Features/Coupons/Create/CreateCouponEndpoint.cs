@@ -1,4 +1,5 @@
-﻿using AuraShop.Shared.Extensions;
+﻿using AuraShop.Shared.Auth;
+using AuraShop.Shared.Extensions;
 using AuraShop.Shared.Filters;
 using MediatR;
 
@@ -14,7 +15,7 @@ namespace AuraShop.Discount.Features.Coupons.Create
 
                 return result.ToResult();
 
-            }).WithName("CreateCoupon").MapToApiVersion(1,0).AddEndpointFilter<ValidationFilter<CreateCouponCommand>>();
+            }).WithName("CreateCoupon").MapToApiVersion(1,0).AddEndpointFilter<ValidationFilter<CreateCouponCommand>>().RequireAuthorization(Policies.AdminOnly);
 
             return group;
         }

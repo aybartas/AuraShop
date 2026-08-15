@@ -1,3 +1,4 @@
+using AuraShop.Bus;
 using AuraShop.File;
 using AuraShop.File.Features.File;
 using AuraShop.Shared.Extensions;
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 builder.Services.AddCommonServicesWithAuth(builder.Configuration, typeof(FileAssembly));
+builder.Services.AddMassTransit(builder.Configuration);
 
 var app = builder.Build();
 

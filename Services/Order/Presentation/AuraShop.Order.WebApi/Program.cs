@@ -1,3 +1,4 @@
+using AuraShop.Bus;
 using AuraShop.Order.API;
 using AuraShop.Order.API.Endpoints.Orders;
 using AuraShop.Order.Application;
@@ -25,6 +26,7 @@ builder.Services.AddDbContext<OrderContext>(options => options.UseSqlServer(conn
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddCommonMassTransit(builder.Configuration);
 
 var app = builder.Build();
 

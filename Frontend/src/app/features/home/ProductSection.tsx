@@ -1,155 +1,83 @@
-import React from "react";
-import "tailwindcss/tailwind.css";
+import Card from "../../../components/ui/Card";
+import Badge from "../../../components/ui/Badge";
+import PriceDisplay from "../../../components/PriceDisplay";
 
-const ProductSection: React.FC = () => {
+const bestSellers = [
+  { name: "Product 1", description: "Product description goes here.", price: 49.99, image: "https://picsum.photos/300" },
+  { name: "Product 2", description: "Product description goes here.", price: 59.99, image: "https://picsum.photos/300" },
+  { name: "Product 3", description: "Product description goes here.", price: 39.99, image: "https://picsum.photos/300" },
+  { name: "Product 4", description: "Product description goes here.", price: 69.99, image: "https://picsum.photos/300" },
+];
+
+const discountedProducts = [
+  { name: "Discounted Product 1", description: "Product description goes here.", price: 39.99, originalPrice: 49.99, discount: 20, image: "https://picsum.photos/300" },
+  { name: "Discounted Product 2", description: "Product description goes here.", price: 49.99, originalPrice: 58.82, discount: 15, image: "https://picsum.photos/300" },
+  { name: "Discounted Product 3", description: "Product description goes here.", price: 29.99, originalPrice: 42.84, discount: 30, image: "https://picsum.photos/300" },
+  { name: "Discounted Product 4", description: "Product description goes here.", price: 59.99, originalPrice: 66.66, discount: 10, image: "https://picsum.photos/300" },
+];
+
+export default function ProductSection() {
   return (
     <div className="space-y-12">
-      {/* Best Sellers Section */}
       <div className="mt-8">
-        <h2 className="text-3xl font-bold mb-8">Best Sellers</h2>
+        <h2 className="text-3xl font-bold text-text mb-8">Best Sellers</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Product Card 1 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <img
-              src="https://picsum.photos/300"
-              alt="Product 1"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Product 1</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold">$49.99</span>
-            </div>
-          </div>
-          {/* Product Card 2 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <img
-              src="https://picsum.photos/300"
-              alt="Product 2"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Product 2</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold">$59.99</span>
-            </div>
-          </div>
-          {/* Product Card 3 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <img
-              src="https://picsum.photos/300"
-              alt="Product 3"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Product 3</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold">$39.99</span>
-            </div>
-          </div>
-          {/* Product Card 4 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <img
-              src="https://picsum.photos/300"
-              alt="Product 4"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Product 4</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold">$69.99</span>
-            </div>
-          </div>
+          {bestSellers.map((product) => (
+            <Card key={product.name} hoverable>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-text">
+                  {product.name}
+                </h3>
+                <p className="text-text-secondary mb-2">
+                  {product.description}
+                </p>
+                <PriceDisplay amount={product.price} />
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
 
-      {/* Amazing Discounts Section */}
       <div className="py-12">
-        <h2 className="text-3xl font-bold mb-8">Amazing Discounts</h2>
+        <h2 className="text-3xl font-bold text-text mb-8">
+          Amazing Discounts
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
-            <img
-              src="https://picsum.photos/300"
-              alt="Discounted Product 1"
-              className="w-full h-48 object-cover"
-            />
-            <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full">
-              20% Off
-            </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Discounted Product 1</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold text-red-500">$39.99</span>
-            </div>
-          </div>
-          {/* Product Card 2 with Discount */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
-            <img
-              src="https://picsum.photos/300"
-              alt="Discounted Product 2"
-              className="w-full h-48 object-cover"
-            />
-            <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full">
-              15% Off
-            </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Discounted Product 2</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold text-red-500">$49.99</span>
-            </div>
-          </div>
-          {/* Product Card 3 with Discount */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
-            <img
-              src="https://picsum.photos/300"
-              alt="Discounted Product 3"
-              className="w-full h-48 object-cover"
-            />
-            <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full">
-              30% Off
-            </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Discounted Product 3</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold text-red-500">$29.99</span>
-            </div>
-          </div>
-          {/* Product Card 4 with Discount */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
-            <img
-              src="https://picsum.photos/300"
-              alt="Discounted Product 4"
-              className="w-full h-48 object-cover"
-            />
-            <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full">
-              10% Off
-            </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">Discounted Product 4</h3>
-              <p className="text-gray-500 mb-2">
-                Product description goes here.
-              </p>
-              <span className="text-xl font-bold text-red-500">$59.99</span>
-            </div>
-          </div>
+          {discountedProducts.map((product) => (
+            <Card key={product.name} hoverable className="relative">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-48 object-cover"
+              />
+              <Badge
+                variant="error"
+                size="md"
+                className="absolute top-2 right-2"
+              >
+                {product.discount}% Off
+              </Badge>
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-text">
+                  {product.name}
+                </h3>
+                <p className="text-text-secondary mb-2">
+                  {product.description}
+                </p>
+                <PriceDisplay
+                  amount={product.price}
+                  originalAmount={product.originalPrice}
+                />
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
   );
-};
-
-export default ProductSection;
+}

@@ -1,4 +1,3 @@
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Controller, useForm } from "react-hook-form";
 import PageLayout from "../../layout/PageLayout";
 import { Product } from "../../../types/Product";
@@ -8,6 +7,10 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { BasketService } from "../../../api/services/BasketService";
 import { useBasket } from "../../../hooks/useBasket";
+import Button from "../../../components/ui/Button";
+import Card from "../../../components/ui/Card";
+import StarRating from "../../../components/StarRating";
+import PriceDisplay from "../../../components/PriceDisplay";
 
 interface AddToCartForm {
   size: string;
@@ -32,20 +35,15 @@ function ProductDetails() {
       comment: "Great product!",
     },
   ]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const { refreshBasket } = useBasket();
-
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
       CatalogService.getProduct(id)
-        .then((res) => {
-          setProduct(res.data);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch product:", error);
-        });
+        .then((res) => setProduct(res.data))
+        .catch((error) => console.error("Failed to fetch product:", error));
     }
   }, [id]);
 
@@ -80,32 +78,26 @@ function ProductDetails() {
     };
 
     setLoading(true);
-
     BasketService.addItemToCart(cartItem)
-      .then(() => {
-        refreshBasket();
-      })
-      .catch((error) => {
-        console.error("Failed to add item to cart:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then(() => refreshBasket())
+      .catch((error) => console.error("Failed to add item to cart:", error))
+      .finally(() => setLoading(false));
   };
+
   if (!product)
     return (
       <PageLayout>
-        <p>Loading...</p>
+        <p className="text-text-secondary">Loading...</p>
       </PageLayout>
     );
 
   const { name, description, images, colors, sizes } = product;
   const image = images?.[0];
-  const rating = 4.5; // You can derive or fetch this
+  const rating = 4.5;
 
   return (
     <PageLayout>
-      <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <Card padding="lg" className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <img
             src={image}
@@ -114,52 +106,44 @@ function ProductDetails() {
           />
 
           <div className="flex flex-col">
-            <h1 className="text-2xl font-bold mb-4">{name}</h1>
-            <p className="text-gray-600 mb-4">{description}</p>
+            <h1 className="text-2xl font-bold text-text mb-2">{name}</h1>
+            <PriceDisplay amount={product.price} size="lg" />
+            <p className="text-text-secondary my-4">{description}</p>
 
-            <div className="flex items-center mb-4">
-              <span className="text-yellow-400 text-xl">
-                {"★".repeat(Math.floor(rating))}
-              </span>
-              <span className="text-gray-400 text-xl">
-                {"☆".repeat(5 - Math.floor(rating))}
-              </span>
-              <span className="text-sm text-gray-600 ml-2">({rating} / 5)</span>
+            <div className="mb-4">
+              <StarRating rating={rating} showValue />
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              {product.colors && product.colors.length > 0 && (
+              {colors && colors.length > 0 && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Color: {formData.color}
+                  <label className="block text-sm font-medium text-text mb-1">
+                     Color: {formData.color}
                   </label>
                   <Controller
                     name="color"
                     control={control}
                     rules={{
                       required:
-                        product?.colors && product.colors.length > 0
-                          ? "Please select a color."
-                          : false,
+                        colors.length > 0 ? "Please select a color." : false,
                     }}
                     render={({ field }) => (
                       <div className="flex gap-2 flex-wrap">
-                        {colors?.map((colorObj) => (
+                        {colors.map((colorObj) => (
                           <button
                             key={colorObj.hexCode}
                             type="button"
                             onClick={() => field.onChange(colorObj.name)}
-                            className={`flex items-center px-4 py-2 min-w-[64px] rounded-md border text-sm font-medium transition-all duration-300 
-                          ${
-                            field.value === colorObj.name
-                              ? "border-orange-500 text-orange-600 shadow-md ring-1 ring-orange-200"
-                              : "border-gray-300 bg-gray-50 hover:border-gray-400"
-                          }`}
+                            className={`flex items-center px-4 py-2 min-w-[64px] rounded-md border text-sm font-medium transition-all duration-300 ${
+                              field.value === colorObj.name
+                                ? "border-primary text-primary shadow-md ring-1 ring-primary-light"
+                                : "border-border bg-surface hover:border-text-muted"
+                            }`}
                           >
                             <div
                               className="w-4 h-4 mr-2 rounded-full"
                               style={{ backgroundColor: colorObj.hexCode }}
-                            ></div>
+                            />
                             {colorObj.name}
                           </button>
                         ))}
@@ -167,16 +151,16 @@ function ProductDetails() {
                     )}
                   />
                   {errors.color && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error text-sm mt-1">
                       {errors.color.message}
                     </p>
                   )}
                 </div>
               )}
 
-              {product.sizes && product.sizes.length > 0 && (
+              {sizes && sizes.length > 0 && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-text mb-1">
                     Size: {formData.size}
                   </label>
                   <Controller
@@ -184,23 +168,20 @@ function ProductDetails() {
                     control={control}
                     rules={{
                       required:
-                        product?.sizes && product.sizes.length > 0
-                          ? "Please select a size."
-                          : false,
+                        sizes.length > 0 ? "Please select a size." : false,
                     }}
                     render={({ field }) => (
                       <div className="flex gap-2 flex-wrap">
-                        {sizes?.map((size) => (
+                        {sizes.map((size) => (
                           <button
                             key={size}
                             type="button"
                             onClick={() => field.onChange(size)}
-                            className={`px-4 py-2 min-w-[64px] rounded-md border text-sm font-medium transition-all duration-300 
-                          ${
-                            field.value === size
-                              ? "border-orange-500 text-orange-600 shadow-md ring-1 ring-orange-200"
-                              : "border-gray-300 bg-gray-50 hover:border-gray-400"
-                          }`}
+                            className={`px-4 py-2 min-w-[64px] rounded-md border text-sm font-medium transition-all duration-300 ${
+                              field.value === size
+                                ? "border-primary text-primary shadow-md ring-1 ring-primary-light"
+                                : "border-border bg-surface hover:border-text-muted"
+                            }`}
                           >
                             {size}
                           </button>
@@ -209,7 +190,7 @@ function ProductDetails() {
                     )}
                   />
                   {errors.size && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error text-sm mt-1">
                       {errors.size.message}
                     </p>
                   )}
@@ -217,58 +198,30 @@ function ProductDetails() {
               )}
 
               <div className="w-full justify-center flex pt-4">
-                <button
+                <Button
                   type="submit"
-                  disabled={loading}
-                  className={`w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 text-base font-semibold rounded-lg shadow-md transition duration-300
-                    ${
-                      loading
-                        ? "bg-orange-300 cursor-not-allowed"
-                        : "bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 text-white"
-                    }
-                  `}
+                  variant="primary"
+                  size="lg"
+                  loading={loading}
+                  className="w-full sm:w-auto"
                 >
-                  {loading ? (
-                    <svg
-                      className="w-6 h-6 text-white animate-spin"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                      />
-                    </svg>
-                  ) : (
-                    <ShoppingCartIcon className="w-6 h-6 text-white" />
-                  )}
                   {loading ? "Adding..." : "Add to Cart"}
-                </button>
+                </Button>
               </div>
             </form>
           </div>
         </div>
 
-        {/* COMMENTS SECTION */}
+        {/* Comments Section */}
         <div className="mt-6">
-          <h2 className="text-xl font-bold mb-4">Comments</h2>
+          <h2 className="text-xl font-bold text-text mb-4">Comments</h2>
           <ul className="space-y-3">
             {comments.map((comment, index) => (
               <li
                 key={index}
-                className="bg-gray-100 p-4 rounded-lg shadow-sm flex items-start gap-4"
+                className="bg-surface p-4 rounded-lg shadow-sm flex items-start gap-4"
               >
-                <div className="flex-shrink-0 w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
+                <div className="flex-shrink-0 w-10 h-10 bg-surface-hover rounded-full overflow-hidden">
                   <img
                     src="https://picsum.photos/300"
                     className="w-full h-full object-cover"
@@ -277,28 +230,23 @@ function ProductDetails() {
                 </div>
                 <div>
                   <div className="flex gap-2 items-center justify-between mb-1">
-                    <span className="font-semibold text-gray-700">
+                    <span className="font-semibold text-text">
                       {comment.user}
                     </span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-text-muted">
                       {new Date(comment.date).toLocaleDateString()}
                     </span>
                   </div>
-                  <div className="flex items-center mb-1">
-                    <span className="text-yellow-400">
-                      {"★".repeat(comment.rating)}
-                    </span>
-                    <span className="text-gray-400">
-                      {"☆".repeat(5 - comment.rating)}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 text-sm">{comment.comment}</p>
+                  <StarRating rating={comment.rating} size="sm" />
+                  <p className="text-text-secondary text-sm mt-1">
+                    {comment.comment}
+                  </p>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-      </div>
+      </Card>
     </PageLayout>
   );
 }

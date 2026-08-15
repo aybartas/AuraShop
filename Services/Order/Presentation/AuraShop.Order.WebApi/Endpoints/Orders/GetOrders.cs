@@ -1,4 +1,4 @@
-﻿using AuraShop.Order.Application.Features.Order.GetUserOrders;
+﻿using AuraShop.Order.Application.Usecases.Order.GetUserOrders;
 using AuraShop.Shared.Extensions;
 using MediatR;
 

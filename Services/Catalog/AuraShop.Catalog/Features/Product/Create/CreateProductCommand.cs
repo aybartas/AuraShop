@@ -3,5 +3,5 @@ using MediatR;
 
 namespace AuraShop.Catalog.Features.Product.Create
 {
-    public record CreateProductCommand(string Name , decimal Price , string Category , Guid CategoryId) : IRequest<ServiceResult<CreateProductCommandResponse>>;
+    public record CreateProductCommand(string Name , decimal Price , string Category , Guid CategoryId ,IFormFile? ProductImage) : IRequest<ServiceResult<CreateProductCommandResponse>>;
 }

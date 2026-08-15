@@ -1,4 +1,5 @@
-﻿using AuraShop.Shared.Extensions;
+﻿using AuraShop.Shared.Auth;
+using AuraShop.Shared.Extensions;
 using MediatR;
 
 namespace AuraShop.Catalog.Features.Product.Delete
@@ -13,7 +14,7 @@ namespace AuraShop.Catalog.Features.Product.Delete
 
                 return result.ToResult();
 
-            }).MapToApiVersion(1, 0);
+            }).MapToApiVersion(1, 0).RequireAuthorization(Policies.AdminOnly);
 
             return group;
         }

@@ -1,4 +1,3 @@
-// React Checkout Page using Stripe PaymentElement (Custom Checkout Form)
 import { useEffect, useState } from "react";
 import {
   useForm,
@@ -11,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { PaymentService } from "../../../api/services/PaymentService";
 import CheckoutSkeleton from "./CheckoutSkeleton";
+import { Button, Input, Modal, Card } from "../../../components/ui";
+import AddressCard from "../../../components/AddressCard";
+import OrderSummary from "../../../components/OrderSummary";
 
 const initialAddresses = [
   {
@@ -37,8 +39,6 @@ function AddressSelection() {
   const { control, setValue } = useFormContext();
   const [addresses, setAddresses] = useState(initialAddresses);
   const [showModal, setShowModal] = useState(false);
-
-  // Modal form state
   const [modalForm, setModalForm] = useState({
     title: "",
     street: "",
@@ -47,6 +47,7 @@ function AddressSelection() {
     zipCode: "",
     country: "",
   });
+
   const handleAddAddress = () => {
     setShowModal(true);
     setModalForm({
@@ -73,7 +74,9 @@ function AddressSelection() {
 
   return (
     <div className="space-y-4">
-      <h4 className="text-lg font-semibold">Select Delivery Address</h4>
+      <h4 className="text-lg font-semibold text-text">
+        Select Delivery Address
+      </h4>
       <div className="flex flex-wrap gap-4 w-full">
         <Controller
           name="addressId"
@@ -81,19 +84,12 @@ function AddressSelection() {
           render={({ field }) => (
             <>
               {addresses.map((addr) => (
-                <div
+                <AddressCard
                   key={addr.id}
-                  onClick={() => field.onChange(addr.id)}
-                  className={`p-4 border rounded-lg cursor-pointer min-w-[220px] transition
-                    ${
-                      field.value === addr.id
-                        ? "border-orange-500 bg-orange-50 shadow"
-                        : "hover:border-gray-400 bg-white"
-                    }`}
-                >
-                  <h5 className="font-medium text-orange-600">{addr.title}</h5>
-                  <p className="text-sm text-gray-600">{`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}, ${addr.country}`}</p>
-                </div>
+                  address={addr}
+                  selected={field.value === addr.id}
+                  onSelect={() => field.onChange(addr.id)}
+                />
               ))}
             </>
           )}
@@ -101,97 +97,76 @@ function AddressSelection() {
         <button
           type="button"
           onClick={handleAddAddress}
-          className="flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-lg min-w-[220px] text-orange-500 hover:border-orange-400 hover:bg-orange-50 transition"
+          className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-border rounded-lg min-w-[220px] text-primary hover:border-primary hover:bg-primary-light transition"
         >
           <span className="text-3xl mb-1">+</span>
           <span className="font-semibold">Add New Address</span>
         </button>
       </div>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-            <button
-              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl"
-              onClick={() => setShowModal(false)}
-              type="button"
-              aria-label="Close"
-            >
-              ×
-            </button>
-            <h4 className="text-lg font-semibold mb-4">Add New Address</h4>
-            <div className="space-y-3">
-              <input
-                name="title"
-                value={modalForm.title}
-                onChange={handleModalChange}
-                className="w-full border px-3 py-2 rounded"
-                placeholder="Title (e.g. Home, Work)"
-              />
-              <input
-                name="street"
-                value={modalForm.street}
-                onChange={handleModalChange}
-                className="w-full border px-3 py-2 rounded"
-                placeholder="Street"
-              />
-              <input
-                name="city"
-                value={modalForm.city}
-                onChange={handleModalChange}
-                className="w-full border px-3 py-2 rounded"
-                placeholder="City"
-              />
-              <input
-                name="state"
-                value={modalForm.state}
-                onChange={handleModalChange}
-                className="w-full border px-3 py-2 rounded"
-                placeholder="State"
-              />
-              <input
-                name="zipCode"
-                value={modalForm.zipCode}
-                onChange={handleModalChange}
-                className="w-full border px-3 py-2 rounded"
-                placeholder="Zip Code"
-              />
-              <input
-                name="country"
-                value={modalForm.country}
-                onChange={handleModalChange}
-                className="w-full border px-3 py-2 rounded"
-                placeholder="Country"
-              />
-            </div>
-            <div className="flex justify-end gap-2 mt-6">
-              <button
-                type="button"
-                className="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="px-4 py-2 rounded bg-orange-500 text-white hover:bg-orange-600"
-                onClick={handleModalSave}
-                disabled={
-                  !modalForm.title ||
-                  !modalForm.street ||
-                  !modalForm.city ||
-                  !modalForm.state ||
-                  !modalForm.zipCode ||
-                  !modalForm.country
-                }
-              >
-                Save Address
-              </button>
-            </div>
-          </div>
+      <Modal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        title="Add New Address"
+      >
+        <div className="space-y-3">
+          <Input
+            name="title"
+            value={modalForm.title}
+            onChange={handleModalChange}
+            placeholder="Title (e.g. Home, Work)"
+          />
+          <Input
+            name="street"
+            value={modalForm.street}
+            onChange={handleModalChange}
+            placeholder="Street"
+          />
+          <Input
+            name="city"
+            value={modalForm.city}
+            onChange={handleModalChange}
+            placeholder="City"
+          />
+          <Input
+            name="state"
+            value={modalForm.state}
+            onChange={handleModalChange}
+            placeholder="State"
+          />
+          <Input
+            name="zipCode"
+            value={modalForm.zipCode}
+            onChange={handleModalChange}
+            placeholder="Zip Code"
+          />
+          <Input
+            name="country"
+            value={modalForm.country}
+            onChange={handleModalChange}
+            placeholder="Country"
+          />
         </div>
-      )}
+        <div className="flex justify-end gap-2 mt-6">
+          <Button variant="outline" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleModalSave}
+            disabled={
+              !modalForm.title ||
+              !modalForm.street ||
+              !modalForm.city ||
+              !modalForm.state ||
+              !modalForm.zipCode ||
+              !modalForm.country
+            }
+          >
+            Save Address
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }
@@ -202,6 +177,7 @@ function CheckoutContent() {
   const elements = useElements();
   const navigate = useNavigate();
   const { basket } = useBasket();
+
   const subtotal =
     basket?.basketItems?.reduce(
       (sum, item) => sum + item.price * item.quantity,
@@ -209,7 +185,6 @@ function CheckoutContent() {
     ) || 0;
   const discountAmount = (subtotal * (basket?.discountRate || 0)) / 100;
   const shippingCost = basket?.shippingAmount || 0;
-
   const total = subtotal + shippingCost - discountAmount;
 
   const onSubmit = async (formData: any) => {
@@ -237,16 +212,6 @@ function CheckoutContent() {
       return;
     }
 
-    // 2. Confirm order with backend (do not pass basket items or prices)
-    // await PaymentService.createOrder({
-    //   paymentIntentId,
-    //   shippingOrderAddress: {
-    //     addressId: formData.addressId || null,
-    //     ...formData.newAddress,
-    //   },
-    //   saveShippingAddress: formData.saveAddress,
-    // });
-
     navigate("/success");
   };
 
@@ -258,39 +223,27 @@ function CheckoutContent() {
             <AddressSelection />
           </div>
 
-          <div className="p-6 border rounded-lg bg-white shadow-md space-y-6">
-            <h3 className="text-2xl font-semibold text-gray-900">
+          <Card padding="lg" className="space-y-6">
+            <h3 className="text-2xl font-semibold text-text">
               Order Summary
             </h3>
-            <div className="space-y-2 text-gray-700 text-base">
-              <div className="flex justify-between font-semibold">
-                <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
-              {discountAmount > 0 && (
-                <div className="flex justify-between text-green-700 font-semibold">
-                  <span>Discount</span>
-                  <span>- ${discountAmount.toFixed(2)}</span>
-                </div>
-              )}
-              <div className="flex justify-between font-semibold">
-                <span>Shipping</span>
-                <span>
-                  {shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}
-                </span>
-              </div>
-              <div className="flex justify-between border-t pt-4 text-lg font-bold text-gray-900">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
-            <button
+            <OrderSummary
+              subtotal={subtotal}
+              shipping={shippingCost}
+              discount={discountAmount}
+              discountRate={basket?.discountRate || 0}
+              total={total}
+            />
+            <Button
               type="submit"
-              className="w-full bg-orange-500 text-white py-3 rounded-md hover:bg-orange-600 transition disabled:opacity-50 text-lg font-semibold"
+              variant="primary"
+              size="lg"
+              fullWidth
+              disabled={!basket?.basketItems?.length}
             >
               Complete Order
-            </button>
-          </div>
+            </Button>
+          </Card>
         </div>
       </form>
     </FormProvider>
